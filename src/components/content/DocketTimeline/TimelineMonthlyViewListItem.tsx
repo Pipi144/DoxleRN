@@ -203,7 +203,6 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
           nestedScrollEnabled={true}>
           <FlatList
             numColumns={5}
-            initialNumToRender={1}
             data={calendarCells}
             renderItem={({item, index}) => (
               <DateCellListItem
@@ -228,9 +227,11 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
             )}
             stickyHeaderIndices={[0]}
             keyExtractor={(item, index) =>
-              `project#${project.projectId}#${index}`
+              `project#${project.projectId}#${index}#${
+                (item as ITimelineDateObject).date
+              }`
             }
-            extraData={dockets}
+            extraData={{dockets, project}}
           />
         </StyledMonthlyViewListItemHorizontalList>
       )}

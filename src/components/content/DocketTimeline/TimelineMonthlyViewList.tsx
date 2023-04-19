@@ -7,11 +7,6 @@ import {
 } from '../../../Providers/DocketTimelineProvider';
 import {ISimpleProjectTimeline} from '../../../Models/project';
 import TimelineMonthlyViewListItem from './TimelineMonthlyViewListItem';
-import {
-  ITimelineDateObject,
-  formattedDate,
-} from './DocketTimelineCommonFunctions';
-import {TimelineDocket} from '../../../Models/DocketTimelineModel';
 
 type Props = {};
 
@@ -24,14 +19,14 @@ const TimelineMonthlyViewList = (props: Props) => {
     <RootTimelineMonthlyViewList
       data={projects}
       showsVerticalScrollIndicator={false}
-      initialNumToRender={1}
+      initialNumToRender={2}
+      maxToRenderPerBatch={4}
       removeClippedSubviews={true}
-      maxToRenderPerBatch={2}
       renderItem={({item, index}) => (
         <TimelineMonthlyViewListItem project={item as ISimpleProjectTimeline} />
       )}
       keyExtractor={(item, index) => (item as ISimpleProjectTimeline).projectId}
-      windowSize={3}
+      windowSize={6}
     />
   );
 };

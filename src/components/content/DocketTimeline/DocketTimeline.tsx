@@ -39,7 +39,6 @@ const DocketTimeline = ({company}: Props) => {
   //******************* TIMELINE PROVIDER ************ */
   const {
     setCompany,
-    projects,
     isLoadingProject,
     isSuccessFetchingProject,
     isErrorFetchingProject,

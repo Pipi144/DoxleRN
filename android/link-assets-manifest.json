@@ -1,0 +1,145 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/ibm_plex_mono/IBMPlexMono-Bold.ttf",
+      "sha1": "f5f40f8aebad573b65a4dc745126c1965b7f2e19"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_mono/IBMPlexMono-BoldItalic.ttf",
+      "sha1": "f5e8d30e01605a7c385c891927535ca8cc5edd51"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_mono/IBMPlexMono-ExtraLight.ttf",
+      "sha1": "aadca6f022eaa44b62e761e012482852ea33e3ba"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_mono/IBMPlexMono-ExtraLightItalic.ttf",
+      "sha1": "98ad10cfaa859935a7e3abe9e3692477bcccff33"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_mono/IBMPlexMono-Italic.ttf",
+      "sha1": "110e9cd414b77324bce6dfbfb5e1c9d629e2fa14"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_mono/IBMPlexMono-Light.ttf",
+      "sha1": "c48d99ae89262a3f9e859bd88820b88e691c2071"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_mono/IBMPlexMono-LightItalic.ttf",
+      "sha1": "805496518d811e055db0cd55f70fcd7056adb637"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_mono/IBMPlexMono-Medium.ttf",
+      "sha1": "1c911f685c78098d488ea378f14bd64ab36f4ec2"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_mono/IBMPlexMono-MediumItalic.ttf",
+      "sha1": "7658137352487a694235dc6b2b27070a2bf852a4"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_mono/IBMPlexMono-Regular.ttf",
+      "sha1": "bfdbfbc2fae12a3faadee40dbfc56017f1806c0c"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_mono/IBMPlexMono-SemiBold.ttf",
+      "sha1": "da8b79da6a1cd9725dd2ddacebdc6ca605c4705a"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_mono/IBMPlexMono-SemiBoldItalic.ttf",
+      "sha1": "2fc5a1a62f062da50aed343c3ab11fb284596f6b"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_mono/IBMPlexMono-Thin.ttf",
+      "sha1": "bfb2a1c04e689daa7cdc17bfeff5d3a611662634"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_mono/IBMPlexMono-ThinItalic.ttf",
+      "sha1": "6a0c8f8ad7d5750da607e958d53dd422bdbf8778"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_mono/OFL.txt",
+      "sha1": "80db3361b0ff3da772a7517b76566c101d0aae75"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_sans/IBMPlexSans-Bold.ttf",
+      "sha1": "6c829b9e0904df3399e7ac03ee1bb1f72c2d5e52"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_sans/IBMPlexSans-BoldItalic.ttf",
+      "sha1": "dbeb0f168b05e730439951234db8138aadca5295"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_sans/IBMPlexSans-ExtraLight.ttf",
+      "sha1": "d81b576095a66090e49d6d0b761f1a7a06aa1c93"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_sans/IBMPlexSans-ExtraLightItalic.ttf",
+      "sha1": "3e752a4458ed24162925158c6c0a3c5dead3bc8d"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_sans/IBMPlexSans-Italic.ttf",
+      "sha1": "9232dbb2b8295ab21198627a47ec61f70d0e2a1c"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_sans/IBMPlexSans-Light.ttf",
+      "sha1": "371d18ef3fa2148a1c0b40834a9228eaa7bb2e31"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_sans/IBMPlexSans-LightItalic.ttf",
+      "sha1": "48a6582f4d33919ebe592c0b8ce8a372ef9281d4"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_sans/IBMPlexSans-Medium.ttf",
+      "sha1": "754f3b3406638d2b8da0e71dd4449557add0eccf"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_sans/IBMPlexSans-MediumItalic.ttf",
+      "sha1": "a37287b2644426bfd40a4ed4e5541ba01f840f53"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_sans/IBMPlexSans-Regular.ttf",
+      "sha1": "8e18e19c963fd6b0895620010d1a4adbc2d2caf7"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_sans/IBMPlexSans-SemiBold.ttf",
+      "sha1": "45bed8ec82912658ca349d6332084a12266fcc7a"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_sans/IBMPlexSans-SemiBoldItalic.ttf",
+      "sha1": "697780834e239f72c559b09ff09f838eba69fd54"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_sans/IBMPlexSans-Thin.ttf",
+      "sha1": "b927f11d9362e53f289b0a148663f517fab35ee1"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_sans/IBMPlexSans-ThinItalic.ttf",
+      "sha1": "2ed5724c8bf3d8063a9ac85e3eec728fbaa07bdf"
+    },
+    {
+      "path": "src/assets/fonts/ibm_plex_sans/OFL.txt",
+      "sha1": "80db3361b0ff3da772a7517b76566c101d0aae75"
+    },
+    {
+      "path": "src/assets/fonts/nostromo_regular/NostromoRegular-Black.otf",
+      "sha1": "900476b2c4fb91ea203dab022871375c11702b1a"
+    },
+    {
+      "path": "src/assets/fonts/nostromo_regular/NostromoRegular-Bold.otf",
+      "sha1": "f63429b5ac812950f5f182a89ada8f4ea1365cc8"
+    },
+    {
+      "path": "src/assets/fonts/nostromo_regular/NostromoRegular-Heavy.otf",
+      "sha1": "093b4cb754046a67e33576ae97061d8c31ee5aef"
+    },
+    {
+      "path": "src/assets/fonts/nostromo_regular/NostromoRegular-Light.otf",
+      "sha1": "b2ecabde2245193df89685433af20777d8771c2f"
+    },
+    {
+      "path": "src/assets/fonts/nostromo_regular/NostromoRegular-Medium.otf",
+      "sha1": "b9bbc86b69d4e973f11d5dfb6d1474b84ea2dc3c"
+    }
+  ]
+}

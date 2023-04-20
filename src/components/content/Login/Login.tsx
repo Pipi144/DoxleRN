@@ -57,8 +57,8 @@ import {authContextInterface, useAuth} from '../../../Providers/AuthProvider';
 import LoadingDoxleIconWithText from '../../../Utilities/AnimationScreens/LoadingDoxleIconWithText/LoadingDoxleIconWithText';
 
 function Login(): JSX.Element {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('petertp144@gmail.com');
+  const [password, setPassword] = useState('single14493');
   const [currentInputType, setcurrentInputType] = useState<
     'email' | 'password'
   >('email');

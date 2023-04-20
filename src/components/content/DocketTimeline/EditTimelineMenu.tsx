@@ -38,12 +38,11 @@ const EditTimelineMenu = (props: Props) => {
       backdropColor={THEME_COLOR.primaryBackdropColor}
       onBackdropPress={handleCloseModal}
       animationIn="bounceInUp"
-      animationOut="zoomOutDown"
+      animationOut="bounceOutDown"
       animationInTiming={200}
+      animationOutTiming={200}
       style={{position: 'relative', width: deviceSize.deviceWidth, margin: 0}}>
-      {currentEdittedTimeline && (
-        <RootEditCheckboxMenu themeColor={THEME_COLOR}></RootEditCheckboxMenu>
-      )}
+      <RootEditCheckboxMenu themeColor={THEME_COLOR}></RootEditCheckboxMenu>
     </Modal>
   );
 };

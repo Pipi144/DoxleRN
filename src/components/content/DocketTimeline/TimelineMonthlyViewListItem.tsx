@@ -10,6 +10,8 @@ import {
   RootMonthlyViewDateCellItem,
   RootTimelineMonthlyViewListItem,
   StyledCellItemDateText,
+  StyledCheckboxBase,
+  StyledCheckboxLabelText,
   StyledErrorScreenContainer,
   StyledErrorText,
   StyledMonthlyViewListItemHorizontalList,
@@ -49,6 +51,7 @@ import TimelineQueryAPI, {
 } from '../../../service/DoxleAPI/QueryHookAPI/timelineQueryAPI';
 import {authContextInterface, useAuth} from '../../../Providers/AuthProvider';
 import {formatDate} from '../../../Utilities/FunctionUtilities';
+import CheckBox from '@react-native-community/checkbox';
 
 const currentMonth: number = new Date().getMonth();
 const DateCellListItem: React.FC<{
@@ -82,11 +85,7 @@ const DateCellListItem: React.FC<{
     });
   };
 
-  const handleLongPressCheckbox = (
-    event: GestureResponderEvent,
-    docketItem: TimelineDocket,
-  ) => {
-    event.preventDefault();
+  const handleLongPressCheckbox = (docketItem: TimelineDocket) => {
     console.log('LONG PRESS');
     setcurrentEdittedTimeline(docketItem);
   };
@@ -103,26 +102,14 @@ const DateCellListItem: React.FC<{
         scrollEnabled={renderedDockets.length > 0}>
         {renderedDockets.map(docket => {
           return (
-            <Pressable
+            <CustomCheckbox
               key={docket.actionId}
-              unstable_pressDelay={50}
-              onLongPress={event => handleLongPressCheckbox(event, docket)}
-              delayLongPress={50}
-              style={{
-                width: '100%',
-                height: 15,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'flex-start',
-              }}>
-              <CustomCheckbox
-                value={docket.actionId}
-                accessibilityLabel={docket.actionId}
-                onChange={value => handlePressCheckbox(docket)}
-                isChecked={Boolean(docket.completed !== null)}>
-                {docket.subject}
-              </CustomCheckbox>
-            </Pressable>
+              isChecked={Boolean(docket.completed !== null)}
+              onPress={event => handlePressCheckbox(docket)}
+              text={docket.subject}
+              onLongPress={event => handleLongPressCheckbox(docket)}
+              delayLongPress={100}
+            />
           );
         })}
       </ScrollView>

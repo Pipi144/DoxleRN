@@ -1,4 +1,10 @@
-import {FlatList, StyleSheet, View} from 'react-native';
+import {
+  FlatList,
+  GestureResponderEvent,
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native';
 import React, {useCallback, useEffect, useMemo} from 'react';
 import {
   RootMonthlyViewDateCellItem,
@@ -57,7 +63,10 @@ const DateCellListItem: React.FC<{
   //***************** THEME PROVIDER ************ */
   const {THEME_COLOR} = useDOXLETheme() as IDOXLEThemeProviderContext;
   //********************************************* */
-
+  //******************* TIMELINE PROVIDER ************ */
+  const {setcurrentEdittedTimeline} =
+    useDocketTimelineContext() as IDocketTimelineContext;
+  //************************************************** */
   const cellMonthValue: number = new Date(dateCellValue.date).getMonth();
   const renderedDockets = useMemo(
     () => dockets.filter(docket => isRendered(docket, dateCellValue)),
@@ -72,6 +81,15 @@ const DateCellListItem: React.FC<{
           : formatDate(docketItem.startDate, 'yyyy-MM-dd'),
     });
   };
+
+  const handleLongPressCheckbox = (
+    event: GestureResponderEvent,
+    docketItem: TimelineDocket,
+  ) => {
+    event.preventDefault();
+    console.log('LONG PRESS');
+    setcurrentEdittedTimeline(docketItem);
+  };
   return (
     <RootMonthlyViewDateCellItem themeColor={THEME_COLOR} cellSize={cellSize}>
       <StyledCellItemDateText
@@ -85,13 +103,26 @@ const DateCellListItem: React.FC<{
         scrollEnabled={renderedDockets.length > 0}>
         {renderedDockets.map(docket => {
           return (
-            <CustomCheckbox
-              value={docket.actionId}
-              accessibilityLabel={docket.actionId}
-              onChange={value => handlePressCheckbox(docket)}
-              isChecked={Boolean(docket.completed !== null)}>
-              {docket.subject}
-            </CustomCheckbox>
+            <Pressable
+              key={docket.actionId}
+              unstable_pressDelay={50}
+              onLongPress={event => handleLongPressCheckbox(event, docket)}
+              delayLongPress={50}
+              style={{
+                width: '100%',
+                height: 15,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+              }}>
+              <CustomCheckbox
+                value={docket.actionId}
+                accessibilityLabel={docket.actionId}
+                onChange={value => handlePressCheckbox(docket)}
+                isChecked={Boolean(docket.completed !== null)}>
+                {docket.subject}
+              </CustomCheckbox>
+            </Pressable>
           );
         })}
       </ScrollView>
@@ -174,14 +205,6 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
     });
   };
 
-  useEffect(() => {
-    console.log(
-      'DOCKET:',
-      dockets.filter(
-        docket => docket.actionId === 'f8d11dba-b749-4180-9f33-67acce6586a0',
-      )[0].completed,
-    );
-  }, [dockets]);
   return (
     <RootTimelineMonthlyViewListItem
       entering={FadeInLeft.duration(200)}

@@ -21,9 +21,6 @@ const CustomCheckbox = (props: Props) => {
       _important={{
         borderRadius: 1.5,
         borderWidth: 0.5,
-        _text: {
-          textDecorationColor: 'red',
-        },
       }}
       borderColor="#6D778C"
       _text={{
@@ -33,13 +30,15 @@ const CustomCheckbox = (props: Props) => {
         fontSize: '11px',
         lineHeight: '14px',
         textTransform: 'capitalize',
-        textDecorationColor: 'red',
+
+        _important: {
+          color: 'red',
+          ml: 0,
+        },
       }}
       w={'100%'}
       h={7}
       p={0}
-      overflowX="hidden"
-      tintColor="red.400"
     />
   );
 };

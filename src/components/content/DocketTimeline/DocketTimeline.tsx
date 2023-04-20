@@ -28,6 +28,7 @@ import DocketTimelineTop from './DocketTimelineTop';
 import LoadingDoxleIconWithText from '../../../Utilities/AnimationScreens/LoadingDoxleIconWithText/LoadingDoxleIconWithText';
 import {FadeOut, StretchInY, StretchOutY} from 'react-native-reanimated';
 import TimelineMonthlyViewList from './TimelineMonthlyViewList';
+import EditTimelineMenu from './EditTimelineMenu';
 type Props = {
   company: Company;
 };
@@ -84,6 +85,8 @@ const DocketTimeline = ({company}: Props) => {
           <LoadingDoxleIconWithText message="Loading Data..." />
         </StyledLoadingMaskContainer>
       )}
+
+      <EditTimelineMenu />
     </RootDocketTimeline>
   );
 };

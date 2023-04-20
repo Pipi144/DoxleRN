@@ -118,6 +118,10 @@ export interface IDocketTimelineContext {
   currentDateRangeLengthParam: number;
   searchInput: string;
   setsearchInput: React.Dispatch<React.SetStateAction<string>>;
+  currentEdittedTimeline: TimelineDocket | undefined;
+  setcurrentEdittedTimeline: React.Dispatch<
+    React.SetStateAction<TimelineDocket | undefined>
+  >;
 }
 const today = new Date();
 const DocketTimelineContext = createContext({});
@@ -134,6 +138,9 @@ const DocketTimelineProvider = (children: any) => {
     month: number;
   }>({year: today.getFullYear(), month: today.getMonth()});
   const [searchInput, setsearchInput] = useState<string>('');
+  const [currentEdittedTimeline, setcurrentEdittedTimeline] = useState<
+    TimelineDocket | undefined
+  >(undefined);
   //###########################################
   //************* AUTH PROVIDER*************** */
   const {accessToken} = useAuth() as authContextInterface;
@@ -243,6 +250,8 @@ const DocketTimelineProvider = (children: any) => {
     searchInput,
     setsearchInput,
     filterDocketWithProject,
+    currentEdittedTimeline,
+    setcurrentEdittedTimeline,
   };
   return (
     <DocketTimelineContext.Provider

@@ -267,3 +267,13 @@ export const StyledCellItemDateText = styled.Text<{textColor: string}>`
   line-height: 16px;
   color: ${p => p.textColor};
 `;
+export const RootEditCheckboxMenu = styled.View<{
+  themeColor: IDOXLEThemeColor;
+}>`
+  height: 500px;
+  width: 100%;
+  background-color: blue;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+`;

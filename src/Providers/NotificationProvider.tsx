@@ -13,6 +13,7 @@ const NotificationContext = createContext({});
 const NotificationProvider = (children: any) => {
   const notifierLoginRef = useRef<NotifierRoot>(null);
   const notifierRootAppRef = useRef<NotifierRoot>(null);
+
   const notificationValue: INotificationContext = {
     notifierLoginRef,
     notifierRootAppRef,

@@ -38,6 +38,7 @@ import Notification, {
   getContainerStyleWithTranslateY,
 } from '../GeneraComponents/Notification/Notification';
 import ProcessingScreen from '../../../Utilities/AnimationScreens/ProcessingAnimation/ProcessingScreen';
+import TimelineWeeklyView from './TimelineWeeklyView';
 type Props = {
   company: Company;
 };
@@ -112,7 +113,15 @@ const DocketTimeline = ({company}: Props) => {
         <DocketTimelineTop />
         {isSuccessFetchingProject && selectedPeriodView === 'Monthly' ? (
           <TimelineMonthlyViewList />
-        ) : null}
+        ) : selectedPeriodView === 'Weekly' ? (
+          <TimelineWeeklyView />
+        ) : (
+          <StyledErrorScreenContainer>
+            <StyledErrorText themeColor={THEME_COLOR}>
+              Coming Soon...
+            </StyledErrorText>
+          </StyledErrorScreenContainer>
+        )}
         {isErrorFetchingProject && (
           <StyledErrorScreenContainer>
             <StyledErrorText themeColor={THEME_COLOR}>

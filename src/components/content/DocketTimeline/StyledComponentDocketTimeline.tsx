@@ -8,6 +8,7 @@ import {
   NORMAL_CONTENT_FONT_FAMILY,
 } from '../../../Utilities/constants';
 import Animated from 'react-native-reanimated';
+import {SyncedFlatlist} from '../GeneraComponents/SyncScrollViews/SyncedFlatList';
 
 export const RootDocketTimeline = styled(Animated.View)<{
   themeColor: IDOXLEThemeColor;
@@ -402,4 +403,74 @@ export const StyledControlButtonText = styled.Text<{textColor: string}>`
   line-height: 14px;
   color: ${p => p.textColor};
   text-transform: capitalize;
+`;
+
+export const RootTimelineWeeklyView = styled.View`
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+  margin-top: 8px;
+`;
+export const RootTimelineWeeklyViewProjectList = styled(SyncedFlatlist)`
+  width: 100%;
+  height: 100%;
+`;
+export const StyledProjectColumnContainer = styled(Animated.View)<{
+  insetBottom: number;
+}>`
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-bottom: ${p => p.insetBottom}px;
+`;
+export const StyledWeeklyViewHeaderCell = styled.View<{
+  horizontalAlign: 'flex-start' | 'center';
+  width: `${number}px` | `${number}%`;
+  cellHeight: `${number}px`;
+}>`
+  width: ${p => p.width};
+  height: ${p => p.cellHeight};
+  display: flex;
+  justify-content: center;
+  align-items: ${p => p.horizontalAlign};
+  padding-left: ${p => (p.horizontalAlign === 'flex-start' ? 14 : 0)}px;
+  background-color: rgba(125, 164, 255, 0.3);
+`;
+export const StyledWeeklyViewHeaderText = styled.Text`
+  font-family: ${NORMAL_CONTENT_FONT_FAMILY};
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #000000;
+  text-transform: capitalize;
+`;
+export const RootTimelineWeeklyViewProjectRow = styled.View<{
+  rowHeight: `${number}px`;
+  themeColor: IDOXLEThemeColor;
+}>`
+  width: 100%;
+  height: ${p => p.rowHeight};
+  background-color: ${p => p.themeColor.primaryContainerColor};
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-horizontal: 4px;
+  border-bottom-width: 1px;
+  border-bottom-color: ${p => p.themeColor.primaryDividerColor};
+  border-bottom-style: solid;
+`;
+export const StyledWeeklyViewProjectAddressText = styled.Text<{
+  themeColor: IDOXLEThemeColor;
+}>`
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: ${p => p.themeColor.primaryFontColor};
+  width: 100%;
 `;

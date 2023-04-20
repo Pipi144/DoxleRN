@@ -56,21 +56,21 @@ function App(): JSX.Element {
     queryClient.clear();
   }, []);
   return (
-    <NotificationProvider>
-      <InternetConnectionProvider>
-        <AuthProvider>
-          <QueryClientProvider client={queryClient}>
-            <OrientationProvider>
-              <NativeBaseProvider theme={theme}>
-                <SafeAreaProvider>
+    <SafeAreaProvider>
+      <NotificationProvider>
+        <InternetConnectionProvider>
+          <AuthProvider>
+            <QueryClientProvider client={queryClient}>
+              <OrientationProvider>
+                <NativeBaseProvider theme={theme}>
                   <RootApp />
-                </SafeAreaProvider>
-              </NativeBaseProvider>
-            </OrientationProvider>
-          </QueryClientProvider>
-        </AuthProvider>
-      </InternetConnectionProvider>
-    </NotificationProvider>
+                </NativeBaseProvider>
+              </OrientationProvider>
+            </QueryClientProvider>
+          </AuthProvider>
+        </InternetConnectionProvider>
+      </NotificationProvider>
+    </SafeAreaProvider>
   );
 }
 

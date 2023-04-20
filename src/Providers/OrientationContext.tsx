@@ -1,6 +1,7 @@
 import {Dimensions} from 'react-native';
 import {useEffect, useState, useContext} from 'react';
 import React from 'react';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type TDeviceModel = 'iPhone14Pro';
 export interface IOrientation {
@@ -11,6 +12,8 @@ export interface IOrientation {
 export interface IDeviceSize {
   deviceWidth: number;
   deviceHeight: number;
+  insetTop: number;
+  insetBottom: number;
 }
 
 const OrientationContext = React.createContext({});
@@ -34,6 +37,8 @@ const OrientationProvider = (children: any) => {
   const [deviceSize, setDeviceSize] = useState<IDeviceSize>({
     deviceWidth: Dimensions.get('window').width,
     deviceHeight: Dimensions.get('window').height,
+    insetTop: useSafeAreaInsets().top,
+    insetBottom: useSafeAreaInsets().bottom,
   });
 
   // const [deviceModel, setdeviceModel] = useState<string | undefined>(undefined);

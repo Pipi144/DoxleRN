@@ -4,6 +4,7 @@ export const CONTENT_TITLE_FONT_FAMILY: string = 'IBMPlexMono-SemiBold';
 export const NORMAL_CONTENT_FONT_FAMILY: string = 'IBMPlexSans-Regular';
 export const MENU_TITLE_FONT_REG: string = 'IBMPlexMono-Regular';
 export const MENU_TITLE_FONT_SEMIBOLD: string = 'IBMPlexMono-SemiBold';
+
 export const TEXTINPUT_LABEL_FONT_FAMILY: string = 'IBMPlexMono-Light';
 export const IBM_PLEX_MONO_REG: string = 'IBMPlexMono-Regular';
 export const DOXLE_MAIN_COLOR: string = '#5A36BE';

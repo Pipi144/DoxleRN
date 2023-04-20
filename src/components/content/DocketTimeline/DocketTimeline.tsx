@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {Company} from '../../../Models/company';
 import {
   IDocketTimelineContext,
@@ -29,6 +29,15 @@ import LoadingDoxleIconWithText from '../../../Utilities/AnimationScreens/Loadin
 import {FadeOut, StretchInY, StretchOutY} from 'react-native-reanimated';
 import TimelineMonthlyViewList from './TimelineMonthlyViewList';
 import EditTimelineMenu from './EditTimelineMenu';
+import TimelineQueryAPI from '../../../service/DoxleAPI/QueryHookAPI/timelineQueryAPI';
+import {
+  INotificationContext,
+  useNotification,
+} from '../../../Providers/NotificationProvider';
+import Notification, {
+  getContainerStyleWithTranslateY,
+} from '../GeneraComponents/Notification/Notification';
+import ProcessingScreen from '../../../Utilities/AnimationScreens/ProcessingAnimation/ProcessingScreen';
 type Props = {
   company: Company;
 };
@@ -46,11 +55,44 @@ const DocketTimeline = ({company}: Props) => {
     selectedPeriodView,
   } = useDocketTimelineContext() as IDocketTimelineContext;
   //************************************************** */
-
+  //************* NOTIFICATION PROVIDER*************** */
+  const {notifierRootAppRef} = useNotification() as INotificationContext;
+  //handle show notification
+  const showNotification = useCallback(
+    (
+      message: string,
+      messageType: 'success' | 'error',
+      extraMessage?: string,
+    ) => {
+      notifierRootAppRef.current?.showNotification({
+        title: message,
+        description: extraMessage,
+        Component: Notification,
+        queueMode: 'immediate',
+        duration: 1000,
+        componentProps: {
+          type: messageType,
+        },
+        containerStyle: getContainerStyleWithTranslateY,
+      });
+    },
+    [],
+  );
+  //*********************************************** */
   //###### get top inset including the notch #####
 
   const topInsetHeight = useSafeAreaInsets().top;
   //#############################################
+  //################## HANDLING UPDATE ACTIONS #############
+  const updateTimelineMutation = TimelineQueryAPI.useUpdateTimelineDocket({
+    showNotification: showNotification,
+  });
+
+  //########################################################
+  //################## HANDLING DELETE ACTIONS #############
+  const deleteTimelineMutation =
+    TimelineQueryAPI.useDeleteTimelineDocket(showNotification);
+  //########################################################
 
   useEffect(() => {
     setCompany(company);
@@ -81,12 +123,41 @@ const DocketTimeline = ({company}: Props) => {
       </StyledDocketTimelineMainContainer>
 
       {isLoadingProject && (
-        <StyledLoadingMaskContainer entering={StretchInY} exiting={FadeOut}>
+        <StyledLoadingMaskContainer
+          entering={StretchInY}
+          exiting={FadeOut}
+          opacityBackdrop="0.9">
           <LoadingDoxleIconWithText message="Loading Data..." />
         </StyledLoadingMaskContainer>
       )}
 
-      <EditTimelineMenu />
+      {updateTimelineMutation.isLoading ? (
+        <StyledLoadingMaskContainer
+          entering={StretchInY}
+          exiting={FadeOut}
+          opacityBackdrop="0.4">
+          <ProcessingScreen
+            processingType="update"
+            processingText="Updating..."
+          />
+        </StyledLoadingMaskContainer>
+      ) : null}
+
+      {deleteTimelineMutation.isLoading ? (
+        <StyledLoadingMaskContainer
+          entering={StretchInY}
+          exiting={FadeOut}
+          opacityBackdrop="0.2">
+          <ProcessingScreen
+            processingType="delete"
+            processingText="Deleting..."
+          />
+        </StyledLoadingMaskContainer>
+      ) : null}
+      <EditTimelineMenu
+        mutateTimelineDataQueryFunction={updateTimelineMutation.mutate}
+        deleteTimelineDataQueryFunction={deleteTimelineMutation.mutate}
+      />
     </RootDocketTimeline>
   );
 };

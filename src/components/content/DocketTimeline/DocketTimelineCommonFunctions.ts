@@ -1,5 +1,7 @@
 import moment from 'moment';
 import {TimelineDocket} from '../../../Models/DocketTimelineModel';
+import {DocketTimelineUpdateBody} from '../../../service/DoxleAPI/QueryHookAPI/timelineQueryAPI';
+import {checkEqualDateWithoutTime} from '../../../Utilities/FunctionUtilities';
 export type ITimelineDateObject = {
   date: string;
   dateNumber: string;
@@ -113,4 +115,38 @@ export const isCommmenced = (
   )
     return true;
   return false;
+};
+interface ICheckTimelineChangesFunctionProps {
+  originalTimeline: TimelineDocket | undefined;
+  checkedTimeline: TimelineDocket | undefined;
+}
+
+export const checkTimelineChanges = ({
+  originalTimeline,
+  checkedTimeline,
+}: ICheckTimelineChangesFunctionProps):
+  | DocketTimelineUpdateBody
+  | undefined => {
+  const changedFields: DocketTimelineUpdateBody = {};
+  if (originalTimeline && checkedTimeline) {
+    if (originalTimeline.subject !== checkedTimeline.subject)
+      changedFields.subject = checkedTimeline.subject;
+    if (
+      !checkEqualDateWithoutTime(
+        new Date(originalTimeline.startDate),
+        new Date(checkedTimeline.startDate),
+      )
+    )
+      changedFields.startDate = checkedTimeline.startDate;
+
+    if (
+      !checkEqualDateWithoutTime(
+        new Date(originalTimeline.endDate),
+        new Date(checkedTimeline.endDate),
+      )
+    )
+      changedFields.endDate = checkedTimeline.endDate;
+    if (Object.keys(changedFields).length === 0) return undefined;
+    return changedFields;
+  } else return undefined;
 };

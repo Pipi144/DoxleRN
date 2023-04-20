@@ -176,7 +176,9 @@ export const StyledTopMenuButton = styled(Button)<{
   margin-right: 4px;
   text-transform: none;
 `;
-export const StyledLoadingMaskContainer = styled(Animated.View)`
+export const StyledLoadingMaskContainer = styled(Animated.View)<{
+  opacityBackdrop?: `0.${IntRange<0, 10>}`;
+}>`
   width: 100%;
   height: 100%;
   display: flex;
@@ -185,7 +187,12 @@ export const StyledLoadingMaskContainer = styled(Animated.View)`
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(
+    255,
+    255,
+    255,
+    ${p => (p.opacityBackdrop ? p.opacityBackdrop : 0.7)}
+  );
 `;
 export const StyledErrorScreenContainer = styled(Animated.View)`
   flex: 1;
@@ -270,16 +277,15 @@ export const StyledCellItemDateText = styled.Text<{textColor: string}>`
 `;
 export const RootEditTimelineMenu = styled.View<{
   themeColor: IDOXLEThemeColor;
+  paddingBottom: number;
 }>`
   height: 500px;
   width: 100%;
   background-color: ${p => p.themeColor.primaryContainerColor};
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding-bottom: 14px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+
+  padding-bottom: ${p => p.paddingBottom}px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   box-shadow: 1px 12px 12px ${p => p.themeColor.primaryReverseBackdropColor};
   display: flex;
   flex-direction: column;
@@ -345,7 +351,6 @@ export const StyledEditTimelineMenuFieldLabel = styled.Text`
   text-transform: capitalize;
 `;
 export const StyledEditTimelineModalTextInput = styled.TextInput`
-  flex: 1;
   width: 100%;
   padding: 4px;
   font-family: ${NORMAL_CONTENT_FONT_FAMILY};
@@ -358,4 +363,43 @@ export const StyledEditTimelineModalTextInput = styled.TextInput`
   border-radius: 4px;
   max-width: 300px;
   height: 44px;
+`;
+export const StyledEditTimelineMenuControlButtonContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-horizontal: 8px;
+  justify-content: flex-end;
+  margin-top: 8px;
+`;
+export const StyledEditTimelineMenuControlButton = styled(Animated.View)<{
+  bgColor?: string;
+  marginRight?: number;
+}>`
+  width: 80px;
+  height: 40px;
+  border-radius: 8px;
+  ${p => p.bgColor && `background-color: ${p.bgColor};`}
+
+  margin-right: ${p => (p.marginRight ? p.marginRight : 0)}px;
+  flex-direction: row;
+`;
+
+export const StyledPressableMask = styled.Pressable`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+`;
+export const StyledControlButtonText = styled.Text<{textColor: string}>`
+  font-family: ${NORMAL_CONTENT_FONT_FAMILY};
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.15px;
+  line-height: 14px;
+  color: ${p => p.textColor};
+  text-transform: capitalize;
 `;

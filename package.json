@@ -29,6 +29,7 @@
     "react": "18.2.0",
     "react-native": "0.71.6",
     "react-native-bouncy-checkbox": "^3.0.7",
+    "react-native-date-picker": "^4.2.12",
     "react-native-device-info": "^10.6.0",
     "react-native-gesture-handler": "^2.9.0",
     "react-native-keyboard-spacer": "^0.4.1",

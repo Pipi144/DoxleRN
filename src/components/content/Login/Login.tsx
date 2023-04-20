@@ -1,18 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  Image,
-  TextInput,
-  Platform,
-  View,
-  KeyboardAvoidingView,
-  Keyboard,
-} from 'react-native';
-import {Button, VStack} from '@react-native-material/core';
-import {colors} from '../../../utils/constants';
+import React, {useState} from 'react';
+import {StyleSheet, View, Keyboard} from 'react-native';
 import {
   RootLoginScreen,
   StyledAnimatedErrorText,
@@ -26,15 +13,11 @@ import {
   StyledVersionText,
 } from './StyledComponentLogin';
 import {
-  Extrapolation,
   FadeInDown,
   FadeInLeft,
   FadeInRight,
   FadeOutDown,
   FlipInXDown,
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
 } from 'react-native-reanimated';
 import {
   IDOXLEThemeProviderContext,

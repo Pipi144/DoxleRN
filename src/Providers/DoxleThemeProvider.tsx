@@ -14,6 +14,8 @@ export interface IDOXLEThemeColor {
   primaryBackgroundColor: string;
   primaryContainerColor: string;
   primaryBackdropColor: string;
+  primaryReverseBackdropColor: string;
+  primaryDividerColor: string;
 }
 //$$$$$$$$$$$$$$$$$$$ FONT CONSTANT $$$$$$$$$$$$$$$$$$$$$$$$$$
 interface IDoxleFont {
@@ -39,6 +41,9 @@ const DOXLEThemeProvider = (children: any) => {
       primaryContainerColor: theme === 'light' ? '#FFFFFF' : '#07070A',
       primaryBackdropColor:
         theme === 'light' ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)',
+      primaryReverseBackdropColor:
+        theme === 'light' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)',
+      primaryDividerColor: theme === 'light' ? '#EFF0F4' : '#1F212A',
     }),
     [theme],
   );

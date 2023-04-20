@@ -4,6 +4,7 @@ import {Button, Checkbox, Input} from 'native-base';
 import {IDeviceSize} from '../../../Providers/OrientationContext';
 import {
   IBM_PLEX_MONO_REG,
+  MENU_TITLE_FONT_SEMIBOLD,
   NORMAL_CONTENT_FONT_FAMILY,
 } from '../../../Utilities/constants';
 import Animated from 'react-native-reanimated';
@@ -267,32 +268,94 @@ export const StyledCellItemDateText = styled.Text<{textColor: string}>`
   line-height: 16px;
   color: ${p => p.textColor};
 `;
-export const RootEditCheckboxMenu = styled.View<{
+export const RootEditTimelineMenu = styled.View<{
   themeColor: IDOXLEThemeColor;
 }>`
   height: 500px;
   width: 100%;
-  background-color: blue;
+  background-color: ${p => p.themeColor.primaryContainerColor};
   position: absolute;
   bottom: 0;
   left: 0;
-`;
-export const StyledCheckboxBase = styled.Pressable`
-  width: 100%;
-  height: 20px;
+  padding-bottom: 14px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  box-shadow: 1px 12px 12px ${p => p.themeColor.primaryReverseBackdropColor};
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+  flex-direction: column;
 `;
-export const StyledCheckboxLabelText = styled.Text<{
+export const StyledTopTitleEditTimelineMenu = styled.View<{
   themeColor: IDOXLEThemeColor;
 }>`
-  font-family: ${NORMAL_CONTENT_FONT_FAMILY};
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-bottom-color: ${p => p.themeColor.primaryDividerColor};
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+`;
+export const StyledTopTitleText = styled.Text<{
+  themeColor: IDOXLEThemeColor;
+}>`
+  font-family: ${MENU_TITLE_FONT_SEMIBOLD};
   font-style: normal;
   font-weight: 400;
-  font-size: 11px;
-  line-height: 14px;
+  font-size: 16px;
+  line-height: 18px;
   color: ${p => p.themeColor.primaryFontColor};
   text-transform: capitalize;
+`;
+export const StyledCloseMenuButton = styled.Pressable`
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+export const StyledEditTimelineMenuBody = styled(Animated.ScrollView)`
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+export const StyledEditTimelineMenuFieldContainer = styled.View`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 8px;
+  margin-bottom: 14px;
+  padding-horizontal: 8px;
+`;
+export const StyledEditTimelineMenuFieldLabel = styled.Text`
+  margin-bottom: 4px;
+  font-family: ${NORMAL_CONTENT_FONT_FAMILY};
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.15px;
+  line-height: 15px;
+  text-transform: capitalize;
+`;
+export const StyledEditTimelineModalTextInput = styled.TextInput`
+  flex: 1;
+  width: 100%;
+  padding: 4px;
+  font-family: ${NORMAL_CONTENT_FONT_FAMILY};
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.15px;
+  line-height: 14px;
+  border: 0.5px solid grey;
+  border-radius: 4px;
+  max-width: 300px;
+  height: 44px;
 `;

@@ -10,8 +10,6 @@ import {
   RootMonthlyViewDateCellItem,
   RootTimelineMonthlyViewListItem,
   StyledCellItemDateText,
-  StyledCheckboxBase,
-  StyledCheckboxLabelText,
   StyledErrorScreenContainer,
   StyledErrorText,
   StyledMonthlyViewListItemHorizontalList,

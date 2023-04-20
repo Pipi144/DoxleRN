@@ -33,6 +33,6 @@ const TimelineWeeklyViewProjectRow = ({project, rowItemHeight}: Props) => {
   );
 };
 
-export default TimelineWeeklyViewProjectRow;
+export default React.memo(TimelineWeeklyViewProjectRow);
 
 const styles = StyleSheet.create({});

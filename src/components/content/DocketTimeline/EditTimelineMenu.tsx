@@ -50,19 +50,9 @@ import {
   ITimelineDocketUpdateQueryProps,
 } from '../../../service/DoxleAPI/QueryHookAPI/timelineQueryAPI';
 import {authContextInterface, useAuth} from '../../../Providers/AuthProvider';
-type Props = {
-  mutateTimelineDataQueryFunction: (
-    data: ITimelineDocketUpdateQueryProps,
-  ) => void;
-  deleteTimelineDataQueryFunction: (
-    data: ITimelineDocketDeleteQueryProps,
-  ) => void;
-};
+type Props = {};
 
-const EditTimelineMenu = ({
-  mutateTimelineDataQueryFunction,
-  deleteTimelineDataQueryFunction,
-}: Props) => {
+const EditTimelineMenu = ({}: Props) => {
   //******************* TIMELINE PROVIDER ************ */
   const {
     currentEdittedTimeline,
@@ -70,6 +60,8 @@ const EditTimelineMenu = ({
     currentBaseStartDateParams,
     currentDateRangeLengthParam,
     company,
+    mutateTimelineDataQueryFunction,
+    deleteTimelineDataQueryFunction,
   } = useDocketTimelineContext() as IDocketTimelineContext;
   //************************************************** */
   //########################### STATES ############################

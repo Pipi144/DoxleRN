@@ -54,6 +54,8 @@ const DocketTimeline = ({company}: Props) => {
     isSuccessFetchingProject,
     isErrorFetchingProject,
     selectedPeriodView,
+    isUpdatingDocket,
+    isDeletingDocket,
   } = useDocketTimelineContext() as IDocketTimelineContext;
   //************************************************** */
   //************* NOTIFICATION PROVIDER*************** */
@@ -84,16 +86,6 @@ const DocketTimeline = ({company}: Props) => {
 
   const topInsetHeight = useSafeAreaInsets().top;
   //#############################################
-  //################## HANDLING UPDATE ACTIONS #############
-  const updateTimelineMutation = TimelineQueryAPI.useUpdateTimelineDocket({
-    showNotification: showNotification,
-  });
-
-  //########################################################
-  //################## HANDLING DELETE ACTIONS #############
-  const deleteTimelineMutation =
-    TimelineQueryAPI.useDeleteTimelineDocket(showNotification);
-  //########################################################
 
   useEffect(() => {
     setCompany(company);
@@ -140,7 +132,7 @@ const DocketTimeline = ({company}: Props) => {
         </StyledLoadingMaskContainer>
       )}
 
-      {updateTimelineMutation.isLoading ? (
+      {isUpdatingDocket ? (
         <StyledLoadingMaskContainer
           entering={StretchInY}
           exiting={FadeOut}
@@ -152,7 +144,7 @@ const DocketTimeline = ({company}: Props) => {
         </StyledLoadingMaskContainer>
       ) : null}
 
-      {deleteTimelineMutation.isLoading ? (
+      {isDeletingDocket ? (
         <StyledLoadingMaskContainer
           entering={StretchInY}
           exiting={FadeOut}
@@ -163,10 +155,7 @@ const DocketTimeline = ({company}: Props) => {
           />
         </StyledLoadingMaskContainer>
       ) : null}
-      <EditTimelineMenu
-        mutateTimelineDataQueryFunction={updateTimelineMutation.mutate}
-        deleteTimelineDataQueryFunction={deleteTimelineMutation.mutate}
-      />
+      <EditTimelineMenu />
     </RootDocketTimeline>
   );
 };

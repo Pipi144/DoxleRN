@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {
-  RootTimelineWeeklyViewWeekDayList,
+  RootTimelineWeeklyViewDataList,
   StyledProjectTimelineDataList,
   StyledWeeklyViewHeaderCell,
   StyledWeeklyViewHeaderText,
@@ -12,6 +12,11 @@ import {
   displayedDays,
   useDocketTimelineContext,
 } from '../../../Providers/DocketTimelineProvider';
+import TimelineWeeklyViewDataRow from './TimelineWeeklyViewDataRow';
+import {ISimpleProjectTimeline} from '../../../Models/project';
+import {convertWeekDaysValueToText} from '../../../Utilities/FunctionUtilities';
+import {TimelineDocket} from '../../../Models/DocketTimelineModel';
+import {DocketTimelineUpdateBody} from '../../../service/DoxleAPI/QueryHookAPI/timelineQueryAPI';
 
 type Props = {
   horizontalScrollAnimatedValue: SharedValue<number>;
@@ -21,7 +26,7 @@ type Props = {
   rowItemHeight: number;
 };
 
-const TimelineWeeklyViewWeekDayList = ({
+const TimelineWeeklyViewDataList = ({
   horizontalScrollAnimatedValue,
   verticalScrollAnimatedValue,
   maxWidthProjectColumn,
@@ -29,10 +34,11 @@ const TimelineWeeklyViewWeekDayList = ({
   rowItemHeight,
 }: Props) => {
   //******************* TIMELINE PROVIDER ************ */
-  const {projects} = useDocketTimelineContext() as IDocketTimelineContext;
+  const {projects, dockets, currentWeekDays, filterDocketWithProject} =
+    useDocketTimelineContext() as IDocketTimelineContext;
   //************************************************** */
   return (
-    <RootTimelineWeeklyViewWeekDayList
+    <RootTimelineWeeklyViewDataList
       idScrollViews={4}
       horizontal={true}
       showsHorizontalScrollIndicator={false}>
@@ -46,14 +52,17 @@ const TimelineWeeklyViewWeekDayList = ({
               width={`${maxWidthProjectColumn}px`}
               cellHeight={`${rowItemHeight}px`}></StyledWeeklyViewHeaderCell>
 
-            {displayedDays.map((weekDay, idx) => (
+            {currentWeekDays.map((weekDay, idx) => (
               <StyledWeeklyViewHeaderCell
                 key={`header#${idx}`}
                 horizontalAlign="center"
                 width={`${maxWidthProjectColumn}px`}
                 cellHeight={`${rowItemHeight}px`}>
                 <StyledWeeklyViewHeaderText>
-                  {weekDay.weekDayFullName}
+                  {convertWeekDaysValueToText(
+                    new Date(weekDay.fullDay).getDay(),
+                    'full',
+                  )}
                 </StyledWeeklyViewHeaderText>
               </StyledWeeklyViewHeaderCell>
             ))}
@@ -62,12 +71,23 @@ const TimelineWeeklyViewWeekDayList = ({
         stickyHeaderIndices={[0]}
         bounces={false}
         showsVerticalScrollIndicator={false}
-        renderItem={({item, index}) => <></>}
+        renderItem={({item, index}) => (
+          <TimelineWeeklyViewDataRow
+            project={item}
+            rowItemHeight={rowItemHeight}
+            maxWidthProjectColumn={maxWidthProjectColumn}
+            matchedDockets={filterDocketWithProject(item, dockets)}
+          />
+        )}
+        keyExtractor={(item, idx) =>
+          `row#${(item as ISimpleProjectTimeline).projectId}`
+        }
+        extraData={{projects, dockets}}
       />
-    </RootTimelineWeeklyViewWeekDayList>
+    </RootTimelineWeeklyViewDataList>
   );
 };
 
-export default TimelineWeeklyViewWeekDayList;
+export default TimelineWeeklyViewDataList;
 
 const styles = StyleSheet.create({});

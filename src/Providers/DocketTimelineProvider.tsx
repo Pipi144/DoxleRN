@@ -12,6 +12,7 @@ import {Company} from '../Models/company';
 import {
   IDateInfo,
   TWeekDate,
+  checkEqualDateWithoutTime,
   getAllDaysInCurrentQuarter,
   getAllNumOfDaysInYear,
   getAllWeekDaysOfDate,
@@ -23,7 +24,10 @@ import Notification, {
   getContainerStyleWithTranslateY,
 } from '../components/content/GeneraComponents/Notification/Notification';
 import ProjectQueryAPI from '../service/DoxleAPI/QueryHookAPI/projectQueryAPI';
-import TimelineQueryAPI from '../service/DoxleAPI/QueryHookAPI/timelineQueryAPI';
+import TimelineQueryAPI, {
+  ITimelineDocketDeleteQueryProps,
+  ITimelineDocketUpdateQueryProps,
+} from '../service/DoxleAPI/QueryHookAPI/timelineQueryAPI';
 import {
   ITimelineDateObject,
   formattedDate,
@@ -99,7 +103,7 @@ export interface IDocketTimelineContext {
   isErrorFetchingDocket: boolean;
   isSuccessFetchingDocket: boolean;
   dockets: TimelineDocket[];
-  //   currentWeekDays: IDateInfo[];
+  currentWeekDays: IDateInfo[];
   filterDocketWithProject: (
     project: ISimpleProjectTimeline,
     actions: TimelineDocket[],
@@ -129,6 +133,18 @@ export interface IDocketTimelineContext {
   setcurrentEdittedTimeline: React.Dispatch<
     React.SetStateAction<TimelineDocket | undefined>
   >;
+  filterDocketWithDate: (
+    date: Date,
+    actions: TimelineDocket[],
+  ) => TimelineDocket[];
+  mutateTimelineDataQueryFunction: (
+    data: ITimelineDocketUpdateQueryProps,
+  ) => void;
+  isUpdatingDocket: boolean;
+  deleteTimelineDataQueryFunction: (
+    data: ITimelineDocketDeleteQueryProps,
+  ) => void;
+  isDeletingDocket: boolean;
 }
 const today = new Date();
 const DocketTimelineContext = createContext({});
@@ -223,11 +239,28 @@ const DocketTimelineProvider = (children: any) => {
   });
 
   //########################################################
+  //################## HANDLING UPDATE ACTIONS #############
+  const updateTimelineMutation = TimelineQueryAPI.useUpdateTimelineDocket({
+    showNotification: showNotification,
+  });
 
+  //########################################################
+  //################## HANDLING DELETE ACTIONS #############
+  const deleteTimelineMutation =
+    TimelineQueryAPI.useDeleteTimelineDocket(showNotification);
+  //########################################################
   const filterDocketWithProject = useCallback(
     (project: ISimpleProjectTimeline, actions: TimelineDocket[]) => {
       return actions.filter(
         action => action.project && action.project === project.projectId,
+      );
+    },
+    [],
+  );
+  const filterDocketWithDate = useCallback(
+    (date: Date, actions: TimelineDocket[]) => {
+      return actions.filter(action =>
+        checkEqualDateWithoutTime(date, new Date(action.startDate)),
       );
     },
     [],
@@ -259,6 +292,12 @@ const DocketTimelineProvider = (children: any) => {
     filterDocketWithProject,
     currentEdittedTimeline,
     setcurrentEdittedTimeline,
+    currentWeekDays,
+    filterDocketWithDate,
+    mutateTimelineDataQueryFunction: updateTimelineMutation.mutate,
+    deleteTimelineDataQueryFunction: deleteTimelineMutation.mutate,
+    isUpdatingDocket: updateTimelineMutation.isLoading,
+    isDeletingDocket: deleteTimelineMutation.isLoading,
   };
   return (
     <DocketTimelineContext.Provider

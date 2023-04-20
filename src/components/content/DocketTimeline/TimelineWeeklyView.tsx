@@ -22,7 +22,7 @@ import {
 } from 'react-native-reanimated';
 import TimelineWeeklyViewProjectList from './TimelineWeeklyViewProjectList';
 import {SyncScrollViewProvider} from '../GeneraComponents/SyncScrollViews/SyncScrollViewProvider';
-import TimelineWeeklyViewWeekDayList from './TimelineWeeklyViewWeekDayList';
+import TimelineWeeklyViewDataList from './TimelineWeeklyViewDataList';
 
 type Props = {};
 
@@ -79,7 +79,7 @@ const TimelineWeeklyView = (props: Props) => {
         verticalScrollAnimatedValue={verticalScrollAnimatedValue}
       />
 
-      <TimelineWeeklyViewWeekDayList
+      <TimelineWeeklyViewDataList
         horizontalScrollAnimatedValue={horizontalScrollAnimatedValue}
         verticalScrollAnimatedValue={verticalScrollAnimatedValue}
         maxWidthProjectColumn={maxWidthProjectColumn}

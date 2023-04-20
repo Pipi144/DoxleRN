@@ -434,7 +434,7 @@ export const StyledWeeklyViewHeaderCell = styled.View<{
   justify-content: center;
   align-items: ${p => p.horizontalAlign};
   padding-left: ${p => (p.horizontalAlign === 'flex-start' ? 14 : 0)}px;
-  background-color: #7da4ff4d;
+  background-color: rgba(125, 164, 255, 0.3);
 `;
 export const StyledWeeklyViewHeaderText = styled.Text`
   font-family: ${NORMAL_CONTENT_FONT_FAMILY};
@@ -459,6 +459,9 @@ export const RootTimelineWeeklyViewProjectRow = styled.View<{
   border-bottom-width: 1px;
   border-bottom-color: ${p => p.themeColor.primaryDividerColor};
   border-bottom-style: solid;
+  border-right-width: 1px;
+  border-right-color: ${p => p.themeColor.primaryDividerColor};
+  border-right-style: solid;
 `;
 export const StyledWeeklyViewProjectAddressText = styled.Text<{
   themeColor: IDOXLEThemeColor;
@@ -471,11 +474,37 @@ export const StyledWeeklyViewProjectAddressText = styled.Text<{
   color: ${p => p.themeColor.primaryFontColor};
   width: 100%;
 `;
-export const RootTimelineWeeklyViewWeekDayList = styled(SyncedScrollView)`
+export const RootTimelineWeeklyViewDataList = styled(SyncedScrollView)`
   width: 100%;
   height: 100%;
   z-index: 0;
 `;
 export const StyledProjectTimelineDataList = styled(SyncedFlatlist)`
   height: 100%;
+`;
+export const RootTimelineWeeklyViewDataRow = styled.View<{
+  rowHeight: `${number}px`;
+  themeColor: IDOXLEThemeColor;
+}>`
+  height: ${p => p.rowHeight};
+  display: flex;
+  flex-direction: row;
+  background-color: ${p => p.themeColor.primaryContainerColor};
+  border-bottom-width: 1px;
+  border-bottom-color: ${p => p.themeColor.primaryDividerColor};
+  border-bottom-style: solid;
+`;
+export const StyledTimelineWeeklyViewDataCell = styled.View<{
+  width: `${number}px`;
+  themeColor: IDOXLEThemeColor;
+}>`
+  border-left-width: 1px;
+  border-left-color: ${p => p.themeColor.primaryDividerColor};
+  border-left-style: solid;
+  width: ${p => p.width};
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 4px;
 `;

@@ -225,9 +225,9 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
                 {displayedDays.map((weekDay, idx) => (
                   <StyledMonthlyViewWeekDayHeader
                     widthInPixel={CELL_SIZE}
-                    key={`${weekDay.weekDayName}#${idx}`}>
+                    key={`${weekDay.weekDayAbrev}#${idx}`}>
                     <StyledMonthlyViewWeekDayHeaderText>
-                      {weekDay.weekDayName}
+                      {weekDay.weekDayAbrev}
                     </StyledMonthlyViewWeekDayHeaderText>
                   </StyledMonthlyViewWeekDayHeader>
                 ))}

@@ -9,6 +9,7 @@ import {
 } from '../../../Utilities/constants';
 import Animated from 'react-native-reanimated';
 import {SyncedFlatlist} from '../GeneraComponents/SyncScrollViews/SyncedFlatList';
+import {SyncedScrollView} from '../GeneraComponents/SyncScrollViews/SyncedScrollView';
 
 export const RootDocketTimeline = styled(Animated.View)<{
   themeColor: IDOXLEThemeColor;
@@ -405,27 +406,23 @@ export const StyledControlButtonText = styled.Text<{textColor: string}>`
   text-transform: capitalize;
 `;
 
-export const RootTimelineWeeklyView = styled.View`
+export const RootTimelineWeeklyView = styled.View<{insetBottom: number}>`
   flex: 1;
   width: 100%;
   display: flex;
   justify-content: flex-start;
   position: relative;
   margin-top: 8px;
+  padding-bottom: ${p => p.insetBottom}px;
 `;
 export const RootTimelineWeeklyViewProjectList = styled(SyncedFlatlist)`
-  width: 100%;
-  height: 100%;
-`;
-export const StyledProjectColumnContainer = styled(Animated.View)<{
-  insetBottom: number;
-}>`
   height: 100%;
   position: absolute;
   top: 0;
   left: 0;
-  padding-bottom: ${p => p.insetBottom}px;
+  z-index: 2;
 `;
+
 export const StyledWeeklyViewHeaderCell = styled.View<{
   horizontalAlign: 'flex-start' | 'center';
   width: `${number}px` | `${number}%`;
@@ -437,7 +434,7 @@ export const StyledWeeklyViewHeaderCell = styled.View<{
   justify-content: center;
   align-items: ${p => p.horizontalAlign};
   padding-left: ${p => (p.horizontalAlign === 'flex-start' ? 14 : 0)}px;
-  background-color: rgba(125, 164, 255, 0.3);
+  background-color: #7da4ff4d;
 `;
 export const StyledWeeklyViewHeaderText = styled.Text`
   font-family: ${NORMAL_CONTENT_FONT_FAMILY};
@@ -473,4 +470,12 @@ export const StyledWeeklyViewProjectAddressText = styled.Text<{
   line-height: 16px;
   color: ${p => p.themeColor.primaryFontColor};
   width: 100%;
+`;
+export const RootTimelineWeeklyViewWeekDayList = styled(SyncedScrollView)`
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+`;
+export const StyledProjectTimelineDataList = styled(SyncedFlatlist)`
+  height: 100%;
 `;

@@ -11,6 +11,7 @@ import {Company} from '../Models/company';
 
 import {
   IDateInfo,
+  TWeekDate,
   getAllDaysInCurrentQuarter,
   getAllNumOfDaysInYear,
   getAllWeekDaysOfDate,
@@ -53,28 +54,34 @@ export const WEEK_DAYS_LIST: TTableViewWeekDays[] = [
 type TWeekDayAbreName = 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT' | 'SUN';
 interface IWeekDays {
   weekDayValue: number;
-  weekDayName: TWeekDayAbreName;
+  weekDayAbrev: TWeekDayAbreName;
+  weekDayFullName: TWeekDate;
 }
 export const displayedDays: IWeekDays[] = [
   {
-    weekDayName: 'MON',
+    weekDayAbrev: 'MON',
     weekDayValue: 1,
+    weekDayFullName: 'Monday',
   },
   {
-    weekDayName: 'TUE',
+    weekDayAbrev: 'TUE',
     weekDayValue: 2,
+    weekDayFullName: 'Tuesday',
   },
   {
-    weekDayName: 'WED',
+    weekDayAbrev: 'WED',
     weekDayValue: 3,
+    weekDayFullName: 'Wednesday',
   },
   {
-    weekDayName: 'THU',
+    weekDayAbrev: 'THU',
     weekDayValue: 4,
+    weekDayFullName: 'Thursday',
   },
   {
-    weekDayName: 'FRI',
+    weekDayAbrev: 'FRI',
     weekDayValue: 5,
+    weekDayFullName: 'Friday',
   },
 ];
 export interface IDocketTimelineContext {

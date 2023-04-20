@@ -1,5 +1,5 @@
-import {Platform, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
+import {Platform, StyleSheet} from 'react-native';
+import React from 'react';
 import {
   RootAppContainer,
   StyledLoadingMaskRootApp,
@@ -8,10 +8,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from './components/content/Login/Login';
 import {authContextInterface, useAuth} from './Providers/AuthProvider';
 import {Company} from './Models/company';
-import ActionTimeline from './components/content/DocketTimeline/ActionTimeline';
 import {NavigationContainer} from '@react-navigation/native';
 import {DOXLEThemeProvider} from './Providers/DoxleThemeProvider';
-import DoxleIconDisplayer from './DoxleIconDisplayer';
 import {OrientationProvider} from './Providers/OrientationContext';
 import LoadingDoxleIconWithText from './Utilities/AnimationScreens/LoadingDoxleIconWithText/LoadingDoxleIconWithText';
 import {
@@ -21,6 +19,7 @@ import {
 import {NotifierRoot} from 'react-native-notifier';
 import {DocketTimelineProvider} from './Providers/DocketTimelineProvider';
 import DocketTimeline from './components/content/DocketTimeline/DocketTimeline';
+import {SyncScrollViewProvider} from './components/content/GeneraComponents/SyncScrollViews/SyncScrollViewProvider';
 
 type Props = {};
 const company: Company = {
@@ -59,29 +58,30 @@ const RootApp = (props: Props) => {
               <LoadingDoxleIconWithText message="Checking session...Please Wait!" />
             </StyledLoadingMaskRootApp>
           )}
-          <NavigationContainer>
-            <NavigationStack.Navigator
-              screenOptions={{
-                headerShown: false,
-              }}>
-              {loggedIn ? (
-                <NavigationStack.Group>
-                  <NavigationStack.Screen name="docketTimeline">
-                    {props => (
-                      <DocketTimelineProvider>
-                        <DocketTimeline {...props} company={company} />
-                      </DocketTimelineProvider>
-                    )}
-                  </NavigationStack.Screen>
-                </NavigationStack.Group>
-              ) : (
-                <NavigationStack.Group>
-                  <NavigationStack.Screen name="Login" component={Login} />
-                </NavigationStack.Group>
-              )}
-            </NavigationStack.Navigator>
-          </NavigationContainer>
-
+          <SyncScrollViewProvider>
+            <NavigationContainer>
+              <NavigationStack.Navigator
+                screenOptions={{
+                  headerShown: false,
+                }}>
+                {loggedIn ? (
+                  <NavigationStack.Group>
+                    <NavigationStack.Screen name="docketTimeline">
+                      {props => (
+                        <DocketTimelineProvider>
+                          <DocketTimeline {...props} company={company} />
+                        </DocketTimelineProvider>
+                      )}
+                    </NavigationStack.Screen>
+                  </NavigationStack.Group>
+                ) : (
+                  <NavigationStack.Group>
+                    <NavigationStack.Screen name="Login" component={Login} />
+                  </NavigationStack.Group>
+                )}
+              </NavigationStack.Navigator>
+            </NavigationContainer>
+          </SyncScrollViewProvider>
           <NotifierRoot ref={notifierRootAppRef} />
         </RootAppContainer>
       </OrientationProvider>

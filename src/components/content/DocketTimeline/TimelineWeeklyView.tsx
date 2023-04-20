@@ -1,9 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {useMemo} from 'react';
-import {
-  RootTimelineWeeklyView,
-  StyledProjectColumnContainer,
-} from './StyledComponentDocketTimeline';
+import {RootTimelineWeeklyView} from './StyledComponentDocketTimeline';
 import {
   IDOXLEThemeProviderContext,
   useDOXLETheme,
@@ -25,6 +22,7 @@ import {
 } from 'react-native-reanimated';
 import TimelineWeeklyViewProjectList from './TimelineWeeklyViewProjectList';
 import {SyncScrollViewProvider} from '../GeneraComponents/SyncScrollViews/SyncScrollViewProvider';
+import TimelineWeeklyViewWeekDayList from './TimelineWeeklyViewWeekDayList';
 
 type Props = {};
 
@@ -69,43 +67,26 @@ const TimelineWeeklyView = (props: Props) => {
   //$$$$$$$$$$$$$$$$$$$ HANDLE ANIMATION $$$$$$$$$$$$$$$$
   const horizontalScrollAnimatedValue = useSharedValue(0);
   const verticalScrollAnimatedValue = useSharedValue(0);
-  const projectColumnAnimatedStyle = useAnimatedStyle(() => {
-    const widthInterPolate =
-      deviceSize.deviceWidth < 600
-        ? interpolate(
-            horizontalScrollAnimatedValue.value,
-            [0, 140],
-            [maxWidthProjectColumn, minWidthProjectColumn],
-            {
-              extrapolateLeft: Extrapolation.CLAMP,
-              extrapolateRight: Extrapolation.CLAMP,
-            },
-          )
-        : interpolate(
-            horizontalScrollAnimatedValue.value,
-            [0, 140],
-            [maxWidthProjectColumn, minWidthProjectColumn],
-            {
-              extrapolateLeft: Extrapolation.CLAMP,
-              extrapolateRight: Extrapolation.CLAMP,
-            },
-          );
 
-    return {
-      width: widthInterPolate,
-    };
-  }, [horizontalScrollAnimatedValue]);
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
   return (
-    <SyncScrollViewProvider>
-      <RootTimelineWeeklyView>
-        <StyledProjectColumnContainer
-          insetBottom={deviceSize.insetBottom}
-          style={projectColumnAnimatedStyle}>
-          <TimelineWeeklyViewProjectList rowItemHeight={rowItemHeight} />
-        </StyledProjectColumnContainer>
-      </RootTimelineWeeklyView>
-    </SyncScrollViewProvider>
+    <RootTimelineWeeklyView insetBottom={deviceSize.insetBottom}>
+      <TimelineWeeklyViewProjectList
+        rowItemHeight={rowItemHeight}
+        maxWidthProjectColumn={maxWidthProjectColumn}
+        minWidthProjectColumn={minWidthProjectColumn}
+        horizontalScrollAnimatedValue={horizontalScrollAnimatedValue}
+        verticalScrollAnimatedValue={verticalScrollAnimatedValue}
+      />
+
+      <TimelineWeeklyViewWeekDayList
+        horizontalScrollAnimatedValue={horizontalScrollAnimatedValue}
+        verticalScrollAnimatedValue={verticalScrollAnimatedValue}
+        maxWidthProjectColumn={maxWidthProjectColumn}
+        minWidthProjectColumn={minWidthProjectColumn}
+        rowItemHeight={rowItemHeight}
+      />
+    </RootTimelineWeeklyView>
   );
 };
 

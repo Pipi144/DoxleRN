@@ -98,12 +98,6 @@ export const SyncedScrollView = (props: SyncedScrollViewProps) => {
           idScrollViews !== activeScrollView.value &&
           scrollableLength.value !== 0
         ) {
-          // console.log('ID MATCH:', idScrollViews);
-          // scrollViewRef.current?.scrollTo({
-          //   x: props.horizontal ? next * scrollableLength.value : 0,
-          //   y: props.horizontal ? 0 : next * scrollableLength.value,
-          //   animated: false,
-          // });
           scrollTo(
             scrollViewRef,
             props.horizontal ? next * scrollableLength.value : 0,

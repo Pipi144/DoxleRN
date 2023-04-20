@@ -505,7 +505,7 @@ export const checkEqualMonthWithoutDate = (
   else return false;
 };
 
-type TWeekDate =
+export type TWeekDate =
   | 'Sunday'
   | 'Monday'
   | 'Tuesday'

@@ -11,15 +11,18 @@ import BouncyCheckbox, {
 } from 'react-native-bouncy-checkbox';
 import {NORMAL_CONTENT_FONT_FAMILY} from '../../../../Utilities/constants';
 import {CheckedIcon, UnCheckedIcon} from './CheckboxIcon';
-interface Props extends IBouncyCheckboxProps {}
+interface Props extends IBouncyCheckboxProps {
+  width?: number | `${number}%`;
+}
 
 const CustomCheckbox = (props: Props) => {
+  const {width, ...rest} = props;
   //***************** THEME PROVIDER ************ */
   const {THEME_COLOR} = useDOXLETheme() as IDOXLEThemeProviderContext;
   //********************************************* */
   return (
     <BouncyCheckbox
-      {...props}
+      {...rest}
       size={12}
       fillColor="#12B718"
       iconStyle={{
@@ -32,7 +35,7 @@ const CustomCheckbox = (props: Props) => {
         borderRadius: 2,
         borderColor: '#6D778C',
       }}
-      style={{overflow: 'hidden', height: 20}}
+      style={[{overflow: 'hidden', height: 20}, width ? {width: width} : null]}
       textStyle={{
         fontFamily: NORMAL_CONTENT_FONT_FAMILY,
         fontStyle: 'normal',

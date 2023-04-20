@@ -84,7 +84,6 @@ const DateCellListItem: React.FC<{
   };
 
   const handleLongPressCheckbox = (docketItem: TimelineDocket) => {
-    console.log('LONG PRESS');
     setcurrentEdittedTimeline(docketItem);
   };
   return (
@@ -153,7 +152,7 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
         title: message,
         description: extraMessage,
         Component: Notification,
-        queueMode: 'next',
+        queueMode: 'reset',
         componentProps: {
           type: messageType,
         },
@@ -194,9 +193,11 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
     <RootTimelineMonthlyViewListItem
       entering={FadeInLeft.duration(200)}
       exiting={FadeOutRight.duration(200)}>
-      <StyledMonthlyViewProjectAddressText themeColor={THEME_COLOR}>
-        {project.siteAddress}
-      </StyledMonthlyViewProjectAddressText>
+      <Pressable style={{backgroundColor: 'blue'}}>
+        <StyledMonthlyViewProjectAddressText themeColor={THEME_COLOR}>
+          {project.siteAddress}
+        </StyledMonthlyViewProjectAddressText>
+      </Pressable>
       {isErrorFetchingDocket && (
         <StyledErrorScreenContainer>
           <StyledErrorText themeColor={THEME_COLOR}>

@@ -59,8 +59,6 @@ const TimelineWeeklyView = (props: Props) => {
     [deviceSize],
   );
 
-  //!SIZE FOR DATA CELL
-  const dataWidthCell = deviceSize.deviceWidth < 600 ? 140 : 250; //!this var is used to set the width size of each data cell based ondevice width size
   const rowItemHeight = 30;
   //************************************************** */
 

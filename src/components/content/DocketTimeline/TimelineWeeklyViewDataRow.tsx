@@ -89,19 +89,23 @@ const TimelineWeeklyViewDataRow = ({
               <FlatList
                 data={renderedDockets}
                 numColumns={2}
+                columnWrapperStyle={{
+                  justifyContent:
+                    renderedDockets.length > 1 ? 'space-between' : 'center',
+                }}
                 style={{width: '100%', height: '100%'}}
                 renderItem={({item, index}) => (
                   <CustomCheckbox
-                    style={{width: '49% !important'}}
-                    textContainerStyle={{width: '49%', backgroundColor: 'red'}}
                     key={item.actionId}
                     isChecked={Boolean(item.completed !== null)}
                     onPress={event => handlePressCheckbox(item)}
                     text={item.subject}
                     onLongPress={event => handleLongPressCheckbox(item)}
                     delayLongPress={100}
+                    width={renderedDockets.length > 1 ? '48%' : '80%'}
                   />
                 )}
+                extraData={{matchedDockets}}
               />
             ) : null}
           </StyledTimelineWeeklyViewDataCell>

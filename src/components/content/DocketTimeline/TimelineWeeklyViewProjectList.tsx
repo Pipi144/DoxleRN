@@ -77,19 +77,30 @@ const TimelineWeeklyViewProjectList = ({
               extrapolateRight: Extrapolation.CLAMP,
             },
           );
-
+    const scaleYInterpolate = interpolate(
+      horizontalScrollAnimatedValue.value,
+      [-60, 0],
+      [1.2, 1],
+      {
+        extrapolateLeft: Extrapolation.CLAMP,
+        extrapolateRight: Extrapolation.CLAMP,
+      },
+    );
     return {
       width: widthInterPolate,
+      transform: [{scaleY: scaleYInterpolate}],
     };
   }, [horizontalScrollAnimatedValue]);
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
   return (
     <RootTimelineWeeklyViewProjectList
-      style={projectColumnAnimatedStyle}
+      style={[projectColumnAnimatedStyle]}
       idFlatlist={1}
       scrollAnimatedValue={verticalScrollAnimatedValue}
       data={projects}
       showsVerticalScrollIndicator={false}
+      initialNumToRender={6}
+      removeClippedSubviews={true}
       ListHeaderComponent={() => (
         <StyledWeeklyViewHeaderCell
           horizontalAlign="flex-start"

@@ -58,34 +58,9 @@ const DocketTimeline = ({company}: Props) => {
     isDeletingDocket,
   } = useDocketTimelineContext() as IDocketTimelineContext;
   //************************************************** */
-  //************* NOTIFICATION PROVIDER*************** */
-  const {notifierRootAppRef} = useNotification() as INotificationContext;
-  //handle show notification
-  const showNotification = useCallback(
-    (
-      message: string,
-      messageType: 'success' | 'error',
-      extraMessage?: string,
-    ) => {
-      notifierRootAppRef.current?.showNotification({
-        title: message,
-        description: extraMessage,
-        Component: Notification,
-        queueMode: 'immediate',
-        duration: 1000,
-        componentProps: {
-          type: messageType,
-        },
-        containerStyle: getContainerStyleWithTranslateY,
-      });
-    },
-    [],
-  );
-  //*********************************************** */
-  //###### get top inset including the notch #####
-
-  const topInsetHeight = useSafeAreaInsets().top;
-  //#############################################
+  //******************* ORIENTATION PROVIDER ************ */
+  const {deviceSize} = useOrientation() as IOrientation;
+  //************************************************** */
 
   useEffect(() => {
     setCompany(company);
@@ -93,7 +68,7 @@ const DocketTimeline = ({company}: Props) => {
 
   return (
     <RootDocketTimeline themeColor={THEME_COLOR}>
-      <StyledTopBanner themeColor={THEME_COLOR} topInset={topInsetHeight}>
+      <StyledTopBanner themeColor={THEME_COLOR} topInset={deviceSize.insetTop}>
         <StyledVersionDoxleText themeColor={THEME_COLOR}>
           @{today.getFullYear()} Doxle
         </StyledVersionDoxleText>
@@ -101,7 +76,7 @@ const DocketTimeline = ({company}: Props) => {
         <StyledDownloadDoxleButton>Download Doxle</StyledDownloadDoxleButton>
       </StyledTopBanner>
 
-      <StyledDocketTimelineMainContainer>
+      <StyledDocketTimelineMainContainer insetBottom={deviceSize.insetBottom}>
         <DocketTimelineTop />
         {isSuccessFetchingProject && selectedPeriodView === 'Monthly' ? (
           <TimelineMonthlyViewList />

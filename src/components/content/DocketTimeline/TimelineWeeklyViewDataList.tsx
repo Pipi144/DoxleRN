@@ -6,7 +6,12 @@ import {
   StyledWeeklyViewHeaderCell,
   StyledWeeklyViewHeaderText,
 } from './StyledComponentDocketTimeline';
-import {SharedValue} from 'react-native-reanimated';
+import {
+  Extrapolation,
+  SharedValue,
+  interpolate,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 import {
   IDocketTimelineContext,
   displayedDays,
@@ -37,14 +42,37 @@ const TimelineWeeklyViewDataList = ({
   const {projects, dockets, currentWeekDays, filterDocketWithProject} =
     useDocketTimelineContext() as IDocketTimelineContext;
   //************************************************** */
+
+  //#################HANLDE ANIMATION###########################
+  const dataColumnListAnimatedStyled = useAnimatedStyle(() => {
+    const scaleYInterpolate = interpolate(
+      horizontalScrollAnimatedValue.value,
+      [-60, -1],
+      [1.2, 1],
+      {
+        extrapolateLeft: Extrapolation.CLAMP,
+        extrapolateRight: Extrapolation.CLAMP,
+      },
+    );
+    return {
+      transform: [{scaleY: scaleYInterpolate}],
+    };
+  }, [horizontalScrollAnimatedValue]);
+
+  //##############################################################
   return (
     <RootTimelineWeeklyViewDataList
       idScrollViews={4}
       horizontal={true}
+      scrollAnimatedValue={horizontalScrollAnimatedValue}
       showsHorizontalScrollIndicator={false}>
       <StyledProjectTimelineDataList
         idFlatlist={2}
         data={projects}
+        initialNumToRender={6}
+        removeClippedSubviews={true}
+        style={[dataColumnListAnimatedStyled]}
+        scrollAnimatedValue={verticalScrollAnimatedValue}
         ListHeaderComponent={() => (
           <View style={{flexDirection: 'row'}}>
             <StyledWeeklyViewHeaderCell

@@ -62,13 +62,16 @@ export const StyledDownloadDoxleButton = styled(Button)`
   color: #ffffff;
   padding: 0 !important;
 `;
-export const StyledDocketTimelineMainContainer = styled.View`
+export const StyledDocketTimelineMainContainer = styled.View<{
+  insetBottom: number;
+}>`
   flex: 1;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: ${p => p.insetBottom}px;
 `;
 export const RootDocketTimelineTop = styled.View`
   display: flex;
@@ -213,7 +216,7 @@ export const StyledErrorText = styled.Text<{
   line-height: 18px;
   color: ${p => p.themeColor.primaryFontColor};
 `;
-export const RootTimelineMonthlyViewList = styled(Animated.FlatList)`
+export const RootTimelineMonthlyViewList = styled.FlatList`
   flex: 1;
   width: 100%;
 
@@ -414,6 +417,7 @@ export const RootTimelineWeeklyView = styled.View<{insetBottom: number}>`
   position: relative;
   margin-top: 8px;
   padding-bottom: ${p => p.insetBottom}px;
+  overflow: hidden;
 `;
 export const RootTimelineWeeklyViewProjectList = styled(SyncedFlatlist)`
   height: 100%;
@@ -482,7 +486,7 @@ export const RootTimelineWeeklyViewDataList = styled(SyncedScrollView)`
 export const StyledProjectTimelineDataList = styled(SyncedFlatlist)`
   height: 100%;
 `;
-export const RootTimelineWeeklyViewDataRow = styled.View<{
+export const RootTimelineWeeklyViewDataRow = styled(Animated.View)<{
   rowHeight: `${number}px`;
   themeColor: IDOXLEThemeColor;
 }>`

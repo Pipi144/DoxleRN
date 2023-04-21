@@ -4,7 +4,7 @@ import LottieView from 'lottie-react-native';
 import {MENU_TITLE_FONT_REG, NORMAL_CONTENT_FONT_FAMILY} from '../../constants';
 
 type Props = {
-  processingType: 'delete' | 'update';
+  processingType: 'delete' | 'update' | 'add';
   processingText?: string;
 };
 
@@ -12,7 +12,9 @@ const ProcessingScreen = ({processingType, processingText}: Props) => {
   const lottieType =
     processingType === 'update'
       ? require('../../LottieJSONFiles/updating.json')
-      : require('../../LottieJSONFiles/delete.json');
+      : processingType === 'delete'
+      ? require('../../LottieJSONFiles/delete.json')
+      : require('../../LottieJSONFiles/add.json');
   return (
     <View style={styles.rootContainer}>
       <LottieView

@@ -39,6 +39,7 @@ import Notification, {
 } from '../GeneraComponents/Notification/Notification';
 import ProcessingScreen from '../../../Utilities/AnimationScreens/ProcessingAnimation/ProcessingScreen';
 import TimelineWeeklyView from './TimelineWeeklyView';
+import AddTimelineModal from './AddTimelineModal';
 type Props = {
   company: Company;
 };
@@ -57,6 +58,7 @@ const DocketTimeline = ({company}: Props) => {
     isUpdatingDocket,
     isDeletingDocket,
     isUpdatingProject,
+    isAddingTimeline,
   } = useDocketTimelineContext() as IDocketTimelineContext;
   //************************************************** */
   //******************* ORIENTATION PROVIDER ************ */
@@ -119,7 +121,17 @@ const DocketTimeline = ({company}: Props) => {
           />
         </StyledLoadingMaskContainer>
       ) : null}
-
+      {isAddingTimeline ? (
+        <StyledLoadingMaskContainer
+          entering={StretchInY}
+          exiting={FadeOut}
+          opacityBackdrop="0.4">
+          <ProcessingScreen
+            processingType="add"
+            processingText="Adding New Timeline..."
+          />
+        </StyledLoadingMaskContainer>
+      ) : null}
       {isDeletingDocket ? (
         <StyledLoadingMaskContainer
           entering={StretchInY}
@@ -132,6 +144,8 @@ const DocketTimeline = ({company}: Props) => {
         </StyledLoadingMaskContainer>
       ) : null}
       <EditTimelineMenu />
+
+      <AddTimelineModal />
     </RootDocketTimeline>
   );
 };

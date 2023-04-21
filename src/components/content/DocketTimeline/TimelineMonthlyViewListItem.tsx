@@ -10,6 +10,7 @@ import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   RootMonthlyViewDateCellItem,
   RootTimelineMonthlyViewListItem,
+  StyledCellItemDateTextPressableMask,
   StyledCellItemDateText,
   StyledEditProjectAddressControlBtn,
   StyledEditProjectAddressTextInput,
@@ -21,13 +22,19 @@ import {
   StyledMonthlyViewWeekDayHeader,
   StyledMonthlyViewWeekDayHeaderText,
   StyledProjectAddressTextPressableWrapper,
+  StyledDateAnimatedMask,
 } from './StyledComponentDocketTimeline';
 import {
+  Extrapolation,
   FadeInLeft,
   FadeOutLeft,
   FadeOutRight,
   StretchInX,
   StretchOutX,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
 } from 'react-native-reanimated';
 import {ISimpleProjectTimeline} from '../../../Models/project';
 import {
@@ -65,6 +72,7 @@ import ProjectQueryAPI from '../../../service/DoxleAPI/QueryHookAPI/projectQuery
 
 const currentMonth: number = new Date().getMonth();
 const DateCellListItem: React.FC<{
+  project: ISimpleProjectTimeline;
   dockets: TimelineDocket[];
   dateCellValue: ITimelineDateObject;
   cellSize: number;
@@ -72,59 +80,102 @@ const DateCellListItem: React.FC<{
     timelineItem: TimelineDocket,
     updateBody: DocketTimelineUpdateBody,
   ) => void;
-}> = React.memo(({dockets, dateCellValue, cellSize, handleUpdateTimeline}) => {
-  //***************** THEME PROVIDER ************ */
-  const {THEME_COLOR} = useDOXLETheme() as IDOXLEThemeProviderContext;
-  //********************************************* */
-  //******************* TIMELINE PROVIDER ************ */
-  const {setcurrentEdittedTimeline} =
-    useDocketTimelineContext() as IDocketTimelineContext;
-  //************************************************** */
-  const cellMonthValue: number = new Date(dateCellValue.date).getMonth();
-  const renderedDockets = useMemo(
-    () => dockets.filter(docket => isRendered(docket, dateCellValue)),
-    [dockets],
-  );
+}> = React.memo(
+  ({project, dockets, dateCellValue, cellSize, handleUpdateTimeline}) => {
+    //***************** THEME PROVIDER ************ */
+    const {THEME_COLOR} = useDOXLETheme() as IDOXLEThemeProviderContext;
+    //********************************************* */
+    //******************* TIMELINE PROVIDER ************ */
+    const {setcurrentEdittedTimeline, setnewTimelineData} =
+      useDocketTimelineContext() as IDocketTimelineContext;
+    //************************************************** */
+    const cellMonthValue: number = new Date(dateCellValue.date).getMonth();
+    const renderedDockets = useMemo(
+      () => dockets.filter(docket => isRendered(docket, dateCellValue)),
+      [dockets],
+    );
 
-  const handlePressCheckbox = (docketItem: TimelineDocket) => {
-    handleUpdateTimeline(docketItem, {
-      completed:
-        docketItem.completed !== null
-          ? null
-          : formatDate(docketItem.startDate, 'yyyy-MM-dd'),
+    const handlePressCheckbox = (docketItem: TimelineDocket) => {
+      handleUpdateTimeline(docketItem, {
+        completed:
+          docketItem.completed !== null
+            ? null
+            : formatDate(docketItem.startDate, 'yyyy-MM-dd'),
+      });
+    };
+
+    const handleLongPressCheckbox = (docketItem: TimelineDocket) => {
+      setcurrentEdittedTimeline(docketItem);
+    };
+    const handlePressInDateText = () => {
+      'worklet';
+      dateMaskAnimatedValue.value = withSpring(1);
+    };
+    const handlePressOutDateText = () => {
+      'worklet';
+      dateMaskAnimatedValue.value = withSpring(0);
+    };
+    const handleLongPressDateText = () => {
+      setnewTimelineData({
+        project: project,
+        dateValue: new Date(dateCellValue.date),
+      });
+    };
+    //$$$$$$$$$$$ HANDLE ANIMATION $$$$$$$$$$$$
+    const dateMaskAnimatedValue = useSharedValue(0);
+    const dateMaskAnimatedStyle = useAnimatedStyle(() => {
+      const scaleXInterpolate = interpolate(
+        dateMaskAnimatedValue.value,
+        [0, 1],
+        [0, 1],
+        {
+          extrapolateLeft: Extrapolation.CLAMP,
+          extrapolateRight: Extrapolation.CLAMP,
+        },
+      );
+      return {
+        transform: [{scaleX: scaleXInterpolate}],
+      };
     });
-  };
+    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+    return (
+      <RootMonthlyViewDateCellItem themeColor={THEME_COLOR} cellSize={cellSize}>
+        <StyledCellItemDateTextPressableMask
+          onPressIn={handlePressInDateText}
+          onPressOut={handlePressOutDateText}
+          unstable_pressDelay={50}
+          onLongPress={handleLongPressDateText}
+          delayLongPress={100}>
+          <StyledCellItemDateText
+            textColor={cellMonthValue === currentMonth ? '#5F5FDB' : '#88A4CD'}>
+            {dateCellValue.dateNumber}
+          </StyledCellItemDateText>
 
-  const handleLongPressCheckbox = (docketItem: TimelineDocket) => {
-    setcurrentEdittedTimeline(docketItem);
-  };
-  return (
-    <RootMonthlyViewDateCellItem themeColor={THEME_COLOR} cellSize={cellSize}>
-      <StyledCellItemDateText
-        textColor={cellMonthValue === currentMonth ? '#5F5FDB' : '#88A4CD'}>
-        {dateCellValue.dateNumber}
-      </StyledCellItemDateText>
+          <StyledDateAnimatedMask
+            style={dateMaskAnimatedStyle}></StyledDateAnimatedMask>
+        </StyledCellItemDateTextPressableMask>
 
-      <ScrollView
-        style={{flex: 1}}
-        showsVerticalScrollIndicator={false}
-        scrollEnabled={renderedDockets.length > 0}>
-        {renderedDockets.map(docket => {
-          return (
-            <CustomCheckbox
-              key={docket.actionId}
-              isChecked={Boolean(docket.completed !== null)}
-              onPress={event => handlePressCheckbox(docket)}
-              text={docket.subject}
-              onLongPress={event => handleLongPressCheckbox(docket)}
-              delayLongPress={100}
-            />
-          );
-        })}
-      </ScrollView>
-    </RootMonthlyViewDateCellItem>
-  );
-});
+        <ScrollView
+          style={{flex: 1}}
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={renderedDockets.length > 0}>
+          {renderedDockets.map(docket => {
+            return (
+              <CustomCheckbox
+                key={docket.actionId}
+                isChecked={Boolean(docket.completed !== null)}
+                onPress={event => handlePressCheckbox(docket)}
+                text={docket.subject}
+                onLongPress={event => handleLongPressCheckbox(docket)}
+                delayLongPress={100}
+              />
+            );
+          })}
+        </ScrollView>
+      </RootMonthlyViewDateCellItem>
+    );
+  },
+);
 
 type Props = {
   project: ISimpleProjectTimeline;
@@ -292,6 +343,7 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
                 dockets={filterDocketWithProject(project, dockets)}
                 cellSize={CELL_SIZE}
                 handleUpdateTimeline={handleUpdateTimeline}
+                project={project}
               />
             )}
             ListHeaderComponent={() => (

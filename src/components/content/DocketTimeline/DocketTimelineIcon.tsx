@@ -90,3 +90,17 @@ export const XsCloseIcon = (props: SvgProps) => (
     />
   </Svg>
 );
+
+export const AddTimelineIcon = (props: SvgProps) => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={20}
+    height={20}
+    fill="none"
+    {...props}>
+    <Path
+      fill="#fff"
+      d="M14.167 18.333v-2.5h-2.5v-1.667h2.5v-2.5h1.666v2.5h2.5v1.667h-2.5v2.5h-1.666ZM2.5 16.667V3.332H5V1.666h1.667v1.667h5V1.666h1.666v1.667h2.5v6.75a5.604 5.604 0 0 0-1.666 0v-1.75h-10V15H10c0 .278.02.555.063.833.041.278.118.556.229.833H2.5Z"
+    />
+  </Svg>
+);

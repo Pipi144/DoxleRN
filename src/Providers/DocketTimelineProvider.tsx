@@ -27,6 +27,7 @@ import ProjectQueryAPI, {
   IUpdateProjectQueryProps,
 } from '../service/DoxleAPI/QueryHookAPI/projectQueryAPI';
 import TimelineQueryAPI, {
+  ITimelineDocketAddQueryProps,
   ITimelineDocketDeleteQueryProps,
   ITimelineDocketUpdateQueryProps,
 } from '../service/DoxleAPI/QueryHookAPI/timelineQueryAPI';
@@ -158,6 +159,8 @@ export interface IDocketTimelineContext {
   setnewTimelineData: React.Dispatch<
     React.SetStateAction<IAddNewTimelineData | undefined>
   >;
+  addTimelineQueryFunction: (data: ITimelineDocketAddQueryProps) => void;
+  isAddingTimeline: boolean;
 }
 const today = new Date();
 const DocketTimelineContext = createContext({});
@@ -259,6 +262,10 @@ const DocketTimelineProvider = (children: any) => {
   });
 
   //########################################################
+  //################## HANDLING ADD DOCKET #############
+  const addTimelineMutation =
+    TimelineQueryAPI.useAddTimelineDocket(showNotification);
+  //########################################################
   //################## HANDLING UPDATE DOCKET QUERY#############
   const updateTimelineMutation = TimelineQueryAPI.useUpdateTimelineDocket({
     showNotification: showNotification,
@@ -286,6 +293,8 @@ const DocketTimelineProvider = (children: any) => {
     [],
   );
   const docketTimelineContextValue: IDocketTimelineContext = {
+    addTimelineQueryFunction: addTimelineMutation.mutate,
+    isAddingTimeline: addTimelineMutation.isLoading,
     company,
     setCompany,
     projects: projectQuery.isSuccess

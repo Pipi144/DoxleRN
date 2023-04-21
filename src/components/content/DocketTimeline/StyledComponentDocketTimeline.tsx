@@ -279,6 +279,7 @@ export const StyledCellItemDateText = styled.Text<{textColor: string}>`
   font-size: 12px;
   line-height: 16px;
   color: ${p => p.textColor};
+  z-index: 2;
 `;
 export const RootEditTimelineMenu = styled.View<{
   themeColor: IDOXLEThemeColor;
@@ -557,4 +558,133 @@ export const StyledEditProjectAddressControlBtn = styled.Pressable<{
   align-items: center;
   margin-right: 4px;
   background-color: ${p => p.bgColor};
+`;
+export const RootAddTimelineModal = styled.View<{
+  themeColor: IDOXLEThemeColor;
+  paddingBottom: number;
+}>`
+  height: 500px;
+  width: 100%;
+  background-color: ${p => p.themeColor.primaryContainerColor};
+
+  padding-bottom: ${p => p.paddingBottom}px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  box-shadow: 1px 12px 12px ${p => p.themeColor.primaryReverseBackdropColor};
+  display: flex;
+  flex-direction: column;
+`;
+
+export const StyledTopTitleAddTimelineModal = styled.View<{
+  themeColor: IDOXLEThemeColor;
+}>`
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-bottom-color: ${p => p.themeColor.primaryDividerColor};
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+`;
+export const StyledAddTimelineModalBody = styled(Animated.ScrollView)`
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+export const StyledAddTimelineModalFieldContainer = styled.View`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 8px;
+  margin-bottom: 14px;
+  padding-horizontal: 8px;
+`;
+export const StyledAddTimelineModalFieldLabel = styled.Text`
+  margin-bottom: 4px;
+  font-family: ${NORMAL_CONTENT_FONT_FAMILY};
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.15px;
+  line-height: 15px;
+  text-transform: capitalize;
+`;
+export const StyledAddTimelineModalTextInput = styled.TextInput`
+  width: 100%;
+  padding: 4px;
+  font-family: ${NORMAL_CONTENT_FONT_FAMILY};
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.15px;
+  line-height: 14px;
+  border: 0.5px solid grey;
+  border-radius: 4px;
+  max-width: 300px;
+  height: 44px;
+`;
+
+export const StyledAddTimelineMenuControlButtonContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-horizontal: 8px;
+  justify-content: flex-end;
+  margin-top: 8px;
+`;
+export const StyledAddTimelineMenuControlButton = styled(Animated.View)<{
+  bgColor?: string;
+  marginRight?: number;
+}>`
+  width: 80px;
+  height: 40px;
+  border-radius: 8px;
+  ${p => p.bgColor && `background-color: ${p.bgColor};`}
+
+  margin-right: ${p => (p.marginRight ? p.marginRight : 0)}px;
+  flex-direction: row;
+`;
+export const StyledAddTimelineModalDataText = styled.Text`
+  margin-bottom: 4px;
+  font-family: ${NORMAL_CONTENT_FONT_FAMILY};
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.15px;
+  line-height: 14px;
+  text-transform: capitalize;
+  padding-left: 14px;
+`;
+export const StyledEmptyInputPrompt = styled(Animated.Text)`
+  font-family: ${IBM_PLEX_MONO_REG};
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.15px;
+  line-height: 12px;
+  text-transform: capitalize;
+  color: red;
+`;
+export const StyledCellItemDateTextPressableMask = styled.Pressable`
+  width: 100%;
+  position: relative;
+  padding-horizontal: 2px;
+`;
+export const StyledDateAnimatedMask = styled(Animated.View)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background-color: rgba(95, 95, 219, 0.4);
 `;

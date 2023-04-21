@@ -512,3 +512,49 @@ export const StyledTimelineWeeklyViewDataCell = styled.View<{
   align-items: center;
   padding: 2px 4px;
 `;
+export const StyledEditProjectAddressTextInputContainer = styled(
+  Animated.View,
+)<{themeColor: IDOXLEThemeColor}>`
+  width: 100%;
+  height: 20px;
+  border-bottom-color: #7b7bfe;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  background-color: ${p => p.themeColor.primaryBackgroundColor};
+`;
+
+export const StyledProjectAddressTextPressableWrapper = styled.Pressable`
+  width: 100%;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+`;
+export const StyledEditProjectAddressTextInput = styled.TextInput`
+  padding-left: 4px;
+  font-family: ${NORMAL_CONTENT_FONT_FAMILY};
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+
+  flex: 1;
+  height: 100%;
+`;
+export const StyledEditProjectAddressControlBtn = styled.Pressable<{
+  bgColor: string;
+}>`
+  width: 15px;
+  height: 15px;
+  border-radius: 7.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 4px;
+  background-color: ${p => p.bgColor};
+`;

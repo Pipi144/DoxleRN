@@ -1,23 +1,34 @@
 import {
+  Alert,
   FlatList,
   GestureResponderEvent,
   Pressable,
   StyleSheet,
   View,
 } from 'react-native';
-import React, {useCallback, useEffect, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   RootMonthlyViewDateCellItem,
   RootTimelineMonthlyViewListItem,
   StyledCellItemDateText,
+  StyledEditProjectAddressControlBtn,
+  StyledEditProjectAddressTextInput,
+  StyledEditProjectAddressTextInputContainer,
   StyledErrorScreenContainer,
   StyledErrorText,
   StyledMonthlyViewListItemHorizontalList,
   StyledMonthlyViewProjectAddressText,
   StyledMonthlyViewWeekDayHeader,
   StyledMonthlyViewWeekDayHeaderText,
+  StyledProjectAddressTextPressableWrapper,
 } from './StyledComponentDocketTimeline';
-import {FadeInLeft, FadeOutRight} from 'react-native-reanimated';
+import {
+  FadeInLeft,
+  FadeOutLeft,
+  FadeOutRight,
+  StretchInX,
+  StretchOutX,
+} from 'react-native-reanimated';
 import {ISimpleProjectTimeline} from '../../../Models/project';
 import {
   IDOXLEThemeProviderContext,
@@ -34,7 +45,7 @@ import {
 } from '../../../Providers/OrientationContext';
 import {TimelineDocket} from '../../../Models/DocketTimelineModel';
 import {ITimelineDateObject, isRendered} from './DocketTimelineCommonFunctions';
-import {Skeleton, VStack} from 'native-base';
+import {Icon, IconButton, Skeleton, SmallCloseIcon, VStack} from 'native-base';
 import {ScrollView} from 'react-native-gesture-handler';
 import CustomCheckbox from '../GeneraComponents/Checkbox/CustomCheckbox';
 import {
@@ -49,7 +60,8 @@ import TimelineQueryAPI, {
 } from '../../../service/DoxleAPI/QueryHookAPI/timelineQueryAPI';
 import {authContextInterface, useAuth} from '../../../Providers/AuthProvider';
 import {formatDate} from '../../../Utilities/FunctionUtilities';
-import CheckBox from '@react-native-community/checkbox';
+import {XsCloseIcon} from './DocketTimelineIcon';
+import ProjectQueryAPI from '../../../service/DoxleAPI/QueryHookAPI/projectQueryAPI';
 
 const currentMonth: number = new Date().getMonth();
 const DateCellListItem: React.FC<{
@@ -60,7 +72,7 @@ const DateCellListItem: React.FC<{
     timelineItem: TimelineDocket,
     updateBody: DocketTimelineUpdateBody,
   ) => void;
-}> = ({dockets, dateCellValue, cellSize, handleUpdateTimeline}) => {
+}> = React.memo(({dockets, dateCellValue, cellSize, handleUpdateTimeline}) => {
   //***************** THEME PROVIDER ************ */
   const {THEME_COLOR} = useDOXLETheme() as IDOXLEThemeProviderContext;
   //********************************************* */
@@ -112,12 +124,18 @@ const DateCellListItem: React.FC<{
       </ScrollView>
     </RootMonthlyViewDateCellItem>
   );
-};
+});
 
 type Props = {
   project: ISimpleProjectTimeline;
 };
 const TimelineMonthlyViewListItem = ({project}: Props) => {
+  //##################### STATES ################
+  const [isEdittingProject, setisEdittingProject] = useState<boolean>(false);
+  const [projectAddressText, setprojectAddressText] = useState<string>(
+    project.siteAddress,
+  );
+  //#############################################
   //***************** THEME PROVIDER ************ */
   const {THEME_COLOR} = useDOXLETheme() as IDOXLEThemeProviderContext;
   //********************************************* */
@@ -134,6 +152,9 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
     calendarCells,
     currentBaseStartDateParams,
     currentDateRangeLengthParam,
+    mutateTimelineDataQueryFunction,
+    company,
+    mutateProjectTimelineQueryFunction,
   } = useDocketTimelineContext() as IDocketTimelineContext;
   //************************************************** */
   //******************* ORIENTATION PROVIDER ************ */
@@ -169,18 +190,11 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
   );
   //#########################################################
 
-  //################## HANDLING UPDATE ACTIONS #############
-  const updateTimelineMutation = TimelineQueryAPI.useUpdateTimelineDocket({
-    showNotification: showNotification,
-  });
-
-  //########################################################
-
   const handleUpdateTimeline = (
     timelineItem: TimelineDocket,
     updateBody: DocketTimelineUpdateBody,
   ) => {
-    updateTimelineMutation.mutate({
+    mutateTimelineDataQueryFunction({
       accessToken: accessToken || '',
       actionId: timelineItem.actionId,
       updateBody: updateBody,
@@ -189,15 +203,74 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
     });
   };
 
+  const handleLongPressProjectAddressText = () => {
+    setisEdittingProject(true);
+  };
+
+  const handleProjectAddressTextChange = (textValue: string) => {
+    setprojectAddressText(textValue);
+  };
+  const handleSubmitProjectAddressTextInput = () => {
+    if (!projectAddressText)
+      showNotification('Empty Field, Please fill up!!!', 'error');
+    else if (
+      projectAddressText.toLowerCase() !== project.siteAddress.toLowerCase()
+    ) {
+      Alert.alert('Update Confirm', 'Do you want to save?', [
+        {
+          text: 'Cancel',
+          onPress: () => {
+            setprojectAddressText(project.siteAddress);
+            setisEdittingProject(false);
+          },
+          style: 'destructive',
+        },
+        {
+          text: 'Save',
+          onPress: () => {
+            //only update if the value not change
+
+            mutateProjectTimelineQueryFunction({
+              projectId: project.projectId,
+              company: company,
+              accessToken: accessToken,
+              updateData: {
+                siteAddress: projectAddressText,
+              },
+            });
+            setisEdittingProject(false);
+          },
+        },
+      ]);
+    } else setisEdittingProject(false);
+  };
   return (
     <RootTimelineMonthlyViewListItem
       entering={FadeInLeft.duration(200)}
       exiting={FadeOutRight.duration(200)}>
-      <Pressable style={{backgroundColor: 'blue'}}>
-        <StyledMonthlyViewProjectAddressText themeColor={THEME_COLOR}>
-          {project.siteAddress}
-        </StyledMonthlyViewProjectAddressText>
-      </Pressable>
+      {isEdittingProject ? (
+        <StyledEditProjectAddressTextInputContainer
+          entering={StretchInX.duration(300)}
+          exiting={FadeOutLeft.duration(100)}
+          themeColor={THEME_COLOR}>
+          <StyledEditProjectAddressTextInput
+            value={projectAddressText}
+            autoFocus
+            blurOnSubmit
+            onChangeText={handleProjectAddressTextChange}
+            onSubmitEditing={handleSubmitProjectAddressTextInput}
+          />
+        </StyledEditProjectAddressTextInputContainer>
+      ) : (
+        <StyledProjectAddressTextPressableWrapper
+          onLongPress={handleLongPressProjectAddressText}
+          delayLongPress={100}>
+          <StyledMonthlyViewProjectAddressText themeColor={THEME_COLOR}>
+            {project.siteAddress}
+          </StyledMonthlyViewProjectAddressText>
+        </StyledProjectAddressTextPressableWrapper>
+      )}
+
       {isErrorFetchingDocket && (
         <StyledErrorScreenContainer>
           <StyledErrorText themeColor={THEME_COLOR}>

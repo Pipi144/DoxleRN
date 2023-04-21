@@ -56,6 +56,7 @@ const DocketTimeline = ({company}: Props) => {
     selectedPeriodView,
     isUpdatingDocket,
     isDeletingDocket,
+    isUpdatingProject,
   } = useDocketTimelineContext() as IDocketTimelineContext;
   //************************************************** */
   //******************* ORIENTATION PROVIDER ************ */
@@ -107,7 +108,7 @@ const DocketTimeline = ({company}: Props) => {
         </StyledLoadingMaskContainer>
       )}
 
-      {isUpdatingDocket ? (
+      {isUpdatingDocket || isUpdatingProject ? (
         <StyledLoadingMaskContainer
           entering={StretchInY}
           exiting={FadeOut}

@@ -45,7 +45,9 @@ const useRetrieveProjectTimelineQuery = (
   );
   return projectQuery;
 };
-interface IUpdateProjectQueryProps {
+export interface IUpdateProjectQueryProps {
+  projectId: string;
+  company: Company | undefined;
   accessToken: string | undefined;
   updateData: {
     siteAddress?: string;
@@ -65,8 +67,6 @@ interface IUpdateProjectQueryProps {
 }
 
 const useUpdateProjectQuery = (
-  projectId: string,
-  company: Company | undefined,
   showNotification?: (
     message: string,
     messageType: 'success' | 'error',
@@ -75,7 +75,12 @@ const useUpdateProjectQuery = (
 ) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async ({accessToken, updateData}: IUpdateProjectQueryProps) => {
+    mutationFn: async ({
+      accessToken,
+      updateData,
+      projectId,
+      company,
+    }: IUpdateProjectQueryProps) => {
       let body: any = {};
       if (updateData.siteAddress) {
         body.siteAddress = updateData.siteAddress;
@@ -125,18 +130,23 @@ const useUpdateProjectQuery = (
       if (showNotification) showNotification('Project Updated', 'success');
       console.log('EDIT PROJECT RESULT:', result);
       return queryClient.setQueryData(
-        ['projects-timeline', company?.companyId || ''],
+        ['projects-timeline', variables.company?.companyId || ''],
         (old: any) =>
           old
             ? {
                 ...old,
-                results: (old.results as ISimpleProjectTimeline[]).map(
-                  project => {
-                    if (project.projectId === result.data.projectId)
-                      return result.data;
-                    else return project;
-                  },
-                ),
+                data: {
+                  ...old.data,
+                  results: [
+                    ...(old.data.results as ISimpleProjectTimeline[]).map(
+                      project => {
+                        if (project.projectId === result.data.projectId)
+                          return result.data;
+                        else return project;
+                      },
+                    ),
+                  ],
+                },
               }
             : old,
       );

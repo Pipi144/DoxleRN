@@ -23,7 +23,9 @@ import {authContextInterface, useAuth} from './AuthProvider';
 import Notification, {
   getContainerStyleWithTranslateY,
 } from '../components/content/GeneraComponents/Notification/Notification';
-import ProjectQueryAPI from '../service/DoxleAPI/QueryHookAPI/projectQueryAPI';
+import ProjectQueryAPI, {
+  IUpdateProjectQueryProps,
+} from '../service/DoxleAPI/QueryHookAPI/projectQueryAPI';
 import TimelineQueryAPI, {
   ITimelineDocketDeleteQueryProps,
   ITimelineDocketUpdateQueryProps,
@@ -88,6 +90,11 @@ export const displayedDays: IWeekDays[] = [
     weekDayFullName: 'Friday',
   },
 ];
+
+export interface IAddNewTimelineData {
+  project: ISimpleProjectTimeline;
+  dateValue: Date;
+}
 export interface IDocketTimelineContext {
   projects: ISimpleProjectTimeline[];
   company: Company | undefined;
@@ -145,6 +152,12 @@ export interface IDocketTimelineContext {
     data: ITimelineDocketDeleteQueryProps,
   ) => void;
   isDeletingDocket: boolean;
+  mutateProjectTimelineQueryFunction: (data: IUpdateProjectQueryProps) => void;
+  isUpdatingProject: boolean;
+  newTimelineData: IAddNewTimelineData | undefined;
+  setnewTimelineData: React.Dispatch<
+    React.SetStateAction<IAddNewTimelineData | undefined>
+  >;
 }
 const today = new Date();
 const DocketTimelineContext = createContext({});
@@ -163,6 +176,9 @@ const DocketTimelineProvider = (children: any) => {
   const [searchInput, setsearchInput] = useState<string>('');
   const [currentEdittedTimeline, setcurrentEdittedTimeline] = useState<
     TimelineDocket | undefined
+  >(undefined);
+  const [newTimelineData, setnewTimelineData] = useState<
+    IAddNewTimelineData | undefined
   >(undefined);
   //###########################################
   //************* AUTH PROVIDER*************** */
@@ -199,6 +215,10 @@ const DocketTimelineProvider = (children: any) => {
     showNotification,
   );
   //#########################################################
+  //################## HANDLING UPDATE PROJECT QUERY#############
+  const editProjectQuery =
+    ProjectQueryAPI.useUpdateProjectQuery(showNotification);
+  //########################################################
   //################### FETCHING Docket ###################
   const calendarCells = useMemo(
     () => getAllDaysInCurrentMonth(currentDate.year, currentDate.month),
@@ -239,13 +259,13 @@ const DocketTimelineProvider = (children: any) => {
   });
 
   //########################################################
-  //################## HANDLING UPDATE ACTIONS #############
+  //################## HANDLING UPDATE DOCKET QUERY#############
   const updateTimelineMutation = TimelineQueryAPI.useUpdateTimelineDocket({
     showNotification: showNotification,
   });
 
   //########################################################
-  //################## HANDLING DELETE ACTIONS #############
+  //################## HANDLING DELETE DOCKET QUERY#############
   const deleteTimelineMutation =
     TimelineQueryAPI.useDeleteTimelineDocket(showNotification);
   //########################################################
@@ -298,6 +318,10 @@ const DocketTimelineProvider = (children: any) => {
     deleteTimelineDataQueryFunction: deleteTimelineMutation.mutate,
     isUpdatingDocket: updateTimelineMutation.isLoading,
     isDeletingDocket: deleteTimelineMutation.isLoading,
+    mutateProjectTimelineQueryFunction: editProjectQuery.mutate,
+    isUpdatingProject: editProjectQuery.isLoading,
+    newTimelineData,
+    setnewTimelineData,
   };
   return (
     <DocketTimelineContext.Provider

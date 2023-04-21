@@ -29,7 +29,10 @@ const TimelineMonthlyViewList = (props: Props) => {
       renderItem={({item, index}) => (
         <TimelineMonthlyViewListItem project={item as ISimpleProjectTimeline} />
       )}
-      keyExtractor={(item, index) => (item as ISimpleProjectTimeline).projectId}
+      keyExtractor={(item, index) =>
+        `${(item as ISimpleProjectTimeline).projectId}#${index}`
+      }
+      extraData={projects}
       windowSize={6}
     />
   );

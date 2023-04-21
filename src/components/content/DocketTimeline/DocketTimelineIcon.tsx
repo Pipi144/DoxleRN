@@ -77,3 +77,16 @@ export const EditTimelineMenuSaveIcon = (props: SvgProps) => (
     />
   </Svg>
 );
+export const XsCloseIcon = (props: SvgProps) => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={8}
+    height={8}
+    fill="none"
+    {...props}>
+    <Path
+      fill="#fff"
+      d="m6.333 2.136-.47-.47L4 3.53 2.137 1.667l-.47.47L3.53 4 1.667 5.863l.47.47L4 4.47l1.863 1.863.47-.47L4.47 4l1.863-1.864Z"
+    />
+  </Svg>
+);

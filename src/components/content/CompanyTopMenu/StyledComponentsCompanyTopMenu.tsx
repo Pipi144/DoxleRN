@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {IDOXLEThemeColor} from '../../../Providers/DoxleThemeProvider';
+import {Button} from 'native-base';
 
 export const RootCompanyTopMenu = styled.View<{
   themeColor: IDOXLEThemeColor;
@@ -25,4 +26,12 @@ export const StyledDoxleYearText = styled.Text<{
   font-size: 12px;
   line-height: 16px;
   color: ${p => p.themeColor.primaryFontColor};
+`;
+export const StyledCompanyDisplayerButton = styled(Button)<{
+  themeColor: IDOXLEThemeColor;
+}>`
+  width: 68px;
+  height: 23px;
+  background: #7070ff;
+  border-radius: 9px;
 `;

@@ -3,6 +3,7 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
@@ -18,12 +19,16 @@ type Props = {};
 
 export interface ICompanyProviderContextValue {
   company: Company | undefined;
-
+  setcompany: React.Dispatch<React.SetStateAction<Company | undefined>>;
+  companyList: Company[];
   isLoadingCompany: boolean;
 }
 
 const CompanyContext = createContext({});
 const CompanyProvider = (children: any) => {
+  //################ STATES ##################
+  const [company, setcompany] = useState<Company | undefined>(undefined);
+  //###########################################
   //************* NOTIFICATION PROVIDER *************** */
   const {notifierRootAppRef} = useNotification() as INotificationContext;
   //handle show notification
@@ -77,17 +82,22 @@ const CompanyProvider = (children: any) => {
     onErrorCb: handleFailedGetCompany,
   });
 
-  const company = useMemo(
+  const companyList = useMemo(
     () =>
       retrieveCompanyQuery.isSuccess
-        ? (retrieveCompanyQuery.data.data.results[0] as Company)
-        : undefined,
+        ? (retrieveCompanyQuery.data.data.results as Company[])
+        : [],
     [retrieveCompanyQuery.isSuccess, retrieveCompanyQuery.data],
   );
+
+  useEffect(() => {
+    if (!company && companyList.length > 0) setcompany(companyList[0]);
+  }, [companyList]);
   //###########################################################
   const companyContextProvider: ICompanyProviderContextValue = {
     company,
-
+    setcompany,
+    companyList,
     isLoadingCompany: Boolean(
       retrieveCompanyQuery.isLoading || retrieveCompanyQuery.isRefetching,
     ),

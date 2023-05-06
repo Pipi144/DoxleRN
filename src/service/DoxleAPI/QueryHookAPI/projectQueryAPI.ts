@@ -22,9 +22,9 @@ const useRetrieveProjectTimelineQuery = (
     qKey,
     () => {
       let getParams = {company: company?.companyId};
-      return axios.get('http://' + baseAddress + '/project/timeline', {
+      return axios.get('http://' + baseAddress + '/project/simple/', {
         headers: {
-          Authorization: 'Bearer ' + 'accessToken',
+          Authorization: 'Bearer ' + accessToken,
         },
         params: getParams,
       });

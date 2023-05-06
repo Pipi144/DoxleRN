@@ -450,7 +450,7 @@ export const StyledWeeklyViewHeaderText = styled.Text`
   color: #000000;
   text-transform: capitalize;
 `;
-export const RootTimelineWeeklyViewProjectRow = styled.View<{
+export const RootTimelineWeeklyViewProjectRow = styled.Pressable<{
   rowHeight: `${number}px`;
   themeColor: IDOXLEThemeColor;
 }>`

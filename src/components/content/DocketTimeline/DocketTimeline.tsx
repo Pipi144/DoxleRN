@@ -88,14 +88,9 @@ const DocketTimeline = ({company}: Props) => {
         ) : (
           <StyledErrorScreenContainer>
             <StyledErrorText themeColor={THEME_COLOR}>
-              Coming Soon...
-            </StyledErrorText>
-          </StyledErrorScreenContainer>
-        )}
-        {isErrorFetchingProject && (
-          <StyledErrorScreenContainer>
-            <StyledErrorText themeColor={THEME_COLOR}>
-              Something wrong, Please try again...
+              {isErrorFetchingProject
+                ? ' Something wrong, Please try again...'
+                : ' Coming Soon...'}
             </StyledErrorText>
           </StyledErrorScreenContainer>
         )}

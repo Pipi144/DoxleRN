@@ -296,9 +296,7 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
     } else setisEdittingProject(false);
   };
   return (
-    <RootTimelineMonthlyViewListItem
-      entering={FadeInLeft.duration(200)}
-      exiting={FadeOutRight.duration(200)}>
+    <RootTimelineMonthlyViewListItem>
       {isEdittingProject ? (
         <StyledEditProjectAddressTextInputContainer
           entering={StretchInX.duration(300)}
@@ -369,6 +367,7 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
           />
         </StyledMonthlyViewListItemHorizontalList>
       )}
+
       {isLoadingDocket && (
         <VStack flex="1" space="4" marginTop={10}>
           <Skeleton.Text />

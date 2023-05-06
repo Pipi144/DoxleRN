@@ -24,7 +24,7 @@ const TimelineMonthlyViewList = (props: Props) => {
       data={projects}
       showsVerticalScrollIndicator={false}
       initialNumToRender={2}
-      maxToRenderPerBatch={4}
+      maxToRenderPerBatch={10}
       removeClippedSubviews={true}
       renderItem={({item, index}) => (
         <TimelineMonthlyViewListItem project={item as ISimpleProjectTimeline} />
@@ -33,7 +33,7 @@ const TimelineMonthlyViewList = (props: Props) => {
         `${(item as ISimpleProjectTimeline).projectId}#${index}`
       }
       extraData={projects}
-      windowSize={6}
+      windowSize={10}
     />
   );
 };

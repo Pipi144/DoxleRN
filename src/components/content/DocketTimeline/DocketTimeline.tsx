@@ -119,6 +119,6 @@ const DocketTimeline = ({navigation}: Props) => {
   );
 };
 
-export default DocketTimeline;
+export default React.memo(DocketTimeline);
 
 const styles = StyleSheet.create({});

@@ -1,5 +1,5 @@
 import {Platform, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   RootAppContainer,
   StyledLoadingMaskRootApp,
@@ -7,9 +7,12 @@ import {
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from './components/content/Login/Login';
 import {authContextInterface, useAuth} from './Providers/AuthProvider';
-import {Company} from './Models/company';
 import {NavigationContainer} from '@react-navigation/native';
-import {DOXLEThemeProvider} from './Providers/DoxleThemeProvider';
+import {
+  DOXLEThemeProvider,
+  IDOXLEThemeProviderContext,
+  useDOXLETheme,
+} from './Providers/DoxleThemeProvider';
 import {OrientationProvider} from './Providers/OrientationContext';
 import LoadingDoxleIconWithText from './Utilities/AnimationScreens/LoadingDoxleIconWithText/LoadingDoxleIconWithText';
 import {
@@ -25,12 +28,22 @@ import {
   useCompany,
 } from './Providers/CompanyProvider';
 import DocketTimeline from './components/content/DocketTimeline/DocketTimeline';
-import CompanyTopMenu from './components/content/CompanyTopMenu/CompanyTopMenu';
+import CompanyTopBanner from './components/content/CompanyTopBanner/CompanyTopBanner';
+import RootAppTabMenu from './RootAppTabMenu';
 
 type Props = {};
+export type TDoxleMenu = 'Inbox' | 'Projects' | 'Files' | 'Timeline';
 
 const RootApp = (props: Props) => {
+  //################## STATES ##################
+  const [selectedMenuTab, setselectedMenuTab] = useState<TDoxleMenu>('Inbox');
+
+  //############################################
   const NavigationStack = createNativeStackNavigator();
+
+  //***************** THEME PROVIDER ************ */
+  const {THEME_COLOR} = useDOXLETheme() as IDOXLEThemeProviderContext;
+  //*********END OF THEME PROVIDER****************** */
 
   //************* AUTH PROVIDER*************** */
   const {loggedIn, isCheckingLogInStatus} = useAuth() as authContextInterface;
@@ -57,7 +70,15 @@ const RootApp = (props: Props) => {
             </StyledLoadingMaskRootApp>
           )}
 
-          {loggedIn && <CompanyTopMenu />}
+          {loggedIn && (
+            <>
+              <CompanyTopBanner />
+              <RootAppTabMenu
+                selectedMenuTab={selectedMenuTab}
+                setselectedMenuTab={setselectedMenuTab}
+              />
+            </>
+          )}
           <SyncScrollViewProvider>
             <NavigationContainer>
               <NavigationStack.Navigator

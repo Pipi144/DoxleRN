@@ -11,6 +11,7 @@ export interface IDOXLEThemeProviderContext {
 
 export interface IDOXLEThemeColor {
   primaryFontColor: string;
+  primaryReverseFontColor: string;
   primaryBackgroundColor: string;
   primaryContainerColor: string;
   primaryBackdropColor: string;
@@ -22,6 +23,7 @@ interface IDoxleFont {
   primaryFont: string;
   titleFont: string;
   subTitleFont: string;
+  secondaryFont: string;
 }
 
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -30,13 +32,15 @@ const ThemeContext = createContext({});
 const DOXLEThemeProvider = (children: any) => {
   const [theme, setDOXLETheme] = useState<TDOXLETheme>('light');
   const DOXLE_FONT: IDoxleFont = {
-    primaryFont: 'IBM Plex Sans',
-    titleFont: 'IBM Plex Sans',
-    subTitleFont: 'IBM Plex Sans',
+    primaryFont: 'IBMPlexSans-Regular',
+    titleFont: 'IBMPlexSans-SemiBold',
+    subTitleFont: 'IBMPlexSans-Light',
+    secondaryFont: 'WorkSans-Regular',
   };
   const THEME_COLOR: IDOXLEThemeColor = useMemo(
     () => ({
-      primaryFontColor: theme === 'light' ? '#000' : '#fff',
+      primaryFontColor: theme === 'light' ? '#000000' : '#ffffff',
+      primaryReverseFontColor: theme === 'light' ? '#ffffff' : '#000000',
       primaryBackgroundColor: theme === 'light' ? '#EFF0F4' : '#1F212A',
       primaryContainerColor: theme === 'light' ? '#FFFFFF' : '#07070A',
       primaryBackdropColor:

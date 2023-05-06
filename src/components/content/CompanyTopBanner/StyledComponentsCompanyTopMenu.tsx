@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import {IDOXLEThemeColor} from '../../../Providers/DoxleThemeProvider';
-import {Button} from 'native-base';
+import {Button, Popover} from 'native-base';
 
 export const RootCompanyTopMenu = styled.View<{
   themeColor: IDOXLEThemeColor;
@@ -30,8 +30,31 @@ export const StyledDoxleYearText = styled.Text<{
 export const StyledCompanyDisplayerButton = styled(Button)<{
   themeColor: IDOXLEThemeColor;
 }>`
-  width: 68px;
-  height: 23px;
+  height: 31px;
   background: #7070ff;
   border-radius: 9px;
+  font-family: 'WorkSans-Regular';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 14px !important;
+  text-transform: uppercase;
+`;
+export const StyledCompanyMenuTitle = styled(Popover.Header)<{
+  themeColor: IDOXLEThemeColor;
+}>`
+  font-family: 'WorkSans-Regular';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 32px;
+  letter-spacing: 0.05em;
+
+  color: #ffffff;
 `;

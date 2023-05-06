@@ -1,5 +1,7 @@
+import {Button} from 'native-base';
 import Animated from 'react-native-reanimated';
 import styled from 'styled-components/native';
+import {IDOXLEThemeColor} from './Providers/DoxleThemeProvider';
 
 export const RootAppContainer = styled.KeyboardAvoidingView`
   flex: 1;
@@ -36,4 +38,49 @@ export const StyledLoadingMaskRootApp = styled.View`
   display: flex;
   z-index: 10;
   background-color: rgba(255, 255, 255, 1);
+`;
+export const RootTabMenuContainer = styled.View<{
+  themeColor: IDOXLEThemeColor;
+}>`
+  width: 100%;
+  padding: 14px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: ${p => p.themeColor.primaryBackgroundColor};
+`;
+export const StyledTabMenuButton = styled.Pressable<{
+  themeColor: IDOXLEThemeColor;
+}>`
+  position: relative;
+
+  height: 25px;
+  min-width: 88px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const StyledTabMenuText = styled.Text<{
+  themeColor: IDOXLEThemeColor;
+}>`
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  color: ${p => p.themeColor.primaryFontColor};
+  z-index: 1;
+`;
+export const StyledSelectedTabMenuAnimatedMask = styled(Animated.View)<{
+  themeColor: IDOXLEThemeColor;
+}>`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: ${p => p.themeColor.primaryContainerColor};
+  z-index: 0;
+  border-radius: 13px;
 `;

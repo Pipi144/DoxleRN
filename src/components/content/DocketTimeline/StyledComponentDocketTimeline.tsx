@@ -102,6 +102,7 @@ export const StyledSelectedPeriodMenuItemAnimatedMask = styled(Animated.View)<{
   left: 0;
   background-color: ${p => p.themeColor.primaryContainerColor};
   z-index: 0;
+  border-radius: 13px;
 `;
 export const StyledSearchInput = styled(Input)`
   font-family: ${IBM_PLEX_MONO_REG};

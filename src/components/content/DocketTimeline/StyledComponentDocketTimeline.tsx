@@ -24,44 +24,6 @@ export const RootDocketTimeline = styled(Animated.View)<{
   background-color: ${p => p.themeColor.primaryBackgroundColor};
 `;
 
-export const StyledTopBanner = styled.View<{
-  themeColor: IDOXLEThemeColor;
-  topInset: number;
-}>`
-  height: ${p => p.topInset + 40}px;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  background-color: ${p => p.themeColor.primaryContainerColor};
-  padding-left: 14px;
-  padding-right: 14px;
-  padding-top: ${p => p.topInset}px;
-`;
-export const StyledVersionDoxleText = styled.Text<{
-  themeColor: IDOXLEThemeColor;
-}>`
-  font-family: 'IBMPlexMono-Regular';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 16px;
-  color: ${p => p.themeColor.primaryFontColor};
-`;
-export const StyledDownloadDoxleButton = styled(Button)`
-  width: 112px;
-  height: 24px;
-  background: #7b7bfe;
-  border-radius: 13px;
-  font-family: 'IBMPlexMono-Regular';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 11px;
-  line-height: 14px;
-  color: #ffffff;
-  padding: 0 !important;
-`;
 export const StyledDocketTimelineMainContainer = styled.View<{
   insetBottom: number;
 }>`

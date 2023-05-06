@@ -18,35 +18,33 @@ import {
 } from './Providers/NotificationProvider';
 import {NotifierRoot} from 'react-native-notifier';
 import {DocketTimelineProvider} from './Providers/DocketTimelineProvider';
-import DocketTimeline from './components/content/DocketTimeline/DocketTimeline';
+
 import {SyncScrollViewProvider} from './components/content/GeneraComponents/SyncScrollViews/SyncScrollViewProvider';
+import {
+  ICompanyProviderContextValue,
+  useCompany,
+} from './Providers/CompanyProvider';
+import DocketTimeline from './components/content/DocketTimeline/DocketTimeline';
+import CompanyTopMenu from './components/content/CompanyTopMenu/CompanyTopMenu';
 
 type Props = {};
-const company: Company = {
-  addressCity: 'Mulgrave',
-  addressCountry: '',
-  addressL1: '',
-  addressL2: '',
-  addressPostCode: '3170',
-  addressState: 'VIC',
-  companyAbn: '27 629 050 326',
-  companyId: 'c074feca-fd03-4620-88b4-efedc1235ad1',
-  email: 'build@byson.com.au',
-  logo: 'https://firebasestorage.googleapis.com/v0/b/doxle-build-98566.appspot.com/o/company%2Fbyson%2Fstorage%2Flogo_1632874290638.png?alt=media&token=27d1a49d-1eca-447e-9026-cbcc3f360c29',
-  name: 'Byson Group',
-  owner: '6c46322b-405f-41c1-b406-2bf6f9b558c7',
-  phone: '(03) 9052 4527',
-};
+
 const RootApp = (props: Props) => {
   const NavigationStack = createNativeStackNavigator();
 
   //************* AUTH PROVIDER*************** */
   const {loggedIn, isCheckingLogInStatus} = useAuth() as authContextInterface;
-  //*********************************************** */
+  //*******END OF  AUTH PROVIDER************ */
+
   //************* NOTIFICATION PROVIDER*************** */
   const {notifierRootAppRef} = useNotification() as INotificationContext;
-  //*********************************************** */
+  //*********END OF NOTIFICATION PROVIDER ******** */
 
+  //************ COMPANY PROVIDER ************* */
+  const {company, isLoadingCompany} =
+    useCompany() as ICompanyProviderContextValue;
+
+  //************END OF COMPANY PROVIDER ******** */
   return (
     <DOXLEThemeProvider>
       <OrientationProvider>
@@ -58,6 +56,8 @@ const RootApp = (props: Props) => {
               <LoadingDoxleIconWithText message="Checking session...Please Wait!" />
             </StyledLoadingMaskRootApp>
           )}
+
+          {loggedIn && <CompanyTopMenu />}
           <SyncScrollViewProvider>
             <NavigationContainer>
               <NavigationStack.Navigator
@@ -69,7 +69,10 @@ const RootApp = (props: Props) => {
                     <NavigationStack.Screen name="docketTimeline">
                       {props => (
                         <DocketTimelineProvider>
-                          <DocketTimeline {...props} company={company} />
+                          <DocketTimeline
+                            {...props}
+                            navigation={props.navigation}
+                          />
                         </DocketTimelineProvider>
                       )}
                     </NavigationStack.Screen>

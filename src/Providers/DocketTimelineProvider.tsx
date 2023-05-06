@@ -36,6 +36,7 @@ import {
   formattedDate,
   getAllDaysInCurrentMonth,
 } from '../components/content/DocketTimeline/DocketTimelineCommonFunctions';
+import {ICompanyProviderContextValue, useCompany} from './CompanyProvider';
 
 type Props = {};
 
@@ -98,8 +99,7 @@ export interface IAddNewTimelineData {
 }
 export interface IDocketTimelineContext {
   projects: ISimpleProjectTimeline[];
-  company: Company | undefined;
-  setCompany: React.Dispatch<React.SetStateAction<Company | undefined>>;
+
   isLoadingProject: boolean;
   isSuccessFetchingProject: boolean;
   isErrorFetchingProject: boolean;
@@ -166,7 +166,7 @@ const today = new Date();
 const DocketTimelineContext = createContext({});
 const DocketTimelineProvider = (children: any) => {
   //################### STATES ################
-  const [company, setCompany] = useState<Company | undefined>(undefined);
+
   const [selectedPeriodView, setselectedPeriodView] =
     useState<TDocketTimelineTablePeriodView>('Monthly');
   const [currentWeekDays, setCurrentWeekDays] = useState<IDateInfo[]>(
@@ -210,6 +210,11 @@ const DocketTimelineProvider = (children: any) => {
     [],
   );
   //*********************************************** */
+
+  //************ COMPANY PROVIDER ************* */
+  const {company} = useCompany() as ICompanyProviderContextValue;
+
+  //************END OF COMPANY PROVIDER ******** */
   //##################### FETCHING PROJECTS #################
 
   const projectQuery = ProjectQueryAPI.useRetrieveProjectTimelineQuery(
@@ -295,8 +300,7 @@ const DocketTimelineProvider = (children: any) => {
   const docketTimelineContextValue: IDocketTimelineContext = {
     addTimelineQueryFunction: addTimelineMutation.mutate,
     isAddingTimeline: addTimelineMutation.isLoading,
-    company,
-    setCompany,
+
     projects: projectQuery.isSuccess
       ? (projectQuery.data.data.results as ISimpleProjectTimeline[])
       : [],

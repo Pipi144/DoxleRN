@@ -1,6 +1,5 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useCallback, useEffect, useMemo} from 'react';
-import {Company} from '../../../Models/company';
+import {StyleSheet} from 'react-native';
+import React from 'react';
 import {
   IDocketTimelineContext,
   useDocketTimelineContext,
@@ -8,12 +7,9 @@ import {
 import {
   RootDocketTimeline,
   StyledDocketTimelineMainContainer,
-  StyledDownloadDoxleButton,
   StyledErrorScreenContainer,
   StyledErrorText,
   StyledLoadingMaskContainer,
-  StyledTopBanner,
-  StyledVersionDoxleText,
 } from './StyledComponentDocketTimeline';
 import {
   IDOXLEThemeProviderContext,
@@ -23,34 +19,24 @@ import {
   IOrientation,
   useOrientation,
 } from '../../../Providers/OrientationContext';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import DocketTimelineTop from './DocketTimelineTop';
 import LoadingDoxleIconWithText from '../../../Utilities/AnimationScreens/LoadingDoxleIconWithText/LoadingDoxleIconWithText';
-import {FadeOut, StretchInY, StretchOutY} from 'react-native-reanimated';
+import {FadeOut, StretchInY} from 'react-native-reanimated';
 import TimelineMonthlyViewList from './TimelineMonthlyViewList';
 import EditTimelineMenu from './EditTimelineMenu';
-import TimelineQueryAPI from '../../../service/DoxleAPI/QueryHookAPI/timelineQueryAPI';
-import {
-  INotificationContext,
-  useNotification,
-} from '../../../Providers/NotificationProvider';
-import Notification, {
-  getContainerStyleWithTranslateY,
-} from '../GeneraComponents/Notification/Notification';
 import ProcessingScreen from '../../../Utilities/AnimationScreens/ProcessingAnimation/ProcessingScreen';
 import TimelineWeeklyView from './TimelineWeeklyView';
 import AddTimelineModal from './AddTimelineModal';
 type Props = {
-  company: Company;
+  navigation: any;
 };
 const today = new Date();
-const DocketTimeline = ({company}: Props) => {
+const DocketTimeline = ({navigation}: Props) => {
   //***************** THEME PROVIDER ************ */
   const {THEME_COLOR} = useDOXLETheme() as IDOXLEThemeProviderContext;
   //********************************************* */
   //******************* TIMELINE PROVIDER ************ */
   const {
-    setCompany,
     isLoadingProject,
     isSuccessFetchingProject,
     isErrorFetchingProject,
@@ -65,20 +51,8 @@ const DocketTimeline = ({company}: Props) => {
   const {deviceSize} = useOrientation() as IOrientation;
   //************************************************** */
 
-  useEffect(() => {
-    setCompany(company);
-  }, []);
-
   return (
     <RootDocketTimeline themeColor={THEME_COLOR}>
-      <StyledTopBanner themeColor={THEME_COLOR} topInset={deviceSize.insetTop}>
-        <StyledVersionDoxleText themeColor={THEME_COLOR}>
-          @{today.getFullYear()} Doxle
-        </StyledVersionDoxleText>
-
-        <StyledDownloadDoxleButton>Download Doxle</StyledDownloadDoxleButton>
-      </StyledTopBanner>
-
       <StyledDocketTimelineMainContainer insetBottom={deviceSize.insetBottom}>
         <DocketTimelineTop />
         {isSuccessFetchingProject && selectedPeriodView === 'Monthly' ? (

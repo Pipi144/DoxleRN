@@ -48,6 +48,10 @@ import {
 import {formattedDate} from './DocketTimelineCommonFunctions';
 import {formatDate} from '../../../Utilities/FunctionUtilities';
 import DatePicker from 'react-native-date-picker';
+import {
+  ICompanyProviderContextValue,
+  useCompany,
+} from '../../../Providers/CompanyProvider';
 type Props = {};
 interface INewTimelineData {
   subject: string;
@@ -74,19 +78,25 @@ const AddTimelineModal = (props: Props) => {
     addTimelineQueryFunction,
     currentBaseStartDateParams,
     currentDateRangeLengthParam,
-    company,
   } = useDocketTimelineContext() as IDocketTimelineContext;
-  //************************************************** */
+  //***********END OF TIMELINE PROVIDER************** */
+
+  //************ COMPANY PROVIDER ************* */
+  const {company} = useCompany() as ICompanyProviderContextValue;
+
+  //************END OF COMPANY PROVIDER ******** */
 
   //************* AUTH PROVIDER*************** */
   const {accessToken} = useAuth() as authContextInterface;
-  //*********************************************** */
+  //************END OF AUTH PROVIDER******************** */
+
   //***************** THEME PROVIDER ************ */
   const {THEME_COLOR} = useDOXLETheme() as IDOXLEThemeProviderContext;
-  //********************************************* */
+  //***********END OF  THEME PROVIDER ********** */
+
   //******************* ORIENTATION PROVIDER ************ */
   const {deviceSize} = useOrientation() as IOrientation;
-  //************************************************** */
+  //*********END OF ORIENTATION PROVIDER **************** */
   useEffect(() => {
     if (newTimelineData) {
       setnewTimeline({

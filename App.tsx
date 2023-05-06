@@ -15,6 +15,7 @@ import {InternetConnectionProvider} from './src/Providers/InternetConnectionProv
 import {OrientationProvider} from './src/Providers/OrientationContext';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {useEffect} from 'react';
+import {CompanyProvider} from './src/Providers/CompanyProvider';
 
 const queryClient = new QueryClient();
 
@@ -63,7 +64,9 @@ function App(): JSX.Element {
             <QueryClientProvider client={queryClient}>
               <OrientationProvider>
                 <NativeBaseProvider theme={theme}>
-                  <RootApp />
+                  <CompanyProvider>
+                    <RootApp />
+                  </CompanyProvider>
                 </NativeBaseProvider>
               </OrientationProvider>
             </QueryClientProvider>

@@ -69,6 +69,10 @@ import {authContextInterface, useAuth} from '../../../Providers/AuthProvider';
 import {formatDate} from '../../../Utilities/FunctionUtilities';
 import {XsCloseIcon} from './DocketTimelineIcon';
 import ProjectQueryAPI from '../../../service/DoxleAPI/QueryHookAPI/projectQueryAPI';
+import {
+  ICompanyProviderContextValue,
+  useCompany,
+} from '../../../Providers/CompanyProvider';
 
 const currentMonth: number = new Date().getMonth();
 const DateCellListItem: React.FC<{
@@ -193,6 +197,12 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
   //************* AUTH PROVIDER*************** */
   const {accessToken} = useAuth() as authContextInterface;
   //*********************************************** */
+
+  //************ COMPANY PROVIDER ************* */
+  const {company} = useCompany() as ICompanyProviderContextValue;
+
+  //************END OF COMPANY PROVIDER ******** */
+
   //******************* TIMELINE PROVIDER ************ */
   const {
     dockets,
@@ -204,7 +214,7 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
     currentBaseStartDateParams,
     currentDateRangeLengthParam,
     mutateTimelineDataQueryFunction,
-    company,
+
     mutateProjectTimelineQueryFunction,
   } = useDocketTimelineContext() as IDocketTimelineContext;
   //************************************************** */

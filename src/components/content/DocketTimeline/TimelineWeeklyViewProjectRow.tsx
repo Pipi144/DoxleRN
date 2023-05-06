@@ -24,6 +24,10 @@ import Notification, {
   getContainerStyleWithTranslateY,
 } from '../GeneraComponents/Notification/Notification';
 import {authContextInterface, useAuth} from '../../../Providers/AuthProvider';
+import {
+  ICompanyProviderContextValue,
+  useCompany,
+} from '../../../Providers/CompanyProvider';
 
 type Props = {
   project: ISimpleProjectTimeline;
@@ -39,11 +43,18 @@ const TimelineWeeklyViewProjectRow = ({project, rowItemHeight}: Props) => {
   //########################################
   //***************** THEME PROVIDER ************ */
   const {THEME_COLOR} = useDOXLETheme() as IDOXLEThemeProviderContext;
-  //********************************************* */
+  //**********END OF THEME PROVIDER*************** */
+
+  //************ COMPANY PROVIDER ************* */
+  const {company} = useCompany() as ICompanyProviderContextValue;
+
+  //************END OF COMPANY PROVIDER ******** */
+
   //******************* TIMELINE PROVIDER ************ */
-  const {setnewTimelineData, company, mutateProjectTimelineQueryFunction} =
+  const {setnewTimelineData, mutateProjectTimelineQueryFunction} =
     useDocketTimelineContext() as IDocketTimelineContext;
-  //************************************************** */
+  //************END OF TIMELINE PROVIDER************** */
+
   //************* NOTIFICATION PROVIDER*************** */
   const {notifierRootAppRef} = useNotification() as INotificationContext;
   //handle show notification
@@ -66,10 +77,11 @@ const TimelineWeeklyViewProjectRow = ({project, rowItemHeight}: Props) => {
     },
     [],
   );
-  //*********************************************** */
+  //*******END OF NOTIFICATION PROVIDER *********** */
+
   //************* AUTH PROVIDER*************** */
   const {accessToken} = useAuth() as authContextInterface;
-  //*********************************************** */
+  //*********END OF  AUTH PROVIDER********** */
   const handleLongPressProjectRow = () => {
     setnewTimelineData({
       project: project,

@@ -119,13 +119,14 @@ export const StyledInputSearchWrapper = styled.View`
   background-color: #e3e5eb;
   border-radius: 13px;
   align-self: center;
-  margin-top: 8px;
+  margin-top: 14px;
   margin-bottom: 50px;
 `;
 export const StyledTopMenuButtonContainer = styled.View`
   display: flex;
   flex-direction: row;
   align-self: flex-end;
+  align-items: center;
 `;
 export const StyledTopMenuButton = styled(Button)<{
   bgColor: string;

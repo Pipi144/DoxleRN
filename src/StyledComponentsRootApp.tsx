@@ -1,7 +1,7 @@
-import {Button} from 'native-base';
 import Animated from 'react-native-reanimated';
 import styled from 'styled-components/native';
 import {IDOXLEThemeColor} from './Providers/DoxleThemeProvider';
+import {Button, IconButton} from 'react-native-paper';
 
 export const RootAppContainer = styled.KeyboardAvoidingView`
   flex: 1;
@@ -83,4 +83,9 @@ export const StyledSelectedTabMenuAnimatedMask = styled(Animated.View)<{
   background-color: ${p => p.themeColor.primaryContainerColor};
   z-index: 0;
   border-radius: 13px;
+`;
+export const StyledViewModeMenuIconButton = styled(IconButton)`
+  padding: 0px !important;
+  display: flex;
+  margin: 0;
 `;

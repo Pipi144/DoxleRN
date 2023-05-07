@@ -29,6 +29,9 @@ import {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import {Button, Popover} from 'native-base';
+import {StyledViewModeMenuIconButton} from '../../../StyledComponentsRootApp';
+import {MD3Colors} from 'react-native-paper';
 
 type Props = {};
 const ACTION_TIMELINE_TABLE_PERIOD_VIEW: TDocketTimelineTablePeriodView[] = [
@@ -92,7 +95,7 @@ const DocketTimelineTop = (props: Props) => {
         <DocketTimelineIcon />
       </StyledTimelineTextContainer>
 
-      <StyledPeriodMenu>
+      {/* <StyledPeriodMenu>
         {ACTION_TIMELINE_TABLE_PERIOD_VIEW.map((menu, idx) => (
           <PeriodMenuItem
             key={`menuItem#${idx}`}
@@ -100,7 +103,7 @@ const DocketTimelineTop = (props: Props) => {
             handlePressMenuItem={handlePressMenuItem}
           />
         ))}
-      </StyledPeriodMenu>
+      </StyledPeriodMenu> */}
       <StyledInputSearchWrapper>
         <StyledSearchInput
           placeholder="Search"
@@ -113,6 +116,38 @@ const DocketTimelineTop = (props: Props) => {
       </StyledInputSearchWrapper>
 
       <StyledTopMenuButtonContainer>
+        <Popover
+          trigger={triggerProps => {
+            return (
+              <StyledViewModeMenuIconButton
+                {...triggerProps}
+                icon="dots-vertical"
+                iconColor={THEME_COLOR.primaryFontColor}
+                size={20}
+              />
+            );
+          }}>
+          <Popover.Content
+            accessibilityLabel="Delete Customerd"
+            w="56"
+            style={{width: 400}}>
+            <Popover.Arrow />
+            <Popover.CloseButton />
+            <Popover.Header>Delete Customer</Popover.Header>
+            <Popover.Body>
+              This will remove all data relating to Alex. This action cannot be
+              reversed. Deleted data can not be recovered.
+            </Popover.Body>
+            <Popover.Footer justifyContent="flex-end">
+              <Button.Group space={2}>
+                <Button colorScheme="coolGray" variant="ghost">
+                  Cancel
+                </Button>
+                <Button colorScheme="danger">Delete</Button>
+              </Button.Group>
+            </Popover.Footer>
+          </Popover.Content>
+        </Popover>
         <StyledTopMenuButton
           bgColor="#DCDEE6"
           _text={{
@@ -123,18 +158,6 @@ const DocketTimelineTop = (props: Props) => {
             opacity: 0.5,
           }}>
           Export CSV
-        </StyledTopMenuButton>
-
-        <StyledTopMenuButton
-          bgColor=" #7B7BFE"
-          _text={{
-            color: '#fff',
-            fontSize: 11,
-          }}
-          _pressed={{
-            opacity: 0.5,
-          }}>
-          Calendar
         </StyledTopMenuButton>
       </StyledTopMenuButtonContainer>
     </RootDocketTimelineTop>

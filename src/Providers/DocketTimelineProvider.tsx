@@ -217,7 +217,7 @@ const DocketTimelineProvider = (children: any) => {
   //************END OF COMPANY PROVIDER ******** */
   //##################### FETCHING PROJECTS #################
 
-  const projectQuery = ProjectQueryAPI.useRetrieveProjectTimelineQuery(
+  const projectQuery = ProjectQueryAPI.useRetrieveSimpleProjectQuery(
     company,
     accessToken,
     showNotification,

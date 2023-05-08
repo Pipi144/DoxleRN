@@ -1,5 +1,5 @@
 //!-------- > QUERY KEYS < -----------
-//* ["projects-timeline", companyId] => require "projects-timeline" and pass in companyId to retrieve projects for timeline
+//* ["simple-projects", companyId] => require "projects-timeline" and pass in companyId to retrieve projects for timeline
 //!-----------------------------------
 
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
@@ -8,7 +8,7 @@ import {Company} from '../../../Models/company';
 import {baseAddress} from '../../../../settings';
 import {ISimpleProject} from '../../../Models/project';
 
-const useRetrieveProjectTimelineQuery = (
+const useRetrieveSimpleProjectQuery = (
   company: Company | undefined,
   accessToken: string | undefined,
   showNotification?: (
@@ -17,7 +17,7 @@ const useRetrieveProjectTimelineQuery = (
     extraMessage?: string,
   ) => void,
 ) => {
-  const qKey = ['projects-timeline', company?.companyId];
+  const qKey = ['simple-projects', company?.companyId];
   const projectQuery = useQuery(
     qKey,
     () => {
@@ -130,7 +130,7 @@ const useUpdateProjectQuery = (
       if (showNotification) showNotification('Project Updated', 'success');
       console.log('EDIT PROJECT RESULT:', result);
       return queryClient.setQueryData(
-        ['projects-timeline', variables.company?.companyId || ''],
+        ['simple-projects', variables.company?.companyId || ''],
         (old: any) =>
           old
             ? {
@@ -160,7 +160,7 @@ const useUpdateProjectQuery = (
 
 const ProjectQueryAPI = {
   useUpdateProjectQuery,
-  useRetrieveProjectTimelineQuery,
+  useRetrieveSimpleProjectQuery,
 };
 
 export default ProjectQueryAPI;

@@ -4,6 +4,8 @@ import {
   IDoxleFont,
 } from '../../../Providers/DoxleThemeProvider';
 import {Input} from 'native-base';
+import Animated from 'react-native-reanimated';
+import {SyncedFlatlist} from '../GeneraComponents/SyncScrollViews/SyncedFlatList';
 
 export const RootInboxTopSection = styled.View`
   margin-top: 4px;
@@ -13,11 +15,12 @@ export const RootInboxTopSection = styled.View`
   align-items: center;
   justify-content: center;
 `;
-export const RootInbox = styled.View`
+export const RootInbox = styled.View<{themeColor: IDOXLEThemeColor}>`
   flex: 1;
   width: 100%;
   display: flex;
   flex-direction: column;
+  background-color: ${p => p.themeColor.primaryBackgroundColor};
 `;
 export const StyledInboxTitleText = styled.Text<{
   themeColor: IDOXLEThemeColor;
@@ -66,4 +69,86 @@ export const StyledSearchInput = styled(Input)<{
   font-size: 12px;
   line-height: 14px;
   color: #000000;
+`;
+export const StyledDocketInboxContentDisplayer = styled.View`
+  flex: 1;
+  width: 100%;
+  position: relative;
+  display: flex;
+`;
+export const RootInboxDataRow = styled.View`
+  width: 100%;
+`;
+export const StyledDocketNumberList = styled(SyncedFlatlist)<{
+  widthInPixel: `${number}px`;
+}>`
+  position: absolute;
+  width: ${p => p.widthInPixel};
+  height: 100%;
+  left: 0;
+  top: 0;
+`;
+export const StyledDocketListHeaderText = styled.Text<{
+  themeColor: IDOXLEThemeColor;
+  doxleFont: IDoxleFont;
+}>`
+  font-family: ${p => p.doxleFont.secondaryFont};
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 14px;
+  color: ${p => p.themeColor.primaryFontColor};
+`;
+export const StyledDocketListHeaderContainer = styled.View<{
+  widthInPixel: `${number}px`;
+  horizontalAlign?: 'center' | 'flex-start' | 'flex-end';
+  paddingLeft?: `${number}px`;
+  themeColor: IDOXLEThemeColor;
+}>`
+    width: ${p => p.widthInPixel};
+    display:flex;
+    flex-direction:row;
+    justify-content: ${p => (p.horizontalAlign ? p.horizontalAlign : 'center')}
+    align-items:center;
+    background-color: ${p => p.themeColor.primaryBackgroundColor};
+    padding-left: ${p => (p.paddingLeft ? p.paddingLeft : 0)};
+    margin-bottom:2px
+`;
+export const RootInboxDocketNumberRow = styled.View<{
+  themeColor: IDOXLEThemeColor;
+  horizontalAlign?: 'center' | 'flex-start' | 'flex-end';
+  paddingLeft?: `${number}px`;
+}>`
+  width: 100%;
+  height: 44px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: ${p => p.themeColor.primaryDividerColor};
+  background-color: ${p => p.themeColor.primaryContainerColor};
+  display:flex;
+  flex-direction:row;
+  justify-content: ${p => (p.horizontalAlign ? p.horizontalAlign : 'center')}
+  align-items:center;
+  background-color: ${p => p.themeColor.primaryContainerColor};
+  padding-left: ${p => (p.paddingLeft ? p.paddingLeft : 0)};
+  overflow: hidden;
+
+`;
+export const StyledDocketStatusDisplayer = styled.View<{statusColor: string}>`
+  width: 14px;
+  height: 23px;
+  background: ${p => p.statusColor};
+  border-radius: 8px;
+  margin-left: 8px;
+`;
+export const StyledDocketNumberText = styled.Text<{
+  themeColor: IDOXLEThemeColor;
+  doxleFont: IDoxleFont;
+}>`
+  font-family: ${p => p.doxleFont.secondaryTitleFont};
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 17px;
+  color: ${p => p.themeColor.primaryFontColor};
 `;

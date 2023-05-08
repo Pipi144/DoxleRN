@@ -83,7 +83,7 @@ const RootApp = (props: Props) => {
               </>
             )}
             <NavigationStack.Navigator
-              initialRouteName="Timeline"
+              initialRouteName="Inbox"
               screenOptions={{
                 headerShown: false,
               }}>

@@ -1,10 +1,8 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useCallback} from 'react';
+import {StyleSheet} from 'react-native';
+import React, {useCallback, useState} from 'react';
 import {
   RootDocketTimelineTop,
-  StyledPeriodMenu,
   StyledSelectedPeriodMenuItemAnimatedMask,
-  StyledPeriodMenuItemButton,
   StyledPeriodMenuItemText,
   StyledTimelineTextContainer,
   StyledTimelineTitleText,
@@ -12,6 +10,11 @@ import {
   StyledInputSearchWrapper,
   StyledTopMenuButtonContainer,
   StyledTopMenuButton,
+  StyledViewModeMenuIconButton,
+  StyledTimelineViewMenuItem,
+  StyledTimelineViewMenu,
+  StyledTimelineViewMenuTitle,
+  StyledDivider,
 } from './StyledComponentDocketTimeline';
 import {
   IDOXLEThemeProviderContext,
@@ -23,15 +26,7 @@ import {
   TDocketTimelineTablePeriodView,
   useDocketTimelineContext,
 } from '../../../Providers/DocketTimelineProvider';
-import {
-  StretchInX,
-  StretchOutX,
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
-import {Button, Popover} from 'native-base';
-import {StyledViewModeMenuIconButton} from '../../../StyledComponentsRootApp';
-import {MD3Colors} from 'react-native-paper';
+import {StretchInX, StretchOutX} from 'react-native-reanimated';
 
 type Props = {};
 const ACTION_TIMELINE_TABLE_PERIOD_VIEW: TDocketTimelineTablePeriodView[] = [
@@ -46,17 +41,19 @@ const PeriodMenuItem: React.FC<{
   handlePressMenuItem: (menuItem: TDocketTimelineTablePeriodView) => void;
 }> = ({menuItem, handlePressMenuItem}) => {
   //***************** THEME PROVIDER ************ */
-  const {THEME_COLOR} = useDOXLETheme() as IDOXLEThemeProviderContext;
+  const {THEME_COLOR, DOXLE_FONT} =
+    useDOXLETheme() as IDOXLEThemeProviderContext;
   //********************************************* */
   //******************* TIMELINE PROVIDER ************ */
   const {selectedPeriodView} =
     useDocketTimelineContext() as IDocketTimelineContext;
   //************************************************** */
   return (
-    <StyledPeriodMenuItemButton
+    <StyledTimelineViewMenuItem
+      themeColor={THEME_COLOR}
       onPress={() => handlePressMenuItem(menuItem)}
-      unstable_pressDelay={50}>
-      <StyledPeriodMenuItemText themeColor={THEME_COLOR}>
+      selected={Boolean(selectedPeriodView === menuItem)}>
+      <StyledPeriodMenuItemText themeColor={THEME_COLOR} doxleFont={DOXLE_FONT}>
         {menuItem}
       </StyledPeriodMenuItemText>
       {selectedPeriodView === menuItem && (
@@ -66,15 +63,31 @@ const PeriodMenuItem: React.FC<{
           exiting={StretchOutX}
         />
       )}
-    </StyledPeriodMenuItemButton>
+    </StyledTimelineViewMenuItem>
+    // <StyledTimelineViewMenuItem
+    //   themeColor={THEME_COLOR}
+    //   onPress={() => handlePressMenuItem(menuItem)}
+    //   title={menuItem}
+    //   titleStyle={{
+    //     fontFamily: DOXLE_FONT.primaryFont,
+    //     fontStyle: 'normal',
+    //     fontWeight: '500',
+    //     fontSize: 14,
+    //     lineHeight: 18,
+    //     color: THEME_COLOR.primaryFontColor,
+    //     textTransform: 'capitalize',
+    //   }}
+    // />
   );
 };
 const DocketTimelineTop = (props: Props) => {
   //$$$$$$$$$$$$$$$$$ STATES $$$$$$$$$$$$$$$$$
-
+  const [showTimelineViewMenu, setShowTimelineViewMenu] =
+    useState<boolean>(false);
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
   //***************** THEME PROVIDER ************ */
-  const {THEME_COLOR} = useDOXLETheme() as IDOXLEThemeProviderContext;
+  const {THEME_COLOR, DOXLE_FONT} =
+    useDOXLETheme() as IDOXLEThemeProviderContext;
   //********************************************* */
   //******************* TIMELINE PROVIDER ************ */
   const {setselectedPeriodView} =
@@ -83,9 +96,18 @@ const DocketTimelineTop = (props: Props) => {
   const handlePressMenuItem = useCallback(
     (menuItem: TDocketTimelineTablePeriodView) => {
       setselectedPeriodView(menuItem);
+      handleCloseTimelineViewMenu();
     },
     [],
   );
+
+  const handleOpenTimelineViewMenu = () => {
+    setShowTimelineViewMenu(true);
+  };
+
+  const handleCloseTimelineViewMenu = () => {
+    setShowTimelineViewMenu(false);
+  };
   return (
     <RootDocketTimelineTop>
       <StyledTimelineTextContainer>
@@ -116,7 +138,38 @@ const DocketTimelineTop = (props: Props) => {
       </StyledInputSearchWrapper>
 
       <StyledTopMenuButtonContainer>
-        <Popover
+        <StyledTimelineViewMenu
+          visible={showTimelineViewMenu}
+          onDismiss={handleCloseTimelineViewMenu}
+          anchorPosition="bottom"
+          themeColor={THEME_COLOR}
+          contentStyle={{
+            backgroundColor: THEME_COLOR.primaryContainerColor,
+          }}
+          anchor={
+            <StyledViewModeMenuIconButton
+              icon="dots-vertical"
+              iconColor={THEME_COLOR.primaryFontColor}
+              size={20}
+              onPress={handleOpenTimelineViewMenu}
+            />
+          }>
+          <StyledTimelineViewMenuTitle
+            themeColor={THEME_COLOR}
+            doxleFont={DOXLE_FONT}>
+            View Menu
+          </StyledTimelineViewMenuTitle>
+          <StyledDivider themeColor={THEME_COLOR} />
+          {ACTION_TIMELINE_TABLE_PERIOD_VIEW.map((menu, idx) => (
+            <PeriodMenuItem
+              key={`menuItem#${idx}`}
+              menuItem={menu}
+              handlePressMenuItem={handlePressMenuItem}
+            />
+          ))}
+        </StyledTimelineViewMenu>
+
+        {/* <Popover
           trigger={triggerProps => {
             return (
               <StyledViewModeMenuIconButton
@@ -135,8 +188,13 @@ const DocketTimelineTop = (props: Props) => {
             <Popover.CloseButton />
             <Popover.Header>Delete Customer</Popover.Header>
             <Popover.Body>
-              This will remove all data relating to Alex. This action cannot be
-              reversed. Deleted data can not be recovered.
+              {ACTION_TIMELINE_TABLE_PERIOD_VIEW.map((menu, idx) => (
+                <PeriodMenuItem
+                  key={`menuItem#${idx}`}
+                  menuItem={menu}
+                  handlePressMenuItem={handlePressMenuItem}
+                />
+              ))}
             </Popover.Body>
             <Popover.Footer justifyContent="flex-end">
               <Button.Group space={2}>
@@ -147,7 +205,7 @@ const DocketTimelineTop = (props: Props) => {
               </Button.Group>
             </Popover.Footer>
           </Popover.Content>
-        </Popover>
+        </Popover> */}
         <StyledTopMenuButton
           bgColor="#DCDEE6"
           _text={{

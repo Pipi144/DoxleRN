@@ -30,15 +30,20 @@ import {
 import DocketTimeline from './components/content/DocketTimeline/DocketTimeline';
 import CompanyTopBanner from './components/content/CompanyTopBanner/CompanyTopBanner';
 import RootAppTabMenu from './RootAppTabMenu';
+import Inbox from './components/content/Inbox/Inbox';
+import Files from './components/content/Files/Files';
+import Projects from './components/content/Projects/Projects';
 
 type Props = {};
 export type TDoxleMenu = 'Inbox' | 'Projects' | 'Files' | 'Timeline';
+export const DOXLE_MENU_LIST: TDoxleMenu[] = [
+  'Inbox',
+  'Projects',
+  'Files',
+  'Timeline',
+];
 
 const RootApp = (props: Props) => {
-  //################## STATES ##################
-  const [selectedMenuTab, setselectedMenuTab] = useState<TDoxleMenu>('Inbox');
-
-  //############################################
   const NavigationStack = createNativeStackNavigator();
 
   //***************** THEME PROVIDER ************ */
@@ -59,57 +64,59 @@ const RootApp = (props: Props) => {
 
   //************END OF COMPANY PROVIDER ******** */
   return (
-    <DOXLEThemeProvider>
-      <OrientationProvider>
-        <RootAppContainer
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          {/* <DoxleIconDisplayer /> */}
-          {isCheckingLogInStatus && (
-            <StyledLoadingMaskRootApp>
-              <LoadingDoxleIconWithText message="Checking session...Please Wait!" />
-            </StyledLoadingMaskRootApp>
-          )}
+    <OrientationProvider>
+      <RootAppContainer behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        {/* <DoxleIconDisplayer /> */}
+        {isCheckingLogInStatus && (
+          <StyledLoadingMaskRootApp>
+            <LoadingDoxleIconWithText message="Checking session...Please Wait!" />
+          </StyledLoadingMaskRootApp>
+        )}
 
-          {loggedIn && (
-            <>
-              <CompanyTopBanner />
-              <RootAppTabMenu
-                selectedMenuTab={selectedMenuTab}
-                setselectedMenuTab={setselectedMenuTab}
-              />
-            </>
-          )}
-          <SyncScrollViewProvider>
-            <NavigationContainer>
-              <NavigationStack.Navigator
-                screenOptions={{
-                  headerShown: false,
-                }}>
-                {loggedIn ? (
-                  <NavigationStack.Group>
-                    <NavigationStack.Screen name="docketTimeline">
-                      {props => (
-                        <DocketTimelineProvider>
-                          <DocketTimeline
-                            {...props}
-                            navigation={props.navigation}
-                          />
-                        </DocketTimelineProvider>
-                      )}
+        <SyncScrollViewProvider>
+          <NavigationContainer>
+            {loggedIn && (
+              <>
+                <CompanyTopBanner />
+                <RootAppTabMenu />
+              </>
+            )}
+            <NavigationStack.Navigator
+              initialRouteName="Timeline"
+              screenOptions={{
+                headerShown: false,
+              }}>
+              {loggedIn ? (
+                <>
+                  {DOXLE_MENU_LIST.map((menuItem, idx) => (
+                    <NavigationStack.Screen key={`menu#${idx}`} name={menuItem}>
+                      {props =>
+                        menuItem === 'Timeline' ? (
+                          <DocketTimelineProvider>
+                            <DocketTimeline {...props} />
+                          </DocketTimelineProvider>
+                        ) : menuItem === 'Inbox' ? (
+                          <Inbox {...props} />
+                        ) : menuItem === 'Files' ? (
+                          <Files {...props} />
+                        ) : (
+                          <Projects {...props} />
+                        )
+                      }
                     </NavigationStack.Screen>
-                  </NavigationStack.Group>
-                ) : (
-                  <NavigationStack.Group>
-                    <NavigationStack.Screen name="Login" component={Login} />
-                  </NavigationStack.Group>
-                )}
-              </NavigationStack.Navigator>
-            </NavigationContainer>
-          </SyncScrollViewProvider>
-          <NotifierRoot ref={notifierRootAppRef} />
-        </RootAppContainer>
-      </OrientationProvider>
-    </DOXLEThemeProvider>
+                  ))}
+                </>
+              ) : (
+                <NavigationStack.Group>
+                  <NavigationStack.Screen name="Login" component={Login} />
+                </NavigationStack.Group>
+              )}
+            </NavigationStack.Navigator>
+          </NavigationContainer>
+        </SyncScrollViewProvider>
+        <NotifierRoot ref={notifierRootAppRef} />
+      </RootAppContainer>
+    </OrientationProvider>
   );
 };
 

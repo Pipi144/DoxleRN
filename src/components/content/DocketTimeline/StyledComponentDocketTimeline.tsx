@@ -1,5 +1,8 @@
 import styled from 'styled-components/native';
-import {IDOXLEThemeColor} from '../../../Providers/DoxleThemeProvider';
+import {
+  IDOXLEThemeColor,
+  IDoxleFont,
+} from '../../../Providers/DoxleThemeProvider';
 import {Button, Checkbox, Input} from 'native-base';
 import {IDeviceSize} from '../../../Providers/OrientationContext';
 import {
@@ -10,6 +13,8 @@ import {
 import Animated from 'react-native-reanimated';
 import {SyncedFlatlist} from '../GeneraComponents/SyncScrollViews/SyncedFlatList';
 import {SyncedScrollView} from '../GeneraComponents/SyncScrollViews/SyncedScrollView';
+import {IconButton, Menu} from 'react-native-paper';
+import {View} from 'react-native';
 
 export const RootDocketTimeline = styled(Animated.View)<{
   themeColor: IDOXLEThemeColor;
@@ -39,7 +44,6 @@ export const RootDocketTimelineTop = styled.View`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-top: 14px;
 `;
 export const StyledTimelineTextContainer = styled.View`
   padding-left: 8px;
@@ -82,13 +86,14 @@ export const StyledPeriodMenuItemButton = styled.Pressable`
 `;
 export const StyledPeriodMenuItemText = styled.Text<{
   themeColor: IDOXLEThemeColor;
+  doxleFont: IDoxleFont;
 }>`
-  font-family: ${NORMAL_CONTENT_FONT_FAMILY};
+  font-family: ${p => p.doxleFont.primaryFont};
   font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 18px;
-  color: ${p => p.themeColor.primaryFontColor};
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: ${p => p.themeColor.primaryFontColor} !important;
   text-transform: capitalize;
   z-index: 1;
 `;
@@ -120,7 +125,7 @@ export const StyledInputSearchWrapper = styled.View`
   border-radius: 13px;
   align-self: center;
   margin-top: 14px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 `;
 export const StyledTopMenuButtonContainer = styled.View`
   display: flex;
@@ -651,4 +656,56 @@ export const StyledDateAnimatedMask = styled(Animated.View)`
   align-items: center;
   border-radius: 8px;
   background-color: rgba(95, 95, 219, 0.4);
+`;
+export const StyledViewModeMenuIconButton = styled(IconButton)`
+  padding: 0px !important;
+  display: flex;
+  margin: 0;
+`;
+export const StyledTimelineViewMenuItem = styled.Pressable<{
+  themeColor: IDOXLEThemeColor;
+  selected: boolean;
+}>`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0px 1px;
+  z-index: 1;
+  background-color: ${p =>
+    p.selected
+      ? `${p.themeColor.doxleColor}30`
+      : p.themeColor.primaryContainerColor};
+  min-width: 144px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: ${p => p.themeColor.primaryDividerColor};
+  padding: 8px 4px;
+`;
+export const StyledTimelineViewMenu = styled(Menu)<{
+  themeColor: IDOXLEThemeColor;
+}>`
+  padding: 2px 0px;
+  min-width: 60px;
+`;
+export const StyledTimelineViewMenuTitle = styled.Text<{
+  themeColor: IDOXLEThemeColor;
+  doxleFont: IDoxleFont;
+}>`
+  font-family: ${p => p.doxleFont.primaryFont};
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  color: ${p => p.themeColor.primaryFontColor};
+  margin-bottom: 8px;
+  margin-top: 4px;
+  padding-left: 4px;
+`;
+export const StyledDivider = styled(View)<{
+  themeColor: IDOXLEThemeColor;
+}>`
+  width: 80%;
+  height: 1px;
+  background-color: ${p => p.themeColor.primaryDividerColor};
+  align-self: center;
 `;

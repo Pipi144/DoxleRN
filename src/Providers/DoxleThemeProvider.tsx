@@ -17,9 +17,10 @@ export interface IDOXLEThemeColor {
   primaryBackdropColor: string;
   primaryReverseBackdropColor: string;
   primaryDividerColor: string;
+  doxleColor: string;
 }
 //$$$$$$$$$$$$$$$$$$$ FONT CONSTANT $$$$$$$$$$$$$$$$$$$$$$$$$$
-interface IDoxleFont {
+export interface IDoxleFont {
   primaryFont: string;
   titleFont: string;
   subTitleFont: string;
@@ -48,6 +49,7 @@ const DOXLEThemeProvider = (children: any) => {
       primaryReverseBackdropColor:
         theme === 'light' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)',
       primaryDividerColor: theme === 'light' ? '#EFF0F4' : '#1F212A',
+      doxleColor: '#7070FF',
     }),
     [theme],
   );

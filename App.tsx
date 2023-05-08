@@ -17,34 +17,52 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import React, {useEffect} from 'react';
 import {CompanyProvider} from './src/Providers/CompanyProvider';
 import {Provider as PaperProvider} from 'react-native-paper';
+import {
+  DOXLEThemeProvider,
+  IDOXLEThemeColor,
+} from './src/Providers/DoxleThemeProvider';
 const queryClient = new QueryClient();
 
-const theme = extendTheme({});
+const theme = extendTheme({
+  components: {
+    Popover: {
+      variants: {
+        timelinePopover: (themeColor: IDOXLEThemeColor) => {
+          return {
+            bg: themeColor.primaryContainerColor,
+          };
+        },
+      },
+    },
+  },
+});
 
 function App(): JSX.Element {
   useEffect(() => {
     queryClient.clear();
   }, []);
   return (
-    <SafeAreaProvider>
-      <PaperProvider>
-        <NotificationProvider>
-          <InternetConnectionProvider>
-            <AuthProvider>
-              <QueryClientProvider client={queryClient}>
-                <OrientationProvider>
-                  <NativeBaseProvider theme={theme}>
-                    <CompanyProvider>
-                      <RootApp />
-                    </CompanyProvider>
-                  </NativeBaseProvider>
-                </OrientationProvider>
-              </QueryClientProvider>
-            </AuthProvider>
-          </InternetConnectionProvider>
-        </NotificationProvider>
-      </PaperProvider>
-    </SafeAreaProvider>
+    <DOXLEThemeProvider>
+      <SafeAreaProvider>
+        <PaperProvider>
+          <NotificationProvider>
+            <InternetConnectionProvider>
+              <AuthProvider>
+                <QueryClientProvider client={queryClient}>
+                  <OrientationProvider>
+                    <NativeBaseProvider theme={theme}>
+                      <CompanyProvider>
+                        <RootApp />
+                      </CompanyProvider>
+                    </NativeBaseProvider>
+                  </OrientationProvider>
+                </QueryClientProvider>
+              </AuthProvider>
+            </InternetConnectionProvider>
+          </NotificationProvider>
+        </PaperProvider>
+      </SafeAreaProvider>
+    </DOXLEThemeProvider>
   );
 }
 

@@ -53,7 +53,6 @@ export const StyledTabMenuButton = styled.Pressable<{
   themeColor: IDOXLEThemeColor;
 }>`
   position: relative;
-
   height: 25px;
   min-width: 88px;
   display: flex;
@@ -83,9 +82,4 @@ export const StyledSelectedTabMenuAnimatedMask = styled(Animated.View)<{
   background-color: ${p => p.themeColor.primaryContainerColor};
   z-index: 0;
   border-radius: 13px;
-`;
-export const StyledViewModeMenuIconButton = styled(IconButton)`
-  padding: 0px !important;
-  display: flex;
-  margin: 0;
 `;

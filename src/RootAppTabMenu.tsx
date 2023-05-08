@@ -10,21 +10,18 @@ import {
   IDOXLEThemeProviderContext,
   useDOXLETheme,
 } from './Providers/DoxleThemeProvider';
-import {TDoxleMenu} from './RootApp';
 
 import {StretchInX, StretchOutX} from 'react-native-reanimated';
 
-type Props = {
-  selectedMenuTab: TDoxleMenu;
-  setselectedMenuTab: React.Dispatch<React.SetStateAction<TDoxleMenu>>;
-};
-const DOXLE_MENU_LIST: TDoxleMenu[] = [
-  'Inbox',
-  'Projects',
-  'Files',
-  'Timeline',
-];
+import {NavigationState, useNavigationState} from '@react-navigation/native';
+import {DOXLE_MENU_LIST, TDoxleMenu} from './RootApp';
 
+import {useNavigation} from '@react-navigation/core';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+type Props = {};
+export type RootStackParamList = {
+  YourScreen: {id: number} | undefined;
+};
 const TabMenuItem: React.FC<{
   item: TDoxleMenu;
   selectedMenuTab: TDoxleMenu;
@@ -48,12 +45,18 @@ const TabMenuItem: React.FC<{
     </StyledTabMenuButton>
   );
 };
-const RootAppTabMenu = ({selectedMenuTab, setselectedMenuTab}: Props) => {
+const RootAppTabMenu = (props: Props) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const currentRoute = useNavigationState(
+    state => state.routes[state.index].name,
+  );
+
   //***************** THEME PROVIDER ************ */
   const {THEME_COLOR} = useDOXLETheme() as IDOXLEThemeProviderContext;
   //*********END OF THEME PROVIDER****************** */
   const handlePressTabMenuItem = (item: TDoxleMenu) => {
-    setselectedMenuTab(item);
+    navigation.navigate(item as never, {} as never);
   };
   return (
     <RootTabMenuContainer themeColor={THEME_COLOR}>
@@ -61,7 +64,7 @@ const RootAppTabMenu = ({selectedMenuTab, setselectedMenuTab}: Props) => {
         <TabMenuItem
           item={tabItem}
           key={`tab#${idx}`}
-          selectedMenuTab={selectedMenuTab}
+          selectedMenuTab={currentRoute as TDoxleMenu}
           handlePressTabMenuItem={handlePressTabMenuItem}
         />
       ))}

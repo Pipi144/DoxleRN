@@ -87,6 +87,7 @@ export const StyledDocketNumberList = styled(SyncedFlatlist)<{
   height: 100%;
   left: 0;
   top: 0;
+  z-index: 1;
 `;
 export const StyledDocketListHeaderText = styled.Text<{
   themeColor: IDOXLEThemeColor;
@@ -112,9 +113,9 @@ export const StyledDocketListHeaderContainer = styled.View<{
     align-items:center;
     background-color: ${p => p.themeColor.primaryBackgroundColor};
     padding-left: ${p => (p.paddingLeft ? p.paddingLeft : 0)};
-    margin-bottom:2px
+    padding-bottom:2px
 `;
-export const RootInboxDocketNumberRow = styled.View<{
+export const RootDocketNumberRow = styled.View<{
   themeColor: IDOXLEThemeColor;
   horizontalAlign?: 'center' | 'flex-start' | 'flex-end';
   paddingLeft?: `${number}px`;
@@ -151,4 +152,57 @@ export const StyledDocketNumberText = styled.Text<{
   font-size: 13px;
   line-height: 17px;
   color: ${p => p.themeColor.primaryFontColor};
+`;
+export const RootDocketDataList = styled.ScrollView`
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+`;
+export const RootDocketDataRow = styled.View<{
+  themeColor: IDOXLEThemeColor;
+  doxleFont: IDoxleFont;
+}>`
+  height: 44px;
+  display: flex;
+  flex-direction: row;
+  background-color: ${p => p.themeColor.primaryContainerColor};
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: ${p => p.themeColor.primaryDividerColor};
+`;
+export const StyledDocketDataCell = styled.View<{
+  themeColor: IDOXLEThemeColor;
+  horizontalAlign?: 'center' | 'flex-start' | 'flex-end';
+  paddingLeft?: `${number}px`;
+  widthInPixel: `${number}px`;
+}>`
+  width: ${p => p.widthInPixel};
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: ${p => (p.horizontalAlign ? p.horizontalAlign : 'center')};
+  padding-left: ${p => (p.paddingLeft ? p.paddingLeft : 0)};
+  align-items: center;
+  overflow: hidden;
+`;
+export const StyledDocketDataText = styled.Text<{
+  themeColor: IDOXLEThemeColor;
+  doxleFont: IDoxleFont;
+  bgColor?: string;
+  fontSize: `${number}px`;
+}>`
+  font-family: ${p => p.doxleFont.primaryFont};
+  font-style: normal;
+  font-weight: 400;
+  font-size: ${p => p.fontSize};
+  line-height: 16px;
+  color: ${p => (p.bgColor ? 'rgba(0,0,0,1)' : p.themeColor.primaryFontColor)};
+  padding: 2px 14px 2px 14px;
+  border-radius: 12px !important;
+  ${p =>
+    p.bgColor
+      ? `background-color:${p.bgColor};`
+      : 'background-color:transparent;'}
+  text-align:center;
+  overflow: hidden;
 `;

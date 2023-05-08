@@ -21,8 +21,9 @@ import {
   IDOXLEThemeProviderContext,
   useDOXLETheme,
 } from '../../../Providers/DoxleThemeProvider';
-import InboxDocketNumberRow from './InboxDocketNumberRow';
+import DocketNumberRow from './DocketNumberRow';
 import {IDocket} from '../../../Models/docket';
+import DocketDataList from './DocketDataList';
 
 type Props = {
   navigation: any;
@@ -64,9 +65,7 @@ const Inbox = ({navigation}: Props) => {
             <StyledDocketNumberList
               idFlatlist={1}
               data={docketList}
-              renderItem={({item, index}) => (
-                <InboxDocketNumberRow docket={item} />
-              )}
+              renderItem={({item, index}) => <DocketNumberRow docket={item} />}
               keyExtractor={(item, index) => (item as IDocket).actionId}
               widthInPixel={`${docketNumberListWidth}px`}
               ListHeaderComponent={() => (
@@ -83,7 +82,10 @@ const Inbox = ({navigation}: Props) => {
                 </StyledDocketListHeaderContainer>
               )}
               stickyHeaderIndices={[0]}
+              bounces={false}
             />
+
+            <DocketDataList docketNumberListWidth={docketNumberListWidth} />
           </>
         )}
       </StyledDocketInboxContentDisplayer>

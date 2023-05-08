@@ -2,7 +2,12 @@ import moment from 'moment';
 
 export const formatDate = (
   inputDate: string | Date,
-  format: 'yyyy-MM-dd' | 'MM-dd-yyyy' | 'dd-MM-yyyy',
+  format:
+    | 'yyyy-MM-dd'
+    | 'MM-dd-yyyy'
+    | 'dd-MM-yyyy'
+    | 'dd MonthName yyyy'
+    | 'MonthName ddth yyyy',
   fullDate?: 'fullDate',
 ) => {
   //!NOTICE: if input date is a string=> the string formate of date passed in should be "YYYY-MM-DD"
@@ -48,46 +53,79 @@ export const formatDate = (
 
   if (day && month && year) {
     if (!fullDate) {
-      //replace the month
-      dataFormat = dataFormat.replace('MM', month.toString().padStart(2, '0'));
+      if (format !== 'dd MonthName yyyy' && format !== 'MonthName ddth yyyy') {
+        //replace the month
+        dataFormat = dataFormat.replace(
+          'MM',
+          month.toString().padStart(2, '0'),
+        );
 
-      //replace the year
-      if (dataFormat.indexOf('yyyy') > -1) {
-        dataFormat = dataFormat.replace('yyyy', year.toString());
-      } else if (dataFormat.indexOf('yy') > -1) {
-        dataFormat = dataFormat.replace('yy', year.toString().substr(2, 2));
+        //replace the year
+        if (dataFormat.indexOf('yyyy') > -1) {
+          dataFormat = dataFormat.replace('yyyy', year.toString());
+        } else if (dataFormat.indexOf('yy') > -1) {
+          dataFormat = dataFormat.replace('yy', year.toString().substr(2, 2));
+        }
+
+        //replace the day
+        dataFormat = dataFormat.replace('dd', day.toString().padStart(2, '0'));
+
+        return dataFormat;
+      } else {
+        //replace the month
+        dataFormat = dataFormat.replace(
+          'MonthName',
+          convertMonthValueToText(month - 1, 1000),
+        );
+
+        //replace the year
+        if (dataFormat.indexOf('yyyy') > -1) {
+          dataFormat = dataFormat.replace('yyyy', year.toString());
+        } else if (dataFormat.indexOf('yy') > -1) {
+          dataFormat = dataFormat.replace('yy', year.toString().substr(2, 2));
+        }
+        const dayString = day.toString().padStart(2, '0');
+        //replace the day
+        dataFormat = dataFormat.replace('dd', dayString);
+
+        if (format === 'MonthName ddth yyyy') {
+          if (dayString[1] === '1' && dayString[0] !== '1')
+            dataFormat = dataFormat.replace('th', 'st');
+          else if (dayString[1] === '2' && dayString[0] !== '1')
+            dataFormat = dataFormat.replace('th', 'nd');
+          else if (dayString[1] === '3' && dayString[0] !== '1')
+            dataFormat = dataFormat.replace('th', 'rd');
+        }
+
+        return dataFormat;
       }
-
-      //replace the day
-      dataFormat = dataFormat.replace('dd', day.toString().padStart(2, '0'));
-
-      return dataFormat;
     } else {
       return (
+        dateOfWeek.substring(0, 3) +
+        ', ' +
         `${day < 10 ? '0' + day.toString() : day}` +
-        '.' +
-        `${month < 10 ? '0' + month.toString() : minutes}` +
-        '.' +
-        year.toString().substr(2, 2) +
         ' ' +
-        dateOfWeek +
+        `${convertMonthValueToText(month, 3)}` +
+        ' ' +
+        year.toString() /*.substr(2, 2)*/ +
         ' ' +
         `${
-          hour <= 12
+          hour.toString()
+          /*hour <= 12
             ? hour < 10
-              ? '0' + hour.toString()
+              ? "0" + hour.toString()
               : hour
             : Math.abs(12 - hour) < 10
-            ? '0' + Math.abs(12 - hour).toString()
-            : Math.abs(12 - hour) < 10
+            ? "0" + Math.abs(12 - hour).toString()
+            : Math.abs(12 - hour) < 10*/
         }` +
         ':' +
-        `${minutes < 10 ? '0' + minutes.toString() : minutes}` +
-        ' ' +
-        `${hour < 12 ? 'AM' : 'PM'}`
+        `${minutes < 10 ? '0' + minutes.toString() : minutes}` /*+
+        " " +
+        `${hour < 24 ? "AM" : "PM"}`*/
       );
     }
-  } else return '';
+  } else return ' ';
 };
 
 export const convertUTCDate = (

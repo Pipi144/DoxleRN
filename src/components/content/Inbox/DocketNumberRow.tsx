@@ -6,7 +6,7 @@ import {
   useDOXLETheme,
 } from '../../../Providers/DoxleThemeProvider';
 import {
-  RootInboxDocketNumberRow,
+  RootDocketNumberRow,
   StyledDocketNumberText,
   StyledDocketStatusDisplayer,
 } from './StyledComponentInbox';
@@ -19,7 +19,7 @@ type Props = {
   docket: IDocket;
 };
 
-const InboxDocketNumberRow = ({docket}: Props) => {
+const DocketNumberRow = ({docket}: Props) => {
   //***************** THEME PROVIDER ************ */
   const {THEME_COLOR, DOXLE_FONT} =
     useDOXLETheme() as IDOXLEThemeProviderContext;
@@ -31,7 +31,7 @@ const InboxDocketNumberRow = ({docket}: Props) => {
 
   //************END OF DOCKET PROVIDER ******** */
   return (
-    <RootInboxDocketNumberRow
+    <RootDocketNumberRow
       themeColor={THEME_COLOR}
       horizontalAlign="flex-start"
       paddingLeft="8px">
@@ -46,10 +46,10 @@ const InboxDocketNumberRow = ({docket}: Props) => {
       {isSuccessFetchingStatus && (
         <StyledDocketStatusDisplayer statusColor={docket.statusColor} />
       )}
-    </RootInboxDocketNumberRow>
+    </RootDocketNumberRow>
   );
 };
 
-export default InboxDocketNumberRow;
+export default DocketNumberRow;
 
 const styles = StyleSheet.create({});

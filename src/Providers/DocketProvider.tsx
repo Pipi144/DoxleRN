@@ -40,40 +40,44 @@ type TDocketTableHeaderName =
 export interface IDocketTableHeader {
   headerName: TDocketTableHeaderName;
   isDisplayed: boolean;
+  docketKeyProp: keyof IDocket;
 }
 export const DOCKET_TABLE_HEADER_LIST: IDocketTableHeader[] = [
   {
-    headerName: 'Number',
-    isDisplayed: true,
-  },
-  {
     headerName: 'Name',
     isDisplayed: true,
+    docketKeyProp: 'subject',
   },
 
   {
     headerName: 'Budget',
     isDisplayed: true,
+    docketKeyProp: 'costBudget',
   },
   {
     headerName: 'Actual',
     isDisplayed: true,
+    docketKeyProp: 'costOrders',
   },
   {
     headerName: 'Xero',
     isDisplayed: true,
+    docketKeyProp: 'incomeBudget',
   },
   {
     headerName: 'Running',
     isDisplayed: true,
+    docketKeyProp: 'incomeInvoices',
   },
   {
     headerName: 'Start',
     isDisplayed: true,
+    docketKeyProp: 'startDate',
   },
   {
     headerName: 'End',
     isDisplayed: true,
+    docketKeyProp: 'endDate',
   },
 ];
 export interface IDocketContextValue {

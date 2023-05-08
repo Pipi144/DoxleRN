@@ -151,6 +151,7 @@ const DocketProvider = (children: any) => {
 
   //************END OF COMPANY PROVIDER ******** */
   const navigationState = useNavigationState(state => state);
+  console.log('STATE:', navigationState);
   const docketQuote: string = useMemo(
     () =>
       !navigationState
@@ -162,8 +163,11 @@ const DocketProvider = (children: any) => {
           'Inbox'
         ? 'These are all the dockets that are assigned to you. Please take ownership of these dockets by responding to the dockets at regular times. Keep up the good work :)'
         : '',
-    [navigationState],
+    [navigationState.index],
   );
+  useEffect(() => {
+    console.log(docketQuote);
+  }, [docketQuote]);
 
   //##################### FETCHING PROJECTS #################
 

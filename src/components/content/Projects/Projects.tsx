@@ -1,15 +1,25 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {RootProjects} from './StyledComponentsProject';
+import {
+  IDOXLEThemeProviderContext,
+  useDOXLETheme,
+} from '../../../Providers/DoxleThemeProvider';
+import ProjectTopSection from './ProjectTopSection';
 
 type Props = {
   navigation: any;
 };
 
 const Projects = ({navigation}: Props) => {
+  //***************** THEME PROVIDER ************ */
+  const {THEME_COLOR, DOXLE_FONT} =
+    useDOXLETheme() as IDOXLEThemeProviderContext;
+  //*************END OF THEME PROVIDER ************ */
   return (
-    <View>
-      <Text>Projects</Text>
-    </View>
+    <RootProjects themeColor={THEME_COLOR}>
+      <ProjectTopSection />
+    </RootProjects>
   );
 };
 

@@ -130,7 +130,6 @@ export const RootDocketNumberRow = styled.View<{
   flex-direction:row;
   justify-content: ${p => (p.horizontalAlign ? p.horizontalAlign : 'center')}
   align-items:center;
-  background-color: ${p => p.themeColor.primaryContainerColor};
   padding-left: ${p => (p.paddingLeft ? p.paddingLeft : 0)};
   overflow: hidden;
 
@@ -138,7 +137,7 @@ export const RootDocketNumberRow = styled.View<{
 export const StyledDocketStatusDisplayer = styled.View<{statusColor: string}>`
   width: 14px;
   height: 23px;
-  background: ${p => p.statusColor};
+  background-color: ${p => p.statusColor};
   border-radius: 8px;
   margin-left: 8px;
 `;

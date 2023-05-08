@@ -6,7 +6,7 @@ import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import axios from 'axios';
 import {Company} from '../../../Models/company';
 import {baseAddress} from '../../../../settings';
-import {ISimpleProjectTimeline} from '../../../Models/project';
+import {ISimpleProject} from '../../../Models/project';
 
 const useRetrieveProjectTimelineQuery = (
   company: Company | undefined,
@@ -138,13 +138,11 @@ const useUpdateProjectQuery = (
                 data: {
                   ...old.data,
                   results: [
-                    ...(old.data.results as ISimpleProjectTimeline[]).map(
-                      project => {
-                        if (project.projectId === result.data.projectId)
-                          return result.data;
-                        else return project;
-                      },
-                    ),
+                    ...(old.data.results as ISimpleProject[]).map(project => {
+                      if (project.projectId === result.data.projectId)
+                        return result.data;
+                      else return project;
+                    }),
                   ],
                 },
               }

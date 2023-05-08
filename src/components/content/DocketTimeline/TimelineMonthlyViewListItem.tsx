@@ -36,7 +36,7 @@ import {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import {ISimpleProjectTimeline} from '../../../Models/project';
+import {ISimpleProject} from '../../../Models/project';
 import {
   IDOXLEThemeProviderContext,
   useDOXLETheme,
@@ -76,7 +76,7 @@ import {
 
 const currentMonth: number = new Date().getMonth();
 const DateCellListItem: React.FC<{
-  project: ISimpleProjectTimeline;
+  project: ISimpleProject;
   dockets: TimelineDocket[];
   dateCellValue: ITimelineDateObject;
   cellSize: number;
@@ -182,7 +182,7 @@ const DateCellListItem: React.FC<{
 );
 
 type Props = {
-  project: ISimpleProjectTimeline;
+  project: ISimpleProject;
 };
 const TimelineMonthlyViewListItem = ({project}: Props) => {
   //##################### STATES ################

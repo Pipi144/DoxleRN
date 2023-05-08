@@ -1,5 +1,5 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {StyleSheet} from 'react-native';
+import React, {useMemo} from 'react';
 import {
   RootTabMenuContainer,
   StyledSelectedTabMenuAnimatedMask,
@@ -11,17 +11,15 @@ import {
   useDOXLETheme,
 } from './Providers/DoxleThemeProvider';
 
-import {StretchInX, StretchOutX} from 'react-native-reanimated';
+import {FadeInDown, StretchInX, StretchOutX} from 'react-native-reanimated';
 
-import {NavigationState, useNavigationState} from '@react-navigation/native';
+import {useNavigationState, useRoute} from '@react-navigation/native';
 import {DOXLE_MENU_LIST, TDoxleMenu} from './RootApp';
 
 import {useNavigation} from '@react-navigation/core';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 type Props = {};
-export type RootStackParamList = {
-  YourScreen: {id: number} | undefined;
-};
+
 const TabMenuItem: React.FC<{
   item: TDoxleMenu;
   selectedMenuTab: TDoxleMenu;
@@ -46,11 +44,8 @@ const TabMenuItem: React.FC<{
   );
 };
 const RootAppTabMenu = (props: Props) => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const currentRoute = useNavigationState(
-    state => state.routes[state.index].name,
-  );
+  const navigation = useNavigation();
+  const navigationState = useNavigationState(state => state);
 
   //***************** THEME PROVIDER ************ */
   const {THEME_COLOR} = useDOXLETheme() as IDOXLEThemeProviderContext;
@@ -58,16 +53,22 @@ const RootAppTabMenu = (props: Props) => {
   const handlePressTabMenuItem = (item: TDoxleMenu) => {
     navigation.navigate(item as never, {} as never);
   };
+
   return (
-    <RootTabMenuContainer themeColor={THEME_COLOR}>
-      {DOXLE_MENU_LIST.map((tabItem, idx) => (
-        <TabMenuItem
-          item={tabItem}
-          key={`tab#${idx}`}
-          selectedMenuTab={currentRoute as TDoxleMenu}
-          handlePressTabMenuItem={handlePressTabMenuItem}
-        />
-      ))}
+    <RootTabMenuContainer
+      themeColor={THEME_COLOR}
+      entering={FadeInDown.duration(100)}>
+      {navigationState &&
+        DOXLE_MENU_LIST.map((tabItem, idx) => (
+          <TabMenuItem
+            item={tabItem}
+            key={`tab#${idx}`}
+            selectedMenuTab={
+              navigationState.routes[navigationState.index].name as TDoxleMenu
+            }
+            handlePressTabMenuItem={handlePressTabMenuItem}
+          />
+        ))}
     </RootTabMenuContainer>
   );
 };

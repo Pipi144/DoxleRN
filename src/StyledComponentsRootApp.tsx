@@ -39,7 +39,7 @@ export const StyledLoadingMaskRootApp = styled.View`
   z-index: 10;
   background-color: rgba(255, 255, 255, 1);
 `;
-export const RootTabMenuContainer = styled.View<{
+export const RootTabMenuContainer = styled(Animated.View)<{
   themeColor: IDOXLEThemeColor;
 }>`
   width: 100%;

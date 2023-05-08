@@ -33,6 +33,7 @@ import RootAppTabMenu from './RootAppTabMenu';
 import Inbox from './components/content/Inbox/Inbox';
 import Files from './components/content/Files/Files';
 import Projects from './components/content/Projects/Projects';
+import {DocketProvider} from './Providers/DocketProvider';
 
 type Props = {};
 export type TDoxleMenu = 'Inbox' | 'Projects' | 'Files' | 'Timeline';
@@ -87,16 +88,21 @@ const RootApp = (props: Props) => {
                 headerShown: false,
               }}>
               {loggedIn ? (
-                <>
+                <NavigationStack.Group>
                   {DOXLE_MENU_LIST.map((menuItem, idx) => (
-                    <NavigationStack.Screen key={`menu#${idx}`} name={menuItem}>
+                    <NavigationStack.Screen
+                      key={`menu#${idx}`}
+                      name={menuItem}
+                      navigationKey={menuItem}>
                       {props =>
                         menuItem === 'Timeline' ? (
                           <DocketTimelineProvider>
                             <DocketTimeline {...props} />
                           </DocketTimelineProvider>
                         ) : menuItem === 'Inbox' ? (
-                          <Inbox {...props} />
+                          <DocketProvider>
+                            <Inbox {...props} />
+                          </DocketProvider>
                         ) : menuItem === 'Files' ? (
                           <Files {...props} />
                         ) : (
@@ -105,7 +111,7 @@ const RootApp = (props: Props) => {
                       }
                     </NavigationStack.Screen>
                   ))}
-                </>
+                </NavigationStack.Group>
               ) : (
                 <NavigationStack.Group>
                   <NavigationStack.Screen name="Login" component={Login} />

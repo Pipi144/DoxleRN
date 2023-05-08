@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import {ISimpleProjectTimeline} from '../Models/project';
+import {ISimpleProject} from '../Models/project';
 import {Company} from '../Models/company';
 
 import {
@@ -94,11 +94,11 @@ export const displayedDays: IWeekDays[] = [
 ];
 
 export interface IAddNewTimelineData {
-  project: ISimpleProjectTimeline;
+  project: ISimpleProject;
   dateValue: Date;
 }
 export interface IDocketTimelineContext {
-  projects: ISimpleProjectTimeline[];
+  projects: ISimpleProject[];
 
   isLoadingProject: boolean;
   isSuccessFetchingProject: boolean;
@@ -113,7 +113,7 @@ export interface IDocketTimelineContext {
   dockets: TimelineDocket[];
   currentWeekDays: IDateInfo[];
   filterDocketWithProject: (
-    project: ISimpleProjectTimeline,
+    project: ISimpleProject,
     actions: TimelineDocket[],
   ) => TimelineDocket[];
   //   currentQuarterStats: {
@@ -282,7 +282,7 @@ const DocketTimelineProvider = (children: any) => {
     TimelineQueryAPI.useDeleteTimelineDocket(showNotification);
   //########################################################
   const filterDocketWithProject = useCallback(
-    (project: ISimpleProjectTimeline, actions: TimelineDocket[]) => {
+    (project: ISimpleProject, actions: TimelineDocket[]) => {
       return actions.filter(
         action => action.project && action.project === project.projectId,
       );
@@ -302,7 +302,7 @@ const DocketTimelineProvider = (children: any) => {
     isAddingTimeline: addTimelineMutation.isLoading,
 
     projects: projectQuery.isSuccess
-      ? (projectQuery.data.data.results as ISimpleProjectTimeline[])
+      ? (projectQuery.data.data.results as ISimpleProject[])
       : [],
     isLoadingProject: projectQuery.isLoading,
     isSuccessFetchingProject: projectQuery.isSuccess,

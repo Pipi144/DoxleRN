@@ -1,6 +1,6 @@
 import {Alert, StyleSheet, Text, View} from 'react-native';
 import React, {useCallback, useState} from 'react';
-import {ISimpleProjectTimeline} from '../../../Models/project';
+import {ISimpleProject} from '../../../Models/project';
 import {
   IDOXLEThemeProviderContext,
   useDOXLETheme,
@@ -30,7 +30,7 @@ import {
 } from '../../../Providers/CompanyProvider';
 
 type Props = {
-  project: ISimpleProjectTimeline;
+  project: ISimpleProject;
   rowItemHeight: number;
 };
 

@@ -19,7 +19,7 @@ import {
   useOrientation,
 } from '../../../Providers/OrientationContext';
 import TimelineWeeklyViewProjectRow from './TimelineWeeklyViewProjectRow';
-import {ISimpleProjectTimeline} from '../../../Models/project';
+import {ISimpleProject} from '../../../Models/project';
 import {
   Extrapolation,
   SharedValue,
@@ -117,9 +117,7 @@ const TimelineWeeklyViewProjectList = ({
           rowItemHeight={rowItemHeight}
         />
       )}
-      keyExtractor={(item, idx) =>
-        `${(item as ISimpleProjectTimeline).projectId}`
-      }
+      keyExtractor={(item, idx) => `${(item as ISimpleProject).projectId}`}
       extraData={projects}
     />
   );

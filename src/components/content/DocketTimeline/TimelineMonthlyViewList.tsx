@@ -5,7 +5,7 @@ import {
   IDocketTimelineContext,
   useDocketTimelineContext,
 } from '../../../Providers/DocketTimelineProvider';
-import {ISimpleProjectTimeline} from '../../../Models/project';
+import {ISimpleProject} from '../../../Models/project';
 import TimelineMonthlyViewListItem from './TimelineMonthlyViewListItem';
 import {
   IOrientation,
@@ -27,10 +27,10 @@ const TimelineMonthlyViewList = (props: Props) => {
       maxToRenderPerBatch={10}
       removeClippedSubviews={true}
       renderItem={({item, index}) => (
-        <TimelineMonthlyViewListItem project={item as ISimpleProjectTimeline} />
+        <TimelineMonthlyViewListItem project={item as ISimpleProject} />
       )}
       keyExtractor={(item, index) =>
-        `${(item as ISimpleProjectTimeline).projectId}#${index}`
+        `${(item as ISimpleProject).projectId}#${index}`
       }
       extraData={projects}
       windowSize={10}

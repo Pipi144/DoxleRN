@@ -1,5 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import InboxTopSection from './InboxTopSection';
+import {RootInbox} from './StyledComponentInbox';
 
 type Props = {
   navigation: any;
@@ -7,9 +9,9 @@ type Props = {
 
 const Inbox = ({navigation}: Props) => {
   return (
-    <View>
-      <Text>Inbox</Text>
-    </View>
+    <RootInbox>
+      <InboxTopSection />
+    </RootInbox>
   );
 };
 

@@ -18,7 +18,7 @@ import {
   useDocketTimelineContext,
 } from '../../../Providers/DocketTimelineProvider';
 import TimelineWeeklyViewDataRow from './TimelineWeeklyViewDataRow';
-import {ISimpleProjectTimeline} from '../../../Models/project';
+import {ISimpleProject} from '../../../Models/project';
 import {convertWeekDaysValueToText} from '../../../Utilities/FunctionUtilities';
 import {TimelineDocket} from '../../../Models/DocketTimelineModel';
 import {DocketTimelineUpdateBody} from '../../../service/DoxleAPI/QueryHookAPI/timelineQueryAPI';
@@ -108,7 +108,7 @@ const TimelineWeeklyViewDataList = ({
           />
         )}
         keyExtractor={(item, idx) =>
-          `row#${(item as ISimpleProjectTimeline).projectId}`
+          `row#${(item as ISimpleProject).projectId}`
         }
         extraData={{projects, dockets}}
       />

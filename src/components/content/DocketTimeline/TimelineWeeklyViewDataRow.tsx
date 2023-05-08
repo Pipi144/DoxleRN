@@ -1,6 +1,6 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React, {useMemo} from 'react';
-import {ISimpleProjectTimeline} from '../../../Models/project';
+import {ISimpleProject} from '../../../Models/project';
 import {
   RootTimelineWeeklyViewDataRow,
   StyledTimelineWeeklyViewDataCell,
@@ -22,7 +22,7 @@ import {DocketTimelineUpdateBody} from '../../../service/DoxleAPI/QueryHookAPI/t
 import {authContextInterface, useAuth} from '../../../Providers/AuthProvider';
 
 type Props = {
-  project: ISimpleProjectTimeline;
+  project: ISimpleProject;
   rowItemHeight: number;
   maxWidthProjectColumn: number;
   matchedDockets: TimelineDocket[];

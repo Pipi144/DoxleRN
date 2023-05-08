@@ -1,4 +1,4 @@
-export interface ISimpleProjectTimeline {
+export interface ISimpleProject {
   projectId: string;
   siteAddress: string;
 }

@@ -25,6 +25,7 @@ export interface IDoxleFont {
   titleFont: string;
   subTitleFont: string;
   secondaryFont: string;
+  secondaryTitleFont: string;
 }
 
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -37,6 +38,7 @@ const DOXLEThemeProvider = (children: any) => {
     titleFont: 'IBMPlexSans-SemiBold',
     subTitleFont: 'IBMPlexSans-Light',
     secondaryFont: 'WorkSans-Regular',
+    secondaryTitleFont: 'IBMPlexMono-Regular',
   };
   const THEME_COLOR: IDOXLEThemeColor = useMemo(
     () => ({

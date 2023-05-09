@@ -74,6 +74,7 @@ import {
   useCompany,
 } from '../../../Providers/CompanyProvider';
 import {IDocket} from '../../../Models/docket';
+import {FlashList} from '@shopify/flash-list';
 
 const currentMonth: number = new Date().getMonth();
 const DateCellListItem: React.FC<{
@@ -343,7 +344,7 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           nestedScrollEnabled={true}>
-          <FlatList
+          <FlashList
             numColumns={5}
             data={calendarCells}
             renderItem={({item, index}) => (
@@ -353,6 +354,7 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
                 cellSize={CELL_SIZE}
                 handleUpdateTimeline={handleUpdateTimeline}
                 project={project}
+                key={index}
               />
             )}
             ListHeaderComponent={() => (
@@ -375,6 +377,9 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
               }`
             }
             extraData={{dockets, project}}
+            scrollEnabled={false}
+            getItemType={(item, index) => typeof item}
+            estimatedItemSize={143}
           />
         </StyledMonthlyViewListItemHorizontalList>
       )}

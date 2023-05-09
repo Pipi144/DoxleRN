@@ -54,3 +54,10 @@ export const StyledInboxSubTitleText = styled.Text<{
   color: ${p => p.themeColor.primaryFontColor};
   max-width: 80%;
 `;
+export const StyledProjectContent = styled.View`
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

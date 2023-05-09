@@ -47,6 +47,7 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
             docketNumberListWidth={docketNumberListWidth}
           />
         )}
+        showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => (
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <StyledDocketListHeaderContainer

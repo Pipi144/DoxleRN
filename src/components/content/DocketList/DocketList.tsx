@@ -40,6 +40,8 @@ const DocketList = (props: Props) => {
     isErrorFetchingDocketList,
     isSuccessFetchingDocketList,
     refetchDocketListQuery,
+    hasNextPageDocketList,
+    fetchNextPageDocketList,
   } = useDocket() as IDocketContextValue;
 
   //************END OF DOCKET PROVIDER ******** */
@@ -85,6 +87,10 @@ const DocketList = (props: Props) => {
             )}
             stickyHeaderIndices={[0]}
             bounces={false}
+            onEndReached={() => {
+              if (hasNextPageDocketList) fetchNextPageDocketList();
+            }}
+            onEndReachedThreshold={144}
           />
 
           <DocketDataList docketNumberListWidth={docketNumberListWidth} />

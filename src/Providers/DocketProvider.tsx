@@ -1,3 +1,6 @@
+//!--------> ASYNCSTORAGE KEY <---------
+//! "lastSelectedProjectId" => used to return to last state when comeback to this screen
+//!<----------------------------------->
 import {StyleSheet, Text, View} from 'react-native';
 import React, {
   createContext,
@@ -46,7 +49,7 @@ export const DOCKET_TABLE_HEADER_LIST: IDocketTableHeader[] = [
   {
     headerName: 'Name',
     isDisplayed: true,
-    docketKeyProp: 'subject',
+    docketKeyProp: 'docketName',
   },
 
   {
@@ -57,17 +60,17 @@ export const DOCKET_TABLE_HEADER_LIST: IDocketTableHeader[] = [
   {
     headerName: 'Actual',
     isDisplayed: true,
-    docketKeyProp: 'costOrders',
+    docketKeyProp: 'costActual',
   },
   {
     headerName: 'Xero',
     isDisplayed: true,
-    docketKeyProp: 'incomeBudget',
+    docketKeyProp: 'costXero',
   },
   {
     headerName: 'Running',
     isDisplayed: true,
-    docketKeyProp: 'incomeInvoices',
+    docketKeyProp: 'costRunning',
   },
   {
     headerName: 'Start',
@@ -151,7 +154,7 @@ const DocketProvider = (children: any) => {
 
   //************END OF COMPANY PROVIDER ******** */
   const navigationState = useNavigationState(state => state);
-  console.log('STATE:', navigationState);
+
   const docketQuote: string = useMemo(
     () =>
       !navigationState
@@ -165,9 +168,6 @@ const DocketProvider = (children: any) => {
         : '',
     [navigationState.index],
   );
-  useEffect(() => {
-    console.log(docketQuote);
-  }, [docketQuote]);
 
   //##################### FETCHING PROJECTS #################
 

@@ -106,9 +106,9 @@ const RootApp = (props: Props) => {
                         ) : menuItem === 'Files' ? (
                           <Files {...props} />
                         ) : (
-                          <DocketTimelineProvider>
+                          <DocketProvider>
                             <Projects {...props} />
-                          </DocketTimelineProvider>
+                          </DocketProvider>
                         )
                       }
                     </NavigationStack.Screen>

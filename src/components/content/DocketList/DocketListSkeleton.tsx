@@ -4,7 +4,7 @@ import {Divider, HStack, Skeleton, VStack} from 'native-base';
 
 type Props = {};
 
-const InboxListSkeleton = (props: Props) => {
+const DocketListSkeleton = (props: Props) => {
   const skelArrayDummy: string[] = useMemo(() => Array(20).fill('skel'), []);
   return (
     <FlatList
@@ -53,6 +53,6 @@ const InboxListSkeleton = (props: Props) => {
   );
 };
 
-export default InboxListSkeleton;
+export default DocketListSkeleton;
 
 const styles = StyleSheet.create({});

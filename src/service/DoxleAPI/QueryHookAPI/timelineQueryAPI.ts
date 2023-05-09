@@ -1,6 +1,6 @@
 //!---------> QUERY KEYS <--------
-//* "docketTimeline" => retrieve action list
-
+//! ["docketTimeline"] => retrieve docket timeline list,
+//!custom add currentBaseStartDateParams  and currentDateRangeLengthParam , if passed these filters in the queryKey to retrieve data, make sure it must be passed whenever doing any mutation related to this queryKey if planning to use setQueryData to update the data to react query
 //!<------------------------------
 
 import axios from 'axios';
@@ -8,26 +8,25 @@ import axios from 'axios';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 
 import {baseAddress} from '../../../../settings';
-import {
-  NewTimelineDocket,
-  TimelineDocket,
-} from '../../../Models/DocketTimelineModel';
+
 import {Company} from '../../../Models/company';
+import {TDateISODate} from '../../../Models/dateFormat';
+import {INewDocket, TDateISO} from '../../../Models/docket';
 
 //################### FOR REACT QUERY ###############
 export interface DocketTimelineUpdateBody {
-  subject?: string;
-  startDate?: string;
-  endDate?: string;
-  commenced?: string | null;
-  completed?: string | null;
+  docketName?: string;
+  startDate?: TDateISODate | null;
+  endDate?: TDateISODate | null;
+  commenced?: TDateISO | null;
+  completed?: TDateISO | null;
   project?: string;
 }
 const updateTimelineAPI = async (
-  actionId: string,
+  docketPk: string,
   accessToken: string,
   {
-    subject,
+    docketName,
     startDate,
     endDate,
     commenced,
@@ -36,14 +35,14 @@ const updateTimelineAPI = async (
   }: DocketTimelineUpdateBody,
 ) => {
   const body: any = {};
-  if (subject) body.subject = subject;
-  if (startDate) body.start_date = startDate;
-  if (endDate) body.end_date = endDate;
-  if (commenced) body.commenced = commenced;
+  if (docketName !== undefined) body.docketName = docketName;
+  if (startDate !== undefined) body.start_date = startDate;
+  if (endDate !== undefined) body.end_date = endDate;
+  if (commenced !== undefined) body.commenced = commenced;
   if (completed || completed === null) body.completed = completed;
   if (project) body.project = project;
   return axios.patch(
-    'http://' + baseAddress + '/actions/timeline/' + actionId + '/',
+    'http://' + baseAddress + '/dockets/' + docketPk + '/',
     body,
     {
       headers: {Authorization: 'Bearer ' + accessToken},
@@ -53,44 +52,37 @@ const updateTimelineAPI = async (
 const addTimelineAPI = async (
   accessToken: string,
   company: Company | undefined,
-  newTimeline: NewTimelineDocket,
+  newTimeline: INewDocket,
 ) => {
-  return axios.post(
-    'http://' + baseAddress + '/actions/timeline/add/',
-    newTimeline,
-    {
-      headers: {
-        Authorization: 'Bearer ' + accessToken,
-        'User-Company': company?.companyId || '',
-      },
+  return axios.post('http://' + baseAddress + '/dockets/', newTimeline, {
+    headers: {
+      Authorization: 'Bearer ' + accessToken,
+      'User-Company': company?.companyId || '',
     },
-  );
+  });
 };
 
 const deleteTimelineAPI = async (
-  actionId: string,
+  docketPk: string,
   accessToken: string,
   company: Company | undefined,
 ) => {
-  return axios.delete(
-    'http://' + baseAddress + '/actions/timeline/' + actionId + '/',
-    {
-      headers: {
-        Authorization: 'Bearer ' + accessToken,
-        'User-Company': company?.companyId || '',
-      },
+  return axios.delete('http://' + baseAddress + '/dockets/' + docketPk + '/', {
+    headers: {
+      Authorization: 'Bearer ' + accessToken,
+      'User-Company': company?.companyId || '',
     },
-  );
+  });
 };
 export interface ITimelineDocketUpdateQueryProps {
-  actionId: string;
+  docketPk: string;
   accessToken: string;
   updateBody: DocketTimelineUpdateBody;
   currentBaseStartDateParams: string; //!important=> used to overwrite cache data of react query
   currentDateRangeLengthParam: number; //!important=> used to overwrite cache data of react query
 }
 export interface ITimelineDocketAddQueryProps {
-  newTimeline: NewTimelineDocket;
+  newTimeline: INewDocket;
   accessToken: string;
   company: Company | undefined;
   currentBaseStartDateParams: string; //!important=> used to overwrite cache data of react query
@@ -131,7 +123,7 @@ const useRetrieveTimelineDocket = ({
 }: ITimelineDocketRetrieveQueryProps) => {
   let actionTimelineQKey = ['docketTimeline', baseStartDate, dateRangeLength];
 
-  let actionTimelineUrl = `http://${baseAddress}/actions/timeline/?start=${baseStartDate}&days=${dateRangeLength}`;
+  let actionTimelineUrl = `http://${baseAddress}/dockets/timeline/?start=${baseStartDate}&days=${dateRangeLength}`;
 
   const actionTimelineQuery = useQuery({
     queryKey: actionTimelineQKey,
@@ -147,7 +139,7 @@ const useRetrieveTimelineDocket = ({
     staleTime: 0,
     onError: () => {
       if (showNotification)
-        showNotification('SOMETHING WRONG!', 'error', 'Fail to fetch actions');
+        showNotification('SOMETHING WRONG!', 'error', 'Fail to fetch dockets');
     },
   });
 
@@ -160,7 +152,7 @@ const useUpdateTimelineDocket = ({
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (data: ITimelineDocketUpdateQueryProps) =>
-      updateTimelineAPI(data.actionId, data.accessToken, data.updateBody),
+      updateTimelineAPI(data.docketPk, data.accessToken, data.updateBody),
     onSuccess: (result, variables, context) => {
       if (showNotification)
         showNotification(
@@ -180,10 +172,10 @@ const useUpdateTimelineDocket = ({
           old
             ? {
                 ...old,
-                data: old.data.map((action: TimelineDocket) => {
-                  if (action.actionId === variables.actionId) {
+                data: old.data.map((docket: INewDocket) => {
+                  if (docket.docketPk === variables.docketPk) {
                     return result.data;
-                  } else return action;
+                  } else return docket;
                 }),
               }
             : old,

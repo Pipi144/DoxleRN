@@ -89,6 +89,7 @@ const AuthProvider = (children: any) => {
 
   useEffect(() => {
     if (accessToken && refreshToken) setLoggedIn(true);
+    console.log('AC TOKEN:', accessToken);
   }, [accessToken, refreshToken, setRefreshToken, setAccessToken]);
 
   //check the auth when initializing app

@@ -1,10 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {
-  RootDocketDataList,
-  StyledDocketListHeaderContainer,
-  StyledDocketListHeaderText,
-} from './StyledComponentInbox';
+import {RootDocketDataList} from '../Inbox/StyledComponentInbox';
 import {SyncedFlatlist} from '../GeneraComponents/SyncScrollViews/SyncedFlatList';
 import {
   IDocketContextValue,
@@ -16,6 +12,10 @@ import {
   IDOXLEThemeProviderContext,
   useDOXLETheme,
 } from '../../../Providers/DoxleThemeProvider';
+import {
+  StyledDocketListHeaderContainer,
+  StyledDocketListHeaderText,
+} from './StyledComponentDocketList';
 
 type Props = {
   docketNumberListWidth: number;
@@ -39,7 +39,7 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
       <SyncedFlatlist
         idFlatlist={2}
         data={docketList}
-        keyExtractor={(item, index) => (item as IDocket).actionId}
+        keyExtractor={(item, index) => (item as IDocket).docketPk}
         extraData={docketTableHeaderList}
         renderItem={({item, index}) => (
           <DocketDataRow
@@ -59,7 +59,7 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
             {docketTableHeaderList.map((header, index) => (
               <StyledDocketListHeaderContainer
                 widthInPixel={
-                  header.docketKeyProp === 'subject'
+                  header.docketKeyProp === 'docketName'
                     ? '200px'
                     : header.docketKeyProp === 'startDate' ||
                       header.docketKeyProp === 'endDate'
@@ -67,10 +67,12 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
                     : '120px'
                 }
                 horizontalAlign={
-                  header.docketKeyProp === 'subject' ? 'flex-start' : undefined
+                  header.docketKeyProp === 'docketName'
+                    ? 'flex-start'
+                    : undefined
                 }
                 paddingLeft={
-                  header.docketKeyProp === 'subject' ? '30px' : undefined
+                  header.docketKeyProp === 'docketName' ? '30px' : undefined
                 }
                 themeColor={THEME_COLOR}
                 key={`header#${index}`}>

@@ -22,7 +22,7 @@ const useRetrieveDocketDetail = (
   ) => void,
 ) => {
   const qKey = ['docket-detail', docketId];
-  let docketURL = `http://${baseAddress}/actions/` + docketId + '/';
+  let docketURL = `http://${baseAddress}/dockets/` + docketId + '/';
 
   const docketQuery = useQuery(
     qKey,
@@ -50,6 +50,7 @@ const useRetrieveDocketDetail = (
   return docketQuery;
 };
 
+//!important=> used to overwrite cache data of react query
 export interface IFullDocketDetailQueryFilterProp {
   project?: ISimpleProject | undefined;
   watching?: string; //userId array string
@@ -68,7 +69,7 @@ const useRetrieveFullDetailDocketList = (
 ) => {
   const {project, watching, ballInCourt} = filter;
   const qKey = ['fullDocket-list'];
-  let docketURL = `http://${baseAddress}/actions/?page=1`;
+  let docketURL = `http://${baseAddress}/dockets/?page=1`;
   let filterParam: any = {};
   if (project) {
     qKey.push(project.projectId);
@@ -119,7 +120,7 @@ const useRetrieveDocketStatusList = (
   ) => void,
 ) => {
   const qKey = ['docket-status'];
-  let docketURL = `http://${baseAddress}/actions/status/`;
+  let docketURL = `http://${baseAddress}/dockets/status/`;
   if (company) qKey.push(company.companyId);
   const docketQuery = useQuery(
     qKey,

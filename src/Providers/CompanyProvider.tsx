@@ -89,6 +89,9 @@ const CompanyProvider = (children: any) => {
         : [],
     [retrieveCompanyQuery.isSuccess, retrieveCompanyQuery.data],
   );
+  useEffect(() => {
+    if (company) console.log('COMPANY:', company.companyId);
+  }, [company]);
 
   useEffect(() => {
     if (!company && companyList.length > 0) setcompany(companyList[0]);

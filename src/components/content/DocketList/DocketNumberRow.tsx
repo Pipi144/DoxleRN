@@ -37,9 +37,9 @@ const DocketNumberRow = ({docket}: Props) => {
       paddingLeft="8px">
       <StyledDocketNumberText themeColor={THEME_COLOR} doxleFont={DOXLE_FONT}>
         #
-        {docket.actionIdStr.substring(
-          docket.actionIdStr.length - 3,
-          docket.actionIdStr.length,
+        {docket.docketId.substring(
+          docket.docketId.length - 3,
+          docket.docketId.length,
         )}
       </StyledDocketNumberText>
 

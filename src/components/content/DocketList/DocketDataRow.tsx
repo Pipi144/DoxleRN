@@ -1,11 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {IDocket} from '../../../Models/docket';
-import {
-  RootDocketDataRow,
-  StyledDocketDataCell,
-  StyledDocketDataText,
-} from './StyledComponentInbox';
+
 import {
   IDOXLEThemeProviderContext,
   useDOXLETheme,
@@ -15,6 +11,11 @@ import {
   useDocket,
 } from '../../../Providers/DocketProvider';
 import {formatDate, formatter} from '../../../Utilities/FunctionUtilities';
+import {
+  RootDocketDataRow,
+  StyledDocketDataCell,
+  StyledDocketDataText,
+} from './StyledComponentDocketList';
 
 type Props = {
   docket: IDocket;
@@ -45,7 +46,7 @@ const DocketDataRow = ({docket, docketNumberListWidth}: Props) => {
           return (
             <StyledDocketDataCell
               widthInPixel={
-                header.docketKeyProp === 'subject'
+                header.docketKeyProp === 'docketName'
                   ? '200px'
                   : header.docketKeyProp === 'startDate' ||
                     header.docketKeyProp === 'endDate'
@@ -53,11 +54,11 @@ const DocketDataRow = ({docket, docketNumberListWidth}: Props) => {
                   : '120px'
               }
               horizontalAlign={
-                header.docketKeyProp === 'subject' ? 'flex-start' : undefined
+                header.docketKeyProp === 'docketName' ? 'flex-start' : undefined
               }
               themeColor={THEME_COLOR}
-              key={`cell#${docket.actionId}#${index}`}>
-              {header.headerName === 'Name' && (
+              key={`cell#${docket.docketPk}#${index}`}>
+              {header.docketKeyProp === 'docketName' && (
                 <StyledDocketDataText
                   themeColor={THEME_COLOR}
                   doxleFont={DOXLE_FONT}
@@ -65,7 +66,8 @@ const DocketDataRow = ({docket, docketNumberListWidth}: Props) => {
                   {docket[header.docketKeyProp]}
                 </StyledDocketDataText>
               )}
-              {(header.headerName === 'Start' || header.headerName === 'End') &&
+              {(header.docketKeyProp === 'startDate' ||
+                header.docketKeyProp === 'endDate') &&
                 docket[header.docketKeyProp] && (
                   <StyledDocketDataText
                     themeColor={THEME_COLOR}

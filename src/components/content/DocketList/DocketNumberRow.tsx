@@ -5,15 +5,16 @@ import {
   IDOXLEThemeProviderContext,
   useDOXLETheme,
 } from '../../../Providers/DoxleThemeProvider';
-import {
-  RootDocketNumberRow,
-  StyledDocketNumberText,
-  StyledDocketStatusDisplayer,
-} from './StyledComponentInbox';
+
 import {
   IDocketContextValue,
   useDocket,
 } from '../../../Providers/DocketProvider';
+import {
+  RootDocketNumberRow,
+  StyledDocketNumberText,
+  StyledDocketStatusDisplayer,
+} from './StyledComponentDocketList';
 
 type Props = {
   docket: IDocket;
@@ -26,8 +27,7 @@ const DocketNumberRow = ({docket}: Props) => {
   //*************END OF THEME PROVIDER ************ */
 
   //************ DOCKET PROVIDER ************* */
-  const {docketStatusList, isSuccessFetchingStatus} =
-    useDocket() as IDocketContextValue;
+  const {isSuccessFetchingStatus} = useDocket() as IDocketContextValue;
 
   //************END OF DOCKET PROVIDER ******** */
   return (

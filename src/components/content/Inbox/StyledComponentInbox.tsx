@@ -80,43 +80,6 @@ export const RootInboxDataRow = styled.View`
   width: 100%;
 `;
 
-export const RootDocketNumberRow = styled.View<{
-  themeColor: IDOXLEThemeColor;
-  horizontalAlign?: 'center' | 'flex-start' | 'flex-end';
-  paddingLeft?: `${number}px`;
-}>`
-  width: 100%;
-  height: 44px;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: ${p => p.themeColor.primaryDividerColor};
-  background-color: ${p => p.themeColor.primaryContainerColor};
-  display:flex;
-  flex-direction:row;
-  justify-content: ${p => (p.horizontalAlign ? p.horizontalAlign : 'center')}
-  align-items:center;
-  padding-left: ${p => (p.paddingLeft ? p.paddingLeft : 0)};
-  overflow: hidden;
-
-`;
-export const StyledDocketStatusDisplayer = styled.View<{statusColor: string}>`
-  width: 14px;
-  height: 23px;
-  background-color: ${p => p.statusColor};
-  border-radius: 8px;
-  margin-left: 8px;
-`;
-export const StyledDocketNumberText = styled.Text<{
-  themeColor: IDOXLEThemeColor;
-  doxleFont: IDoxleFont;
-}>`
-  font-family: ${p => p.doxleFont.secondaryTitleFont};
-  font-style: normal;
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 17px;
-  color: ${p => p.themeColor.primaryFontColor};
-`;
 export const RootDocketDataList = styled.ScrollView`
   height: 100%;
   width: 100%;

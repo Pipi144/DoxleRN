@@ -50,7 +50,7 @@ import {
   IOrientation,
   useOrientation,
 } from '../../../Providers/OrientationContext';
-import {TimelineDocket} from '../../../Models/DocketTimelineModel';
+
 import {ITimelineDateObject, isRendered} from './DocketTimelineCommonFunctions';
 import {Icon, IconButton, Skeleton, SmallCloseIcon, VStack} from 'native-base';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -66,22 +66,23 @@ import TimelineQueryAPI, {
   DocketTimelineUpdateBody,
 } from '../../../service/DoxleAPI/QueryHookAPI/timelineQueryAPI';
 import {authContextInterface, useAuth} from '../../../Providers/AuthProvider';
-import {formatDate} from '../../../Utilities/FunctionUtilities';
+import {formatDate, formatTDateISO} from '../../../Utilities/FunctionUtilities';
 import {XsCloseIcon} from './DocketTimelineIcon';
 import ProjectQueryAPI from '../../../service/DoxleAPI/QueryHookAPI/projectQueryAPI';
 import {
   ICompanyProviderContextValue,
   useCompany,
 } from '../../../Providers/CompanyProvider';
+import {IDocket} from '../../../Models/docket';
 
 const currentMonth: number = new Date().getMonth();
 const DateCellListItem: React.FC<{
   project: ISimpleProject;
-  dockets: TimelineDocket[];
+  dockets: IDocket[];
   dateCellValue: ITimelineDateObject;
   cellSize: number;
   handleUpdateTimeline: (
-    timelineItem: TimelineDocket,
+    timelineItem: IDocket,
     updateBody: DocketTimelineUpdateBody,
   ) => void;
 }> = React.memo(
@@ -99,16 +100,16 @@ const DateCellListItem: React.FC<{
       [dockets],
     );
 
-    const handlePressCheckbox = (docketItem: TimelineDocket) => {
+    const handlePressCheckbox = (docketItem: IDocket) => {
       handleUpdateTimeline(docketItem, {
         completed:
           docketItem.completed !== null
             ? null
-            : formatDate(docketItem.startDate, 'yyyy-MM-dd'),
+            : formatTDateISO(docketItem.startDate as string),
       });
     };
 
-    const handleLongPressCheckbox = (docketItem: TimelineDocket) => {
+    const handleLongPressCheckbox = (docketItem: IDocket) => {
       setcurrentEdittedTimeline(docketItem);
     };
     const handlePressInDateText = () => {
@@ -166,10 +167,10 @@ const DateCellListItem: React.FC<{
           {renderedDockets.map(docket => {
             return (
               <CustomCheckbox
-                key={docket.actionId}
+                key={docket.docketPk}
                 isChecked={Boolean(docket.completed !== null)}
                 onPress={event => handlePressCheckbox(docket)}
-                text={docket.subject}
+                text={docket.docketName}
                 onLongPress={event => handleLongPressCheckbox(docket)}
                 delayLongPress={100}
               />
@@ -252,12 +253,12 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
   //#########################################################
 
   const handleUpdateTimeline = (
-    timelineItem: TimelineDocket,
+    timelineItem: IDocket,
     updateBody: DocketTimelineUpdateBody,
   ) => {
     mutateTimelineDataQueryFunction({
       accessToken: accessToken || '',
-      actionId: timelineItem.actionId,
+      docketPk: timelineItem.docketPk,
       updateBody: updateBody,
       currentBaseStartDateParams: currentBaseStartDateParams,
       currentDateRangeLengthParam: currentDateRangeLengthParam,

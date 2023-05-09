@@ -94,6 +94,8 @@ export interface IDocketContextValue {
   isErrorFetchingProject: boolean;
   isSuccessFetchingProject: boolean;
   docketList: IDocket[];
+  refetchDocketListQuery: () => void;
+
   isLoadingDocketList: boolean;
   isErrorFetchingDocketList: boolean;
   isSuccessFetchingDocketList: boolean;
@@ -250,6 +252,11 @@ const DocketProvider = (children: any) => {
       [],
     [docketListQuery.data],
   );
+
+  const refetchDocketListQuery = () => {
+    console.log('REFETCH');
+    docketListQuery.refetch();
+  };
   //#########################################################
 
   //##################### FETCHING DOCKET STATUS LIST #################
@@ -271,6 +278,7 @@ const DocketProvider = (children: any) => {
     isErrorFetchingProject: projectQuery.isError,
     isSuccessFetchingProject: projectQuery.isSuccess,
     docketList: [...docketList],
+    refetchDocketListQuery,
     isLoadingDocketList: docketListQuery.isLoading,
     isErrorFetchingDocketList: docketListQuery.isError,
     isSuccessFetchingDocketList: docketListQuery.isSuccess,

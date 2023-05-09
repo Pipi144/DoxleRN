@@ -12,6 +12,8 @@ import {
   StyledDocketListHeaderContainer,
   StyledDocketListHeaderText,
   StyledDocketNumberList,
+  StyledEmptyListPlaceHolder,
+  StyledEmptyListPlaceHolderText,
 } from './StyledComponentDocketList';
 import DocketListSkeleton from './DocketListSkeleton';
 import DocketNumberRow from './DocketNumberRow';
@@ -25,6 +27,7 @@ import {
   useDOXLETheme,
 } from '../../../Providers/DoxleThemeProvider';
 import DocketDataList from './DocketDataList';
+import ErrorScreen from '../GeneraComponents/ErrorScreen/ErrorScreen';
 
 type Props = {};
 
@@ -36,6 +39,7 @@ const DocketList = (props: Props) => {
     isLoadingDocketList,
     isErrorFetchingDocketList,
     isSuccessFetchingDocketList,
+    refetchDocketListQuery,
   } = useDocket() as IDocketContextValue;
 
   //************END OF DOCKET PROVIDER ******** */
@@ -53,6 +57,8 @@ const DocketList = (props: Props) => {
   const {THEME_COLOR, DOXLE_FONT} =
     useDOXLETheme() as IDOXLEThemeProviderContext;
   //*************END OF THEME PROVIDER ************ */
+
+  console.log('DOCKET LIST:', docketList.length);
   return (
     <RootDocketList>
       {isLoadingDocketList && <DocketListSkeleton />}
@@ -82,7 +88,22 @@ const DocketList = (props: Props) => {
           />
 
           <DocketDataList docketNumberListWidth={docketNumberListWidth} />
+          {docketList.length === 0 && (
+            <StyledEmptyListPlaceHolder>
+              <StyledEmptyListPlaceHolderText
+                themeColor={THEME_COLOR}
+                doxleFont={DOXLE_FONT}>
+                No Docket
+              </StyledEmptyListPlaceHolderText>
+            </StyledEmptyListPlaceHolder>
+          )}
         </>
+      )}
+      {isErrorFetchingDocketList && (
+        <ErrorScreen
+          errorMessage="Failed to get docket list..."
+          retryFunction={refetchDocketListQuery}
+        />
       )}
     </RootDocketList>
   );

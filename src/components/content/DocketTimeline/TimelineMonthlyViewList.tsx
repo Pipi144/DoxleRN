@@ -7,10 +7,6 @@ import {
 } from '../../../Providers/DocketTimelineProvider';
 import {ISimpleProject} from '../../../Models/project';
 import TimelineMonthlyViewListItem from './TimelineMonthlyViewListItem';
-import {
-  IOrientation,
-  useOrientation,
-} from '../../../Providers/OrientationContext';
 
 type Props = {};
 

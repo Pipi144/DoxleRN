@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {TDateISO} from '../Models/dateFormat';
 
 export const formatDate = (
   inputDate: string | Date,
@@ -672,4 +673,9 @@ export const getAllNumOfDaysInYear = (): {
     endDate: lastDayofYear,
     totalDays: numOfDays,
   };
+};
+
+export const formatTDateISO = (date: string | Date): TDateISO => {
+  const convertedDate: Date = typeof date === 'string' ? new Date(date) : date;
+  return convertedDate.toISOString() as TDateISO;
 };

@@ -6,6 +6,7 @@ type Props = {
 };
 
 const Files = ({navigation}: Props) => {
+  console.log('RENDER FILES');
   return (
     <View>
       <Text>Files</Text>

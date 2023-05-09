@@ -14,10 +14,10 @@ import {
 import {FadeInDown, StretchInX, StretchOutX} from 'react-native-reanimated';
 
 import {useNavigationState, useRoute} from '@react-navigation/native';
-import {DOXLE_MENU_LIST, TDoxleMenu} from './RootApp';
 
 import {useNavigation} from '@react-navigation/core';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {DOXLE_MENU_LIST, TDoxleMenu} from './HomePage';
 type Props = {};
 
 const TabMenuItem: React.FC<{

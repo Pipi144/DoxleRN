@@ -1,5 +1,5 @@
 import {Platform, StyleSheet} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import {
   RootAppContainer,
   StyledLoadingMaskRootApp,
@@ -9,7 +9,6 @@ import Login from './components/content/Login/Login';
 import {authContextInterface, useAuth} from './Providers/AuthProvider';
 import {NavigationContainer} from '@react-navigation/native';
 import {
-  DOXLEThemeProvider,
   IDOXLEThemeProviderContext,
   useDOXLETheme,
 } from './Providers/DoxleThemeProvider';
@@ -20,29 +19,23 @@ import {
   useNotification,
 } from './Providers/NotificationProvider';
 import {NotifierRoot} from 'react-native-notifier';
-import {DocketTimelineProvider} from './Providers/DocketTimelineProvider';
 
 import {SyncScrollViewProvider} from './components/content/GeneraComponents/SyncScrollViews/SyncScrollViewProvider';
 import {
   ICompanyProviderContextValue,
   useCompany,
 } from './Providers/CompanyProvider';
+import HomePage, {DOXLE_MENU_LIST} from './HomePage';
+import {DocketTimelineProvider} from './Providers/DocketTimelineProvider';
 import DocketTimeline from './components/content/DocketTimeline/DocketTimeline';
-import CompanyTopBanner from './components/content/CompanyTopBanner/CompanyTopBanner';
-import RootAppTabMenu from './RootAppTabMenu';
+import {DocketProvider} from './Providers/DocketProvider';
 import Inbox from './components/content/Inbox/Inbox';
 import Files from './components/content/Files/Files';
 import Projects from './components/content/Projects/Projects';
-import {DocketProvider} from './Providers/DocketProvider';
+import CompanyTopBanner from './components/content/CompanyTopBanner/CompanyTopBanner';
+import RootAppTabMenu from './RootAppTabMenu';
 
 type Props = {};
-export type TDoxleMenu = 'Inbox' | 'Projects' | 'Files' | 'Timeline';
-export const DOXLE_MENU_LIST: TDoxleMenu[] = [
-  'Inbox',
-  'Projects',
-  'Files',
-  'Timeline',
-];
 
 const RootApp = (props: Props) => {
   const NavigationStack = createNativeStackNavigator();

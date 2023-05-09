@@ -17,22 +17,13 @@ export const RootCompanyTopMenu = styled.View<{
   padding-right: 14px;
   padding-top: ${p => p.topInset}px;
 `;
-export const StyledDoxleYearText = styled.Text<{
-  themeColor: IDOXLEThemeColor;
-}>`
-  font-family: 'IBMPlexMono-Regular';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 16px;
-  color: ${p => p.themeColor.primaryFontColor};
-`;
+
 export const StyledCompanyDisplayerButton = styled(Button)<{
   themeColor: IDOXLEThemeColor;
 }>`
   height: 31px;
   background: #7070ff;
-  border-radius: 9px;
+  border-radius: 13px;
   font-family: 'WorkSans-Regular';
   font-style: normal;
   font-weight: 500;
@@ -43,7 +34,7 @@ export const StyledCompanyDisplayerButton = styled(Button)<{
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 4px 14px !important;
+  padding: 2px 8px !important;
   text-transform: uppercase;
 `;
 export const StyledCompanyMenuTitle = styled(Popover.Header)<{

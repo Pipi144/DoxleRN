@@ -1,10 +1,9 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {
   RootCompanyTopMenu,
   StyledCompanyDisplayerButton,
   StyledCompanyMenuTitle,
-  StyledDoxleYearText,
 } from './StyledComponentsCompanyTopMenu';
 import {
   IDOXLEThemeProviderContext,
@@ -19,6 +18,7 @@ import {
   useCompany,
 } from '../../../Providers/CompanyProvider';
 import {Popover} from 'native-base';
+import {Company} from '../../../Models/company';
 
 type Props = {};
 const today = new Date();
@@ -36,6 +36,12 @@ const CompanyTopBanner = (props: Props) => {
     useCompany() as ICompanyProviderContextValue;
 
   //************END OF COMPANY PROVIDER ******** */
+
+  const getCompanyAbreName = useCallback((company: Company) => {
+    let finalAbName: string = '';
+    company.name.split(' ').map(word => (finalAbName += word.charAt(0)));
+    return finalAbName;
+  }, []);
   return (
     <RootCompanyTopMenu themeColor={THEME_COLOR} topInset={deviceSize.insetTop}>
       <Popover
@@ -44,7 +50,7 @@ const CompanyTopBanner = (props: Props) => {
             <StyledCompanyDisplayerButton
               {...triggerProps}
               themeColor={THEME_COLOR}>
-              {company ? company.name : 'Anonymous'}
+              {company ? getCompanyAbreName(company) : 'Anonymous'}
             </StyledCompanyDisplayerButton>
           );
         }}>
@@ -65,9 +71,6 @@ const CompanyTopBanner = (props: Props) => {
           </Popover.Footer>
         </Popover.Content>
       </Popover>
-      <StyledDoxleYearText themeColor={THEME_COLOR}>
-        @{today.getFullYear()} Doxle
-      </StyledDoxleYearText>
     </RootCompanyTopMenu>
   );
 };

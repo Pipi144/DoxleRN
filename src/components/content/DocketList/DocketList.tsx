@@ -60,7 +60,6 @@ const DocketList = (props: Props) => {
     useDOXLETheme() as IDOXLEThemeProviderContext;
   //*************END OF THEME PROVIDER ************ */
 
-  console.log('DOCKET LIST:', docketList.length);
   return (
     <RootDocketList>
       {isLoadingDocketList && <DocketListSkeleton />}
@@ -90,7 +89,7 @@ const DocketList = (props: Props) => {
             onEndReached={() => {
               if (hasNextPageDocketList) fetchNextPageDocketList();
             }}
-            onEndReachedThreshold={144}
+            onEndReachedThreshold={5}
           />
 
           <DocketDataList docketNumberListWidth={docketNumberListWidth} />

@@ -4,6 +4,7 @@ import {
   RootCompanyTopMenu,
   StyledCompanyDisplayerButton,
   StyledCompanyMenuTitle,
+  StyledTabMenuContainer,
 } from './StyledComponentsCompanyTopMenu';
 import {
   IDOXLEThemeProviderContext,
@@ -19,6 +20,10 @@ import {
 } from '../../../Providers/CompanyProvider';
 import {Popover} from 'native-base';
 import {Company} from '../../../Models/company';
+import {useNavigation, useNavigationState} from '@react-navigation/native';
+
+import TabMenuItem from './TabMenuItem';
+import {DOXLE_MENU_LIST, TDoxleMenu} from '../../../RootApp';
 
 type Props = {};
 const today = new Date();
@@ -42,6 +47,15 @@ const CompanyTopBanner = (props: Props) => {
     company.name.split(' ').map(word => (finalAbName += word.charAt(0)));
     return finalAbName;
   }, []);
+
+  //############### HANDLE NAVIGATE TO SCREENS ############
+  const navigation = useNavigation();
+  const navigationState = useNavigationState(state => state);
+
+  const handlePressTabMenuItem = (item: TDoxleMenu) => {
+    navigation.navigate(item as never, {} as never);
+  };
+  //############END OF HANDLE NAVIGATE TO SCREENS #########
   return (
     <RootCompanyTopMenu themeColor={THEME_COLOR} topInset={deviceSize.insetTop}>
       <Popover
@@ -71,6 +85,23 @@ const CompanyTopBanner = (props: Props) => {
           </Popover.Footer>
         </Popover.Content>
       </Popover>
+
+      <StyledTabMenuContainer
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{alignItems: 'center'}}>
+        {navigationState &&
+          DOXLE_MENU_LIST.map((tabItem, idx) => (
+            <TabMenuItem
+              item={tabItem}
+              key={`tab#${idx}`}
+              selectedMenuTab={
+                navigationState.routes[navigationState.index].name as TDoxleMenu
+              }
+              handlePressTabMenuItem={handlePressTabMenuItem}
+            />
+          ))}
+      </StyledTabMenuContainer>
     </RootCompanyTopMenu>
   );
 };

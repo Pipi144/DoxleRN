@@ -30,7 +30,7 @@ import {
   InfiniteQueryObserverResult,
 } from '@tanstack/react-query';
 import {AxiosResponse} from 'axios';
-import {TDoxleMenu} from '../HomePage';
+import {TDoxleMenu} from '../RootApp';
 
 type TDocketTableHeaderName =
   | 'Name'

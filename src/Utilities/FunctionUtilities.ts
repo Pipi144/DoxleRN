@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {TDateISO} from '../Models/dateFormat';
+import {TDateISO, TDateISODate} from '../Models/dateFormat';
 
 export const formatDate = (
   inputDate: string | Date,
@@ -678,4 +678,14 @@ export const getAllNumOfDaysInYear = (): {
 export const formatTDateISO = (date: string | Date): TDateISO => {
   const convertedDate: Date = typeof date === 'string' ? new Date(date) : date;
   return convertedDate.toISOString() as TDateISO;
+};
+
+export const formatTDateISODate = (date: string | Date): TDateISODate => {
+  const convertedDate: Date = typeof date === 'string' ? new Date(date) : date;
+  const day = convertedDate.getDate();
+  const month = convertedDate.getMonth() + 1;
+  const year = convertedDate.getFullYear();
+  return `${year}-${month.toString().padStart(2, '0')}-${day
+    .toString()
+    .padStart(2, '0')}` as TDateISODate;
 };

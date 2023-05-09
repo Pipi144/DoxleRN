@@ -294,6 +294,7 @@ const DocketProvider = (children: any) => {
     docketTableHeaderList,
     setdocketTableHeaderList,
   };
+  console.log('RERENDER DKP');
   return <DocketContext.Provider value={docketContextValue} {...children} />;
 };
 const useDocket = () => useContext(DocketContext);

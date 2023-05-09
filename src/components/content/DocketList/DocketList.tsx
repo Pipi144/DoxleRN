@@ -72,6 +72,9 @@ const DocketList = (props: Props) => {
             keyExtractor={(item, index) => (item as IDocket).docketPk}
             widthInPixel={`${docketNumberListWidth}px`}
             showsVerticalScrollIndicator={false}
+            initialNumToRender={14}
+            maxToRenderPerBatch={10}
+            removeClippedSubviews={true}
             ListHeaderComponent={() => (
               <StyledDocketListHeaderContainer
                 widthInPixel={`${docketNumberListWidth}px`}
@@ -90,7 +93,7 @@ const DocketList = (props: Props) => {
             onEndReached={() => {
               if (hasNextPageDocketList) fetchNextPageDocketList();
             }}
-            onEndReachedThreshold={5}
+            onEndReachedThreshold={0.1}
           />
 
           <DocketDataList docketNumberListWidth={docketNumberListWidth} />

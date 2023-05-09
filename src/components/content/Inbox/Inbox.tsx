@@ -34,7 +34,7 @@ const Inbox = ({navigation}: Props) => {
   } = useDocket() as IDocketContextValue;
 
   //************END OF DOCKET PROVIDER ******** */
-
+  console.log('RENDER IB');
   //***************** THEME PROVIDER ************ */
   const {THEME_COLOR, DOXLE_FONT} =
     useDOXLETheme() as IDOXLEThemeProviderContext;

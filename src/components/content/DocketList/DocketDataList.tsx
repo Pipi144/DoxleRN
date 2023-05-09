@@ -47,6 +47,9 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
             docketNumberListWidth={docketNumberListWidth}
           />
         )}
+        initialNumToRender={14}
+        maxToRenderPerBatch={10}
+        removeClippedSubviews={true}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => (
           <View style={{display: 'flex', flexDirection: 'row'}}>
@@ -64,7 +67,7 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
                     ? '200px'
                     : header.docketKeyProp === 'startDate' ||
                       header.docketKeyProp === 'endDate'
-                    ? '150px'
+                    ? '200px'
                     : '120px'
                 }
                 horizontalAlign={

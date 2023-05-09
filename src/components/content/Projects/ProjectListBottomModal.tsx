@@ -49,8 +49,12 @@ const ProjectListBottomModal = ({
 
   const handlePressProjectListItem = useCallback(
     (project: ISimpleProject) => {
-      setselectedProject(project);
       handleCloseModal();
+
+      //!TEMP: have to put set timeout to trigger the state due to heavy rerender causing lag! The modal will be closed first then trigger set state
+      setTimeout(() => {
+        setselectedProject(project);
+      }, 150);
     },
     [selectedProject],
   );

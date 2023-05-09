@@ -50,7 +50,7 @@ const DocketDataRow = ({docket, docketNumberListWidth}: Props) => {
                   ? '200px'
                   : header.docketKeyProp === 'startDate' ||
                     header.docketKeyProp === 'endDate'
-                  ? '150px'
+                  ? '200px'
                   : '120px'
               }
               horizontalAlign={

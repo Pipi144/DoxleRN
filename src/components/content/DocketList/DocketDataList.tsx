@@ -23,8 +23,12 @@ type Props = {
 
 const DocketDataList = ({docketNumberListWidth}: Props) => {
   //************ DOCKET PROVIDER ************* */
-  const {docketTableHeaderList, docketList} =
-    useDocket() as IDocketContextValue;
+  const {
+    docketTableHeaderList,
+    docketList,
+    hasNextPageDocketList,
+    fetchNextPageDocketList,
+  } = useDocket() as IDocketContextValue;
 
   //************END OF DOCKET PROVIDER ******** */
 
@@ -47,7 +51,7 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
             docketNumberListWidth={docketNumberListWidth}
           />
         )}
-        initialNumToRender={14}
+        initialNumToRender={18}
         maxToRenderPerBatch={10}
         removeClippedSubviews={true}
         showsVerticalScrollIndicator={false}
@@ -91,6 +95,10 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
         )}
         stickyHeaderIndices={[0]}
         bounces={false}
+        onEndReached={() => {
+          if (hasNextPageDocketList) fetchNextPageDocketList();
+        }}
+        onEndReachedThreshold={0.1}
       />
     </RootDocketDataList>
   );

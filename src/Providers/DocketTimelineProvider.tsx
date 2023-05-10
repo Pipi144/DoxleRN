@@ -280,9 +280,9 @@ const DocketTimelineProvider = (children: any) => {
     TimelineQueryAPI.useDeleteTimelineDocket(showNotification);
   //########################################################
   const filterDocketWithProject = useCallback(
-    (project: ISimpleProject, actions: IDocket[]) => {
-      return actions.filter(
-        action => action.project && action.project === project.projectId,
+    (project: ISimpleProject, dockets: IDocket[]) => {
+      return dockets.filter(
+        docket => docket.project && docket.project === project.projectId,
       );
     },
     [],

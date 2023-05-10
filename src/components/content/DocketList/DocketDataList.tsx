@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useRef} from 'react';
 import {RootDocketDataList} from '../Inbox/StyledComponentInbox';
 import {SyncedFlatlist} from '../GeneraComponents/SyncScrollViews/SyncedFlatList';
 import {
@@ -16,6 +16,7 @@ import {
   StyledDocketListHeaderContainer,
   StyledDocketListHeaderText,
 } from './StyledComponentDocketList';
+import Animated from 'react-native-reanimated';
 
 type Props = {
   docketNumberListWidth: number;
@@ -36,6 +37,8 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
   const {THEME_COLOR, DOXLE_FONT} =
     useDOXLETheme() as IDOXLEThemeProviderContext;
   //*************END OF THEME PROVIDER ************ */
+
+  const dataListRef = useRef<Animated.FlatList<any>>(null);
   return (
     <RootDocketDataList
       horizontal={true}
@@ -51,8 +54,8 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
             docketNumberListWidth={docketNumberListWidth}
           />
         )}
-        initialNumToRender={18}
-        maxToRenderPerBatch={10}
+        initialNumToRender={20}
+        maxToRenderPerBatch={14}
         removeClippedSubviews={true}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => (

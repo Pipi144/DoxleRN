@@ -165,10 +165,10 @@ const DateCellListItem: React.FC<{
           style={{flex: 1}}
           showsVerticalScrollIndicator={false}
           scrollEnabled={renderedDockets.length > 0}>
-          {renderedDockets.map(docket => {
+          {renderedDockets.map((docket, idx) => {
             return (
               <CustomCheckbox
-                key={docket.docketPk}
+                key={idx}
                 isChecked={Boolean(docket.completed !== null)}
                 onPress={event => handlePressCheckbox(docket)}
                 text={docket.docketName}
@@ -354,7 +354,6 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
                 cellSize={CELL_SIZE}
                 handleUpdateTimeline={handleUpdateTimeline}
                 project={project}
-                key={index}
               />
             )}
             ListHeaderComponent={() => (
@@ -376,9 +375,8 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
                 (item as ITimelineDateObject).date
               }`
             }
-            extraData={{dockets, project}}
+            extraData={{dockets, project, calendarCells}}
             scrollEnabled={false}
-            getItemType={(item, index) => typeof item}
             estimatedItemSize={143}
           />
         </StyledMonthlyViewListItemHorizontalList>
@@ -394,6 +392,6 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
   );
 };
 
-export default TimelineMonthlyViewListItem;
+export default React.memo(TimelineMonthlyViewListItem);
 
 const styles = StyleSheet.create({});

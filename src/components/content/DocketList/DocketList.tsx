@@ -71,6 +71,8 @@ const DocketList = (props: Props) => {
             renderItem={({item, index}) => <DocketNumberRow docket={item} />}
             keyExtractor={(item, index) => (item as IDocket).docketPk}
             widthInPixel={`${docketNumberListWidth}px`}
+            initialNumToRender={20}
+            maxToRenderPerBatch={14}
             showsVerticalScrollIndicator={false}
             removeClippedSubviews={true}
             ListHeaderComponent={() => (

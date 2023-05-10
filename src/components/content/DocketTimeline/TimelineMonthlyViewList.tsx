@@ -21,24 +21,19 @@ const TimelineMonthlyViewList = (props: Props) => {
       <FlashList
         data={projects}
         showsVerticalScrollIndicator={false}
-        // removeClippedSubviews={true}
+        removeClippedSubviews={true}
         renderItem={({item, index}) => (
-          <TimelineMonthlyViewListItem
-            project={item as ISimpleProject}
-            key={index}
-          />
+          <TimelineMonthlyViewListItem project={item as ISimpleProject} />
         )}
         keyExtractor={(item, index) =>
           `${(item as ISimpleProject).projectId}#${index}`
         }
         estimatedItemSize={204}
-        getItemType={(item, index) => typeof item}
-        extraData={projects}
       />
     </RootTimelineMonthlyViewList>
   );
 };
 
-export default TimelineMonthlyViewList;
+export default React.memo(TimelineMonthlyViewList);
 
 const styles = StyleSheet.create({});

@@ -89,7 +89,6 @@ const DocketList = (props: Props) => {
               </StyledDocketListHeaderContainer>
             )}
             stickyHeaderIndices={[0]}
-            bounces={false}
           />
 
           <DocketDataList docketNumberListWidth={docketNumberListWidth} />

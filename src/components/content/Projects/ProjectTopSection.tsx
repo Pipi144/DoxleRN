@@ -53,7 +53,7 @@ const ProjectTopSection = (props: Props) => {
   //******************* ORIENTATION PROVIDER ************ */
   const {deviceSize} = useOrientation() as IOrientation;
   //**********END OF ORIENTATION PROVIDER*********** */
-  console.log('RENDER PROJECT TOP SECTION');
+
   //####################### HANDLE ANIMATION #################
   const dropdownIconContainerSharedValue = useSharedValue(0);
   const dropdownIconContainerAnimatedStyle = useAnimatedStyle(() => {

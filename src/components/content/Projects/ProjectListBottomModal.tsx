@@ -107,6 +107,8 @@ const ProjectListBottomModal = ({
           keyExtractor={(item, index) =>
             `${(item as ISimpleProject).projectId}`
           }
+          initialNumToRender={20}
+          removeClippedSubviews={true}
         />
       </RootProjectListBottomModal>
     </Modal>

@@ -97,7 +97,6 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
           </View>
         )}
         stickyHeaderIndices={[0]}
-        bounces={false}
         onEndReached={() => {
           if (hasNextPageDocketList) fetchNextPageDocketList();
         }}

@@ -24,16 +24,7 @@ const Inbox = ({navigation}: Props) => {
   //################## STATES #################
   const [isFocused, setIsFocused] = useState<boolean>(false); //!used to optimised react navigation due to long switching screen time
   //###########################################
-  //************ DOCKET PROVIDER ************* */
-  const {
-    docketList,
-    isFetchingNextDocketList,
-    isLoadingDocketList,
-    isErrorFetchingDocketList,
-    isSuccessFetchingDocketList,
-  } = useDocket() as IDocketContextValue;
 
-  //************END OF DOCKET PROVIDER ******** */
   console.log('RENDER IB');
   //***************** THEME PROVIDER ************ */
   const {THEME_COLOR, DOXLE_FONT} =

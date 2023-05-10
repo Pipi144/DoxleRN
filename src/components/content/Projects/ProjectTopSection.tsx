@@ -1,5 +1,5 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   IDOXLEThemeProviderContext,
   useDOXLETheme,
@@ -11,14 +11,25 @@ import {
   StyledProjectAddressContainer,
   StyledProjectAddressText,
   StyledProjectDropdownIconContainer,
+  StyledProjectMenuContainer,
+  StyledProjectMenuIconBtn,
+  StyledProjectMenuItem,
+  StyledProjectMenuItemText,
+  StyledProjectMenuList,
   StyledSearchInput,
 } from './StyledComponentsProject';
 import {
   IDocketContextValue,
+  IProjectMenuProps,
+  PROJECT_MENU_LIST,
   useDocket,
 } from '../../../Providers/DocketProvider';
 import ProjectTextSkeleton from './ProjectTextSkeleton';
-import {ProjectDropdownIcon} from './ProjectIcons';
+import {
+  ProjectDropdownIcon,
+  ProjectMenuMoreIcon,
+  ProjectMenuSearchIcon,
+} from './ProjectIcons';
 import {
   concat,
   interpolate,
@@ -35,7 +46,11 @@ import {
 type Props = {};
 
 const ProjectTopSection = (props: Props) => {
+  //######################### STATES #########################
   const [showProjectList, setShowProjectList] = useState<boolean>(false);
+  const [onSearchMode, setOnSearchMode] = useState<boolean>(false);
+  //##################### END OF STATES ######################
+
   //***************** THEME PROVIDER ************ */
   const {THEME_COLOR, DOXLE_FONT} =
     useDOXLETheme() as IDOXLEThemeProviderContext;
@@ -47,12 +62,30 @@ const ProjectTopSection = (props: Props) => {
     isLoadingProject,
     isSuccessFetchingProject,
     selectedProject,
+    selectedProjectMenu,
+    setselectedProjectMenu,
   } = useDocket() as IDocketContextValue;
   //*********END OF DOCKET PROVIDER************* */
 
   //******************* ORIENTATION PROVIDER ************ */
   const {deviceSize} = useOrientation() as IOrientation;
+
+  const projectMenuContainerMaxWidth: number = useMemo(
+    () =>
+      deviceSize.deviceWidth < 1000
+        ? 0.8 * deviceSize.deviceWidth
+        : 0.6 * deviceSize.deviceWidth,
+    [deviceSize],
+  );
   //**********END OF ORIENTATION PROVIDER*********** */
+
+  const handlePressProjectMenuItem = (item: IProjectMenuProps) => {
+    setselectedProjectMenu(item);
+  };
+
+  useEffect(() => {
+    console.log('SELECTED MENU:', selectedProjectMenu);
+  }, [selectedProjectMenu]);
 
   //####################### HANDLE ANIMATION #################
   const dropdownIconContainerSharedValue = useSharedValue(0);
@@ -98,18 +131,64 @@ const ProjectTopSection = (props: Props) => {
       <StyledInboxSubTitleText themeColor={THEME_COLOR} doxleFont={DOXLE_FONT}>
         {docketQuote}
       </StyledInboxSubTitleText>
-      <StyledInputSearchWrapper>
-        <StyledSearchInput
-          placeholder="Search"
-          borderWidth={0}
-          _focus={{
-            backgroundColor: 'transparent',
-          }}
-          height={'100%'}
-          themeColor={THEME_COLOR}
-          doxleFont={DOXLE_FONT}
-        />
-      </StyledInputSearchWrapper>
+
+      <StyledProjectMenuContainer
+        widthInPixel={`${projectMenuContainerMaxWidth}px`}>
+        {!onSearchMode ? (
+          <>
+            <StyledProjectMenuList
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              data={PROJECT_MENU_LIST}
+              renderItem={({item, index}) => {
+                if ((item as IProjectMenuProps).display)
+                  return (
+                    <StyledProjectMenuItem
+                      onPress={() =>
+                        handlePressProjectMenuItem(item as IProjectMenuProps)
+                      }>
+                      <StyledProjectMenuItemText
+                        themeColor={THEME_COLOR}
+                        selected={Boolean(
+                          selectedProjectMenu.menuName ===
+                            (item as IProjectMenuProps).menuName,
+                        )}
+                        doxleFont={DOXLE_FONT}>
+                        {(item as IProjectMenuProps).menuName}
+                      </StyledProjectMenuItemText>
+                    </StyledProjectMenuItem>
+                  );
+                else return <></>;
+              }}
+              keyExtractor={(item, index) =>
+                `item#${(item as IProjectMenuProps).menuName}#${index}`
+              }
+            />
+            <StyledProjectMenuIconBtn
+              icon={() => <ProjectMenuSearchIcon themeColor={THEME_COLOR} />}
+              size={10}
+            />
+
+            <StyledProjectMenuIconBtn
+              icon={() => <ProjectMenuMoreIcon themeColor={THEME_COLOR} />}
+              size={10}
+            />
+          </>
+        ) : (
+          <StyledInputSearchWrapper>
+            <StyledSearchInput
+              placeholder="Search"
+              borderWidth={0}
+              _focus={{
+                backgroundColor: 'transparent',
+              }}
+              height={'100%'}
+              themeColor={THEME_COLOR}
+              doxleFont={DOXLE_FONT}
+            />
+          </StyledInputSearchWrapper>
+        )}
+      </StyledProjectMenuContainer>
 
       <ProjectListBottomModal
         showProjectList={showProjectList}

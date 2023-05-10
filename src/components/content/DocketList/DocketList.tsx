@@ -30,6 +30,12 @@ import {
 import DocketDataList from './DocketDataList';
 import ErrorScreen from '../GeneraComponents/ErrorScreen/ErrorScreen';
 import ListLoadingMoreBottom from '../../../Utilities/AnimationScreens/ListLoadingMoreBottom/ListLoadingMoreBottom';
+import {
+  Extrapolation,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
 
 type Props = {};
 
@@ -60,6 +66,54 @@ const DocketList = (props: Props) => {
     useDOXLETheme() as IDOXLEThemeProviderContext;
   //*************END OF THEME PROVIDER ************ */
 
+  //#################### HANDLE ANIMATION ##################
+  const dataListVerticalScrollAnimatedValue = useSharedValue(0);
+  const docketNumberListAnimatedStyle = useAnimatedStyle(() => {
+    const translateYInterpolate = interpolate(
+      dataListVerticalScrollAnimatedValue.value,
+      [0, -200],
+      [0, 200],
+      {
+        extrapolateLeft: Extrapolation.CLAMP,
+        extrapolateRight: Extrapolation.CLAMP,
+      },
+    );
+    const translateXInterpolate = interpolate(
+      dataListVerticalScrollAnimatedValue.value,
+      [0, -50],
+      [0, -50],
+      {
+        extrapolateLeft: Extrapolation.CLAMP,
+        extrapolateRight: Extrapolation.CLAMP,
+      },
+    );
+    return {
+      transform: [
+        {
+          translateY: translateYInterpolate,
+        },
+        {translateX: translateXInterpolate},
+      ],
+    };
+  });
+
+  const docketNumberListHeaderTextAnimatedStyle = useAnimatedStyle(() => {
+    const opacityInterpolate = interpolate(
+      dataListVerticalScrollAnimatedValue.value,
+      [0, -10],
+      [1, 0],
+      {
+        extrapolateLeft: Extrapolation.CLAMP,
+        extrapolateRight: Extrapolation.CLAMP,
+      },
+    );
+
+    return {
+      opacity: opacityInterpolate,
+    };
+  });
+
+  //########################################################
   return (
     <RootDocketList>
       {isLoadingDocketList && <DocketListSkeleton />}
@@ -67,14 +121,15 @@ const DocketList = (props: Props) => {
         <>
           <StyledDocketNumberList
             idFlatlist={1}
+            style={[docketNumberListAnimatedStyle]}
             data={docketList}
             renderItem={({item, index}) => <DocketNumberRow docket={item} />}
             keyExtractor={(item, index) => (item as IDocket).docketPk}
             widthInPixel={`${docketNumberListWidth}px`}
             initialNumToRender={20}
-            maxToRenderPerBatch={14}
+            maxToRenderPerBatch={10}
             showsVerticalScrollIndicator={false}
-            removeClippedSubviews={true}
+            windowSize={14}
             ListHeaderComponent={() => (
               <StyledDocketListHeaderContainer
                 widthInPixel={`${docketNumberListWidth}px`}
@@ -83,7 +138,8 @@ const DocketList = (props: Props) => {
                 paddingLeft="8px">
                 <StyledDocketListHeaderText
                   themeColor={THEME_COLOR}
-                  doxleFont={DOXLE_FONT}>
+                  doxleFont={DOXLE_FONT}
+                  style={[docketNumberListHeaderTextAnimatedStyle]}>
                   Number
                 </StyledDocketListHeaderText>
               </StyledDocketListHeaderContainer>
@@ -91,7 +147,12 @@ const DocketList = (props: Props) => {
             stickyHeaderIndices={[0]}
           />
 
-          <DocketDataList docketNumberListWidth={docketNumberListWidth} />
+          <DocketDataList
+            docketNumberListWidth={docketNumberListWidth}
+            dataListVerticalScrollAnimatedValue={
+              dataListVerticalScrollAnimatedValue
+            }
+          />
           {docketList.length === 0 && (
             <StyledEmptyListPlaceHolder>
               <StyledEmptyListPlaceHolderText

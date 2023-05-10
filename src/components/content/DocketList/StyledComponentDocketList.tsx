@@ -40,7 +40,7 @@ export const StyledDocketListHeaderContainer = styled.View<{
       padding-bottom:2px
   `;
 
-export const StyledDocketListHeaderText = styled.Text<{
+export const StyledDocketListHeaderText = styled(Animated.Text)<{
   themeColor: IDOXLEThemeColor;
   doxleFont: IDoxleFont;
 }>`

@@ -53,7 +53,7 @@ export const StyledCompanyMenuTitle = styled(Popover.Header)<{
 export const StyledTabMenuContainer = styled.ScrollView`
   flex: 1;
   height: 100%;
-  padding-left: 14px;
+  margin-left: 14px;
 `;
 export const RootTabMenuItem = styled.Pressable<{
   themeColor: IDOXLEThemeColor;

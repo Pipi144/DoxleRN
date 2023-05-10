@@ -5,6 +5,7 @@ import {
 } from '../../../Providers/DoxleThemeProvider';
 import {Input} from 'native-base';
 import Animated from 'react-native-reanimated';
+import {IconButton} from 'react-native-paper';
 
 export const RootProjects = styled.View<{themeColor: IDOXLEThemeColor}>`
   flex: 1;
@@ -22,14 +23,12 @@ export const RootProjectTopSection = styled.View`
   justify-content: center;
 `;
 export const StyledInputSearchWrapper = styled.View`
-  width: 70%;
+  width: 100%;
   max-width: 800px;
   height: 30px;
   background-color: #e3e5eb;
   border-radius: 13px;
   align-self: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
 `;
 
 export const StyledSearchInput = styled(Input)<{
@@ -153,4 +152,46 @@ export const StyledProjectItemAddressText = styled.Text<{
   color: ${p =>
     p.selected ? p.themeColor.doxleColor : p.themeColor.primaryFontColor};
   padding-left: 14px;
+`;
+export const StyledProjectMenuContainer = styled.View<{
+  widthInPixel: `${number}px`;
+}>`
+  max-width: ${p => p.widthInPixel};
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+export const StyledProjectMenuIconBtn = styled(IconButton)`
+  padding: 2px !important;
+  display: flex;
+  margin: 0;
+`;
+export const StyledProjectMenuList = styled.FlatList`
+  flex: 1;
+  margin-right: 8px;
+`;
+export const StyledProjectMenuItem = styled(Animated.View)`
+  min-width: 96px;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+  background-color: #e3e5eb;
+  border-radius: 13px;
+  margin-right: 4px;
+`;
+export const StyledProjectMenuItemText = styled.Text<{
+  themeColor: IDOXLEThemeColor;
+  selected: boolean;
+  doxleFont: IDoxleFont;
+}>`
+  font-family: ${p => p.doxleFont.primaryFont};
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: ${p =>
+    p.selected ? p.themeColor.doxleColor : p.themeColor.primaryFontColor};
 `;

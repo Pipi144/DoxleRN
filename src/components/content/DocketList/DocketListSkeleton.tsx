@@ -20,20 +20,20 @@ const DocketListSkeleton = (props: Props) => {
             paddingX={'10px'}
             alignItems="center">
             <Skeleton
-              startColor="coolGray.200"
+              startColor="coolGray.400"
               rounded="full"
               w="15%"
               h="14px"
             />
 
             <Skeleton
-              startColor="coolGray.200"
+              startColor="coolGray.400"
               rounded="full"
               w="45%"
               h="14px"
             />
             <Skeleton
-              startColor="coolGray.200"
+              startColor="coolGray.400"
               rounded="full"
               w="30%"
               h="14px"

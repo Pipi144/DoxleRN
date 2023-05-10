@@ -85,6 +85,41 @@ export const DOCKET_TABLE_HEADER_LIST: IDocketTableHeader[] = [
   },
 ];
 
+type TProjectMenuName =
+  | 'Drawings'
+  | 'Permits'
+  | 'Budgets'
+  | "RFI's"
+  | 'Call Forward';
+export interface IProjectMenuProps {
+  menuName: TProjectMenuName;
+  display: boolean;
+}
+//################### CONSTANTS ###################
+export const PROJECT_MENU_LIST: IProjectMenuProps[] = [
+  {
+    menuName: 'Drawings',
+    display: true,
+  },
+  {
+    menuName: 'Permits',
+    display: true,
+  },
+  {
+    menuName: 'Budgets',
+    display: true,
+  },
+  {
+    menuName: "RFI's",
+    display: true,
+  },
+  {
+    menuName: 'Call Forward',
+    display: true,
+  },
+];
+
+//#################################################
 export interface IDocketContextValue {
   docketQuote: string;
   selectedProject: ISimpleProject | undefined;
@@ -113,6 +148,10 @@ export interface IDocketContextValue {
   setdocketTableHeaderList: React.Dispatch<
     React.SetStateAction<IDocketTableHeader[]>
   >;
+  selectedProjectMenu: IProjectMenuProps;
+  setselectedProjectMenu: React.Dispatch<
+    React.SetStateAction<IProjectMenuProps>
+  >;
 }
 
 const DocketContext = createContext({});
@@ -125,6 +164,9 @@ const DocketProvider = (children: any) => {
   const [docketTableHeaderList, setdocketTableHeaderList] = useState<
     IDocketTableHeader[]
   >(DOCKET_TABLE_HEADER_LIST);
+
+  const [selectedProjectMenu, setselectedProjectMenu] =
+    useState<IProjectMenuProps>(PROJECT_MENU_LIST[0]);
   //################ END OF STATES ##############
   //************* AUTH PROVIDER*************** */
   const {accessToken, user} = useAuth() as authContextInterface;
@@ -293,6 +335,8 @@ const DocketProvider = (children: any) => {
     isSuccessFetchingStatus: docketStatusListQuery.isSuccess,
     docketTableHeaderList,
     setdocketTableHeaderList,
+    selectedProjectMenu,
+    setselectedProjectMenu,
   };
   console.log('RERENDER DKP');
   return <DocketContext.Provider value={docketContextValue} {...children} />;

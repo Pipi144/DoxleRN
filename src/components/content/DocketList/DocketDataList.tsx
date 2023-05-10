@@ -16,13 +16,22 @@ import {
   StyledDocketListHeaderContainer,
   StyledDocketListHeaderText,
 } from './StyledComponentDocketList';
-import Animated from 'react-native-reanimated';
+import Animated, {
+  Extrapolation,
+  SharedValue,
+  interpolate,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 
 type Props = {
   docketNumberListWidth: number;
+  dataListVerticalScrollAnimatedValue: SharedValue<number>;
 };
 
-const DocketDataList = ({docketNumberListWidth}: Props) => {
+const DocketDataList = ({
+  docketNumberListWidth,
+  dataListVerticalScrollAnimatedValue,
+}: Props) => {
   //************ DOCKET PROVIDER ************* */
   const {
     docketTableHeaderList,
@@ -38,7 +47,6 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
     useDOXLETheme() as IDOXLEThemeProviderContext;
   //*************END OF THEME PROVIDER ************ */
 
-  const dataListRef = useRef<Animated.FlatList<any>>(null);
   return (
     <RootDocketDataList
       horizontal={true}
@@ -46,6 +54,7 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
       <SyncedFlatlist
         idFlatlist={2}
         data={docketList}
+        scrollAnimatedValue={dataListVerticalScrollAnimatedValue}
         keyExtractor={(item, index) => (item as IDocket).docketPk}
         extraData={docketTableHeaderList}
         renderItem={({item, index}) => (
@@ -55,8 +64,7 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
           />
         )}
         initialNumToRender={20}
-        maxToRenderPerBatch={14}
-        removeClippedSubviews={true}
+        maxToRenderPerBatch={10}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => (
           <View style={{display: 'flex', flexDirection: 'row'}}>
@@ -101,6 +109,8 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
           if (hasNextPageDocketList) fetchNextPageDocketList();
         }}
         onEndReachedThreshold={0.1}
+        nestedScrollEnabled={true}
+        windowSize={14}
       />
     </RootDocketDataList>
   );

@@ -12,7 +12,7 @@ import React, {
 } from 'react';
 import {IDocket, IDocketStatus} from '../Models/docket';
 import {useNavigationState} from '@react-navigation/native';
-import {TDoxleMenu} from '../RootApp';
+
 import ProjectQueryAPI from '../service/DoxleAPI/QueryHookAPI/projectQueryAPI';
 import {authContextInterface, useAuth} from './AuthProvider';
 import {INotificationContext, useNotification} from './NotificationProvider';
@@ -30,6 +30,7 @@ import {
   InfiniteQueryObserverResult,
 } from '@tanstack/react-query';
 import {AxiosResponse} from 'axios';
+import {TDoxleMenu} from '../RootApp';
 
 type TDocketTableHeaderName =
   | 'Name'
@@ -83,6 +84,7 @@ export const DOCKET_TABLE_HEADER_LIST: IDocketTableHeader[] = [
     docketKeyProp: 'endDate',
   },
 ];
+
 export interface IDocketContextValue {
   docketQuote: string;
   selectedProject: ISimpleProject | undefined;
@@ -254,7 +256,6 @@ const DocketProvider = (children: any) => {
   );
 
   const refetchDocketListQuery = () => {
-    console.log('REFETCH');
     docketListQuery.refetch();
   };
   //#########################################################
@@ -293,6 +294,7 @@ const DocketProvider = (children: any) => {
     docketTableHeaderList,
     setdocketTableHeaderList,
   };
+  console.log('RERENDER DKP');
   return <DocketContext.Provider value={docketContextValue} {...children} />;
 };
 const useDocket = () => useContext(DocketContext);

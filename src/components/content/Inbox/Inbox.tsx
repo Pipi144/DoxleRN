@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import InboxTopSection from './InboxTopSection';
 import {
   RootInbox,
@@ -14,38 +14,44 @@ import {
   useDOXLETheme,
 } from '../../../Providers/DoxleThemeProvider';
 import DocketList from '../DocketList/DocketList';
+import {useFocusEffect} from '@react-navigation/native';
 
 type Props = {
   navigation: any;
 };
 
 const Inbox = ({navigation}: Props) => {
-  //************ DOCKET PROVIDER ************* */
-  const {
-    docketList,
-    isFetchingNextDocketList,
-    isLoadingDocketList,
-    isErrorFetchingDocketList,
-    isSuccessFetchingDocketList,
-  } = useDocket() as IDocketContextValue;
+  //################## STATES #################
+  const [isFocused, setIsFocused] = useState<boolean>(false); //!used to optimised react navigation due to long switching screen time
+  //###########################################
 
-  //************END OF DOCKET PROVIDER ******** */
-
+  console.log('RENDER IB');
   //***************** THEME PROVIDER ************ */
   const {THEME_COLOR, DOXLE_FONT} =
     useDOXLETheme() as IDOXLEThemeProviderContext;
   //*************END OF THEME PROVIDER ************ */
-  return (
-    <RootInbox themeColor={THEME_COLOR}>
-      <InboxTopSection />
 
-      <StyledDocketInboxContentDisplayer>
-        <DocketList />
-      </StyledDocketInboxContentDisplayer>
-    </RootInbox>
+  useFocusEffect(
+    useCallback(() => {
+      setIsFocused(true);
+      return () => {
+        setIsFocused(false);
+      };
+    }, []),
   );
+  if (isFocused)
+    return (
+      <RootInbox themeColor={THEME_COLOR}>
+        <InboxTopSection />
+
+        <StyledDocketInboxContentDisplayer>
+          <DocketList />
+        </StyledDocketInboxContentDisplayer>
+      </RootInbox>
+    );
+  else return <></>;
 };
 
-export default Inbox;
+export default React.memo(Inbox);
 
 const styles = StyleSheet.create({});

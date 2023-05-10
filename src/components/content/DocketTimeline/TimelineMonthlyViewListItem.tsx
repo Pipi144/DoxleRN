@@ -74,6 +74,7 @@ import {
   useCompany,
 } from '../../../Providers/CompanyProvider';
 import {IDocket} from '../../../Models/docket';
+import {FlashList} from '@shopify/flash-list';
 
 const currentMonth: number = new Date().getMonth();
 const DateCellListItem: React.FC<{
@@ -164,10 +165,10 @@ const DateCellListItem: React.FC<{
           style={{flex: 1}}
           showsVerticalScrollIndicator={false}
           scrollEnabled={renderedDockets.length > 0}>
-          {renderedDockets.map(docket => {
+          {renderedDockets.map((docket, idx) => {
             return (
               <CustomCheckbox
-                key={docket.docketPk}
+                key={idx}
                 isChecked={Boolean(docket.completed !== null)}
                 onPress={event => handlePressCheckbox(docket)}
                 text={docket.docketName}
@@ -343,7 +344,7 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           nestedScrollEnabled={true}>
-          <FlatList
+          <FlashList
             numColumns={5}
             data={calendarCells}
             renderItem={({item, index}) => (
@@ -374,7 +375,9 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
                 (item as ITimelineDateObject).date
               }`
             }
-            extraData={{dockets, project}}
+            extraData={{dockets, project, calendarCells}}
+            scrollEnabled={false}
+            estimatedItemSize={143}
           />
         </StyledMonthlyViewListItemHorizontalList>
       )}
@@ -389,6 +392,6 @@ const TimelineMonthlyViewListItem = ({project}: Props) => {
   );
 };
 
-export default TimelineMonthlyViewListItem;
+export default React.memo(TimelineMonthlyViewListItem);
 
 const styles = StyleSheet.create({});

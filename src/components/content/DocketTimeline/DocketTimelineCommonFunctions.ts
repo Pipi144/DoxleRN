@@ -1,7 +1,8 @@
 import moment from 'moment';
-import {TimelineDocket} from '../../../Models/DocketTimelineModel';
+
 import {DocketTimelineUpdateBody} from '../../../service/DoxleAPI/QueryHookAPI/timelineQueryAPI';
 import {checkEqualDateWithoutTime} from '../../../Utilities/FunctionUtilities';
+import {IDocket} from '../../../Models/docket';
 export type ITimelineDateObject = {
   date: string;
   dateNumber: string;
@@ -48,7 +49,7 @@ export const getAllDaysInCurrentMonth = (year: number, month: number) => {
 
   //fill days in the last week if the last day of days array is not friday
   if (days[days.length - 1].weekDayNumber < 5) {
-    const totalFilledDate = 5 - days[0].weekDayNumber;
+    const totalFilledDate = 5 - days[days.length - 1].weekDayNumber;
     for (let i = 1; i <= totalFilledDate; i++) {
       const date = moment(new Date(year, month, numDays + i)).format(
         'YYYY-MM-DD',
@@ -68,7 +69,7 @@ export const formattedDate = (date: string) => {
 };
 
 export const isRendered = (
-  scheduleItem: TimelineDocket,
+  scheduleItem: IDocket,
   cell: ITimelineDateObject,
 ) => {
   if (
@@ -85,17 +86,14 @@ export const isRendered = (
   return false;
 };
 
-export const isOverdue = (
-  scheduleItem: TimelineDocket,
-  cell: ITimelineDateObject,
-) => {
+export const isOverdue = (scheduleItem: IDocket, cell: ITimelineDateObject) => {
   if (scheduleItem.endDate && cell.date > scheduleItem.endDate.substring(0, 10))
     return 'subject redLabel';
   else return 'subject';
 };
 
 export const isComplete = (
-  scheduleItem: TimelineDocket,
+  scheduleItem: IDocket,
   cell: ITimelineDateObject,
 ) => {
   if (
@@ -106,7 +104,7 @@ export const isComplete = (
   return false;
 };
 export const isCommmenced = (
-  scheduleItem: TimelineDocket,
+  scheduleItem: IDocket,
   cell: ITimelineDateObject,
 ) => {
   if (
@@ -117,8 +115,8 @@ export const isCommmenced = (
   return false;
 };
 interface ICheckTimelineChangesFunctionProps {
-  originalTimeline: TimelineDocket | undefined;
-  checkedTimeline: TimelineDocket | undefined;
+  originalTimeline: IDocket | undefined;
+  checkedTimeline: IDocket | undefined;
 }
 
 export const checkTimelineChanges = ({
@@ -129,20 +127,20 @@ export const checkTimelineChanges = ({
   | undefined => {
   const changedFields: DocketTimelineUpdateBody = {};
   if (originalTimeline && checkedTimeline) {
-    if (originalTimeline.subject !== checkedTimeline.subject)
-      changedFields.subject = checkedTimeline.subject;
+    if (originalTimeline.docketName !== checkedTimeline.docketName)
+      changedFields.docketName = checkedTimeline.docketName;
     if (
       !checkEqualDateWithoutTime(
-        new Date(originalTimeline.startDate),
-        new Date(checkedTimeline.startDate),
+        new Date(originalTimeline.startDate || ''),
+        new Date(checkedTimeline.startDate || ''),
       )
     )
       changedFields.startDate = checkedTimeline.startDate;
 
     if (
       !checkEqualDateWithoutTime(
-        new Date(originalTimeline.endDate),
-        new Date(checkedTimeline.endDate),
+        new Date(originalTimeline.endDate || ''),
+        new Date(checkedTimeline.endDate || ''),
       )
     )
       changedFields.endDate = checkedTimeline.endDate;

@@ -89,7 +89,7 @@ export interface ITimelineDocketAddQueryProps {
   currentDateRangeLengthParam: number; //!important=> used to overwrite cache data of react query
 }
 export interface ITimelineDocketDeleteQueryProps {
-  actionId: string;
+  docketPk: string;
   accessToken: string;
   company: Company | undefined;
 }
@@ -250,7 +250,7 @@ const useDeleteTimelineDocket = (
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (data: ITimelineDocketDeleteQueryProps) =>
-      deleteTimelineAPI(data.actionId, data.accessToken, data.company),
+      deleteTimelineAPI(data.docketPk, data.accessToken, data.company),
     onSuccess: (result, variables, context) => {
       if (showNotification)
         showNotification(

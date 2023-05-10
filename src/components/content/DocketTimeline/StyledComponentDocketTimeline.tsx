@@ -15,6 +15,7 @@ import {SyncedFlatlist} from '../GeneraComponents/SyncScrollViews/SyncedFlatList
 import {SyncedScrollView} from '../GeneraComponents/SyncScrollViews/SyncedScrollView';
 import {IconButton, Menu} from 'react-native-paper';
 import {View} from 'react-native';
+import {FlashList} from '@shopify/flash-list';
 
 export const RootDocketTimeline = styled(Animated.View)<{
   themeColor: IDOXLEThemeColor;
@@ -185,7 +186,7 @@ export const StyledErrorText = styled.Text<{
   line-height: 18px;
   color: ${p => p.themeColor.primaryFontColor};
 `;
-export const RootTimelineMonthlyViewList = styled.FlatList`
+export const RootTimelineMonthlyViewList = styled.View`
   flex: 1;
   width: 100%;
 

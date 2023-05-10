@@ -1,10 +1,10 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {
   RootCompanyTopMenu,
   StyledCompanyDisplayerButton,
   StyledCompanyMenuTitle,
-  StyledDoxleYearText,
+  StyledTabMenuContainer,
 } from './StyledComponentsCompanyTopMenu';
 import {
   IDOXLEThemeProviderContext,
@@ -19,6 +19,11 @@ import {
   useCompany,
 } from '../../../Providers/CompanyProvider';
 import {Popover} from 'native-base';
+import {Company} from '../../../Models/company';
+import {useNavigation, useNavigationState} from '@react-navigation/native';
+
+import TabMenuItem from './TabMenuItem';
+import {DOXLE_MENU_LIST, TDoxleMenu} from '../../../RootApp';
 
 type Props = {};
 const today = new Date();
@@ -36,6 +41,21 @@ const CompanyTopBanner = (props: Props) => {
     useCompany() as ICompanyProviderContextValue;
 
   //************END OF COMPANY PROVIDER ******** */
+
+  const getCompanyAbreName = useCallback((company: Company) => {
+    let finalAbName: string = '';
+    company.name.split(' ').map(word => (finalAbName += word.charAt(0)));
+    return finalAbName;
+  }, []);
+
+  //############### HANDLE NAVIGATE TO SCREENS ############
+  const navigation = useNavigation();
+  const navigationState = useNavigationState(state => state);
+
+  const handlePressTabMenuItem = (item: TDoxleMenu) => {
+    navigation.navigate(item as never, {} as never);
+  };
+  //############END OF HANDLE NAVIGATE TO SCREENS #########
   return (
     <RootCompanyTopMenu themeColor={THEME_COLOR} topInset={deviceSize.insetTop}>
       <Popover
@@ -44,7 +64,7 @@ const CompanyTopBanner = (props: Props) => {
             <StyledCompanyDisplayerButton
               {...triggerProps}
               themeColor={THEME_COLOR}>
-              {company ? company.name : 'Anonymous'}
+              {company ? getCompanyAbreName(company) : 'Anonymous'}
             </StyledCompanyDisplayerButton>
           );
         }}>
@@ -65,9 +85,23 @@ const CompanyTopBanner = (props: Props) => {
           </Popover.Footer>
         </Popover.Content>
       </Popover>
-      <StyledDoxleYearText themeColor={THEME_COLOR}>
-        @{today.getFullYear()} Doxle
-      </StyledDoxleYearText>
+
+      <StyledTabMenuContainer
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{alignItems: 'center'}}>
+        {navigationState &&
+          DOXLE_MENU_LIST.map((tabItem, idx) => (
+            <TabMenuItem
+              item={tabItem}
+              key={`tab#${idx}`}
+              selectedMenuTab={
+                navigationState.routes[navigationState.index].name as TDoxleMenu
+              }
+              handlePressTabMenuItem={handlePressTabMenuItem}
+            />
+          ))}
+      </StyledTabMenuContainer>
     </RootCompanyTopMenu>
   );
 };

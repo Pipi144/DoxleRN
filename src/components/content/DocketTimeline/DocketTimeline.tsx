@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   IDocketTimelineContext,
   useDocketTimelineContext,
@@ -27,11 +27,23 @@ import EditTimelineMenu from './EditTimelineMenu';
 import ProcessingScreen from '../../../Utilities/AnimationScreens/ProcessingAnimation/ProcessingScreen';
 import TimelineWeeklyView from './TimelineWeeklyView';
 import AddTimelineModal from './AddTimelineModal';
+import {useFocusEffect} from '@react-navigation/native';
 type Props = {
   navigation: any;
 };
 const today = new Date();
 const DocketTimeline = ({navigation}: Props) => {
+  //################## STATES #################
+  const [isFocused, setIsFocused] = useState<boolean>(false); //!used to optimised react navigation due to long switching screen time
+  //###########################################
+  useFocusEffect(
+    useCallback(() => {
+      setIsFocused(true);
+      return () => {
+        setIsFocused(false);
+      };
+    }, []),
+  );
   //***************** THEME PROVIDER ************ */
   const {THEME_COLOR} = useDOXLETheme() as IDOXLEThemeProviderContext;
   //********************************************* */
@@ -50,73 +62,74 @@ const DocketTimeline = ({navigation}: Props) => {
   //******************* ORIENTATION PROVIDER ************ */
   const {deviceSize} = useOrientation() as IOrientation;
   //************************************************** */
+  if (isFocused)
+    return (
+      <RootDocketTimeline themeColor={THEME_COLOR}>
+        <StyledDocketTimelineMainContainer insetBottom={deviceSize.insetBottom}>
+          <DocketTimelineTop />
+          {isSuccessFetchingProject && selectedPeriodView === 'Monthly' ? (
+            <TimelineMonthlyViewList />
+          ) : selectedPeriodView === 'Weekly' ? (
+            <TimelineWeeklyView />
+          ) : (
+            <StyledErrorScreenContainer>
+              <StyledErrorText themeColor={THEME_COLOR}>
+                {isErrorFetchingProject
+                  ? ' Something wrong, Please try again...'
+                  : ' Coming Soon...'}
+              </StyledErrorText>
+            </StyledErrorScreenContainer>
+          )}
+        </StyledDocketTimelineMainContainer>
 
-  return (
-    <RootDocketTimeline themeColor={THEME_COLOR}>
-      <StyledDocketTimelineMainContainer insetBottom={deviceSize.insetBottom}>
-        <DocketTimelineTop />
-        {isSuccessFetchingProject && selectedPeriodView === 'Monthly' ? (
-          <TimelineMonthlyViewList />
-        ) : selectedPeriodView === 'Weekly' ? (
-          <TimelineWeeklyView />
-        ) : (
-          <StyledErrorScreenContainer>
-            <StyledErrorText themeColor={THEME_COLOR}>
-              {isErrorFetchingProject
-                ? ' Something wrong, Please try again...'
-                : ' Coming Soon...'}
-            </StyledErrorText>
-          </StyledErrorScreenContainer>
+        {isLoadingProject && (
+          <StyledLoadingMaskContainer
+            entering={StretchInY}
+            exiting={FadeOut}
+            opacityBackdrop="0.9">
+            <LoadingDoxleIconWithText message="Loading Data..." />
+          </StyledLoadingMaskContainer>
         )}
-      </StyledDocketTimelineMainContainer>
 
-      {isLoadingProject && (
-        <StyledLoadingMaskContainer
-          entering={StretchInY}
-          exiting={FadeOut}
-          opacityBackdrop="0.9">
-          <LoadingDoxleIconWithText message="Loading Data..." />
-        </StyledLoadingMaskContainer>
-      )}
+        {isUpdatingDocket || isUpdatingProject ? (
+          <StyledLoadingMaskContainer
+            entering={StretchInY}
+            exiting={FadeOut}
+            opacityBackdrop="0.4">
+            <ProcessingScreen
+              processingType="update"
+              processingText="Updating..."
+            />
+          </StyledLoadingMaskContainer>
+        ) : null}
+        {isAddingTimeline ? (
+          <StyledLoadingMaskContainer
+            entering={StretchInY}
+            exiting={FadeOut}
+            opacityBackdrop="0.4">
+            <ProcessingScreen
+              processingType="add"
+              processingText="Adding New Timeline..."
+            />
+          </StyledLoadingMaskContainer>
+        ) : null}
+        {isDeletingDocket ? (
+          <StyledLoadingMaskContainer
+            entering={StretchInY}
+            exiting={FadeOut}
+            opacityBackdrop="0.2">
+            <ProcessingScreen
+              processingType="delete"
+              processingText="Deleting..."
+            />
+          </StyledLoadingMaskContainer>
+        ) : null}
+        <EditTimelineMenu />
 
-      {isUpdatingDocket || isUpdatingProject ? (
-        <StyledLoadingMaskContainer
-          entering={StretchInY}
-          exiting={FadeOut}
-          opacityBackdrop="0.4">
-          <ProcessingScreen
-            processingType="update"
-            processingText="Updating..."
-          />
-        </StyledLoadingMaskContainer>
-      ) : null}
-      {isAddingTimeline ? (
-        <StyledLoadingMaskContainer
-          entering={StretchInY}
-          exiting={FadeOut}
-          opacityBackdrop="0.4">
-          <ProcessingScreen
-            processingType="add"
-            processingText="Adding New Timeline..."
-          />
-        </StyledLoadingMaskContainer>
-      ) : null}
-      {isDeletingDocket ? (
-        <StyledLoadingMaskContainer
-          entering={StretchInY}
-          exiting={FadeOut}
-          opacityBackdrop="0.2">
-          <ProcessingScreen
-            processingType="delete"
-            processingText="Deleting..."
-          />
-        </StyledLoadingMaskContainer>
-      ) : null}
-      <EditTimelineMenu />
-
-      <AddTimelineModal />
-    </RootDocketTimeline>
-  );
+        <AddTimelineModal />
+      </RootDocketTimeline>
+    );
+  else return <></>;
 };
 
 export default React.memo(DocketTimeline);

@@ -50,7 +50,7 @@ const DocketDataRow = ({docket, docketNumberListWidth}: Props) => {
                   ? '200px'
                   : header.docketKeyProp === 'startDate' ||
                     header.docketKeyProp === 'endDate'
-                  ? '150px'
+                  ? '200px'
                   : '120px'
               }
               horizontalAlign={
@@ -62,7 +62,9 @@ const DocketDataRow = ({docket, docketNumberListWidth}: Props) => {
                 <StyledDocketDataText
                   themeColor={THEME_COLOR}
                   doxleFont={DOXLE_FONT}
-                  fontSize="14px">
+                  fontSize="14px"
+                  numberOfLines={1}
+                  ellipsizeMode="tail">
                   {docket[header.docketKeyProp]}
                 </StyledDocketDataText>
               )}

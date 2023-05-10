@@ -32,7 +32,7 @@ import {
   EditTimelineMenuDeleteIcon,
   EditTimelineMenuSaveIcon,
 } from './DocketTimelineIcon';
-import {TimelineDocket} from '../../../Models/DocketTimelineModel';
+
 import {
   FadeInDown,
   FadeInLeft,
@@ -50,6 +50,12 @@ import {
   ITimelineDocketUpdateQueryProps,
 } from '../../../service/DoxleAPI/QueryHookAPI/timelineQueryAPI';
 import {authContextInterface, useAuth} from '../../../Providers/AuthProvider';
+import {
+  ICompanyProviderContextValue,
+  useCompany,
+} from '../../../Providers/CompanyProvider';
+import {IDocket} from '../../../Models/docket';
+import {formatTDateISODate} from '../../../Utilities/FunctionUtilities';
 type Props = {};
 
 const EditTimelineMenu = ({}: Props) => {
@@ -59,14 +65,19 @@ const EditTimelineMenu = ({}: Props) => {
     setcurrentEdittedTimeline,
     currentBaseStartDateParams,
     currentDateRangeLengthParam,
-    company,
+
     mutateTimelineDataQueryFunction,
     deleteTimelineDataQueryFunction,
   } = useDocketTimelineContext() as IDocketTimelineContext;
   //************************************************** */
+
+  //************ COMPANY PROVIDER ************* */
+  const {company} = useCompany() as ICompanyProviderContextValue;
+
+  //************END OF COMPANY PROVIDER ******** */
   //########################### STATES ############################
   const [initialEdittedScheduleItem, setinitialEdittedScheduleItem] = useState<
-    TimelineDocket | undefined
+    IDocket | undefined
   >(undefined);
 
   //###############################################################
@@ -96,7 +107,7 @@ const EditTimelineMenu = ({}: Props) => {
     if (initialEdittedScheduleItem)
       setinitialEdittedScheduleItem({
         ...initialEdittedScheduleItem,
-        subject: newTitle,
+        docketName: newTitle,
       });
   };
   const handlePickDate = (dateValue: Date, dateType: 'start' | 'end') => {
@@ -104,12 +115,12 @@ const EditTimelineMenu = ({}: Props) => {
       if (dateType === 'start')
         setinitialEdittedScheduleItem({
           ...initialEdittedScheduleItem,
-          startDate: dateValue.toISOString().substring(0, 10),
+          startDate: formatTDateISODate(dateValue),
         });
       else
         setinitialEdittedScheduleItem({
           ...initialEdittedScheduleItem,
-          endDate: dateValue.toISOString().substring(0, 10),
+          endDate: formatTDateISODate(dateValue),
         });
   };
 
@@ -122,7 +133,7 @@ const EditTimelineMenu = ({}: Props) => {
       }) !== undefined
     ) {
       mutateTimelineDataQueryFunction({
-        actionId: initialEdittedScheduleItem?.actionId || '',
+        docketPk: initialEdittedScheduleItem?.docketPk || '',
         accessToken: accessToken || '',
         updateBody: checkTimelineChanges({
           originalTimeline: currentEdittedTimeline,
@@ -137,7 +148,7 @@ const EditTimelineMenu = ({}: Props) => {
   const handlePressDeleteBtn = () => {
     handleCloseModal();
     deleteTimelineDataQueryFunction({
-      actionId: initialEdittedScheduleItem?.actionId || '',
+      docketPk: initialEdittedScheduleItem?.docketId || '',
       accessToken: accessToken || '',
       company: company,
     });
@@ -220,7 +231,7 @@ const EditTimelineMenu = ({}: Props) => {
                   blurOnSubmit={true}
                   onSubmitEditing={event => Keyboard.dismiss()}
                   onChangeText={text => handleNewSubjectChange(text)}
-                  value={initialEdittedScheduleItem.subject}
+                  value={initialEdittedScheduleItem.docketName}
                 />
               </StyledEditTimelineMenuFieldContainer>
 
@@ -230,7 +241,7 @@ const EditTimelineMenu = ({}: Props) => {
                 </StyledEditTimelineMenuFieldLabel>
 
                 <DatePicker
-                  date={new Date(initialEdittedScheduleItem.startDate)}
+                  date={new Date(initialEdittedScheduleItem.startDate || '')}
                   onDateChange={value => handlePickDate(value, 'start')}
                   style={{
                     height: 144,
@@ -248,7 +259,7 @@ const EditTimelineMenu = ({}: Props) => {
                 </StyledEditTimelineMenuFieldLabel>
 
                 <DatePicker
-                  date={new Date(initialEdittedScheduleItem.endDate)}
+                  date={new Date(initialEdittedScheduleItem.endDate || '')}
                   onDateChange={value => handlePickDate(value, 'end')}
                   style={{
                     height: 144,

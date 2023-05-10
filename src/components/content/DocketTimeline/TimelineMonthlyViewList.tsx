@@ -7,6 +7,7 @@ import {
 } from '../../../Providers/DocketTimelineProvider';
 import {ISimpleProject} from '../../../Models/project';
 import TimelineMonthlyViewListItem from './TimelineMonthlyViewListItem';
+import {FlashList} from '@shopify/flash-list';
 
 type Props = {};
 
@@ -16,24 +17,23 @@ const TimelineMonthlyViewList = (props: Props) => {
   //************************************************** */
 
   return (
-    <RootTimelineMonthlyViewList
-      data={projects}
-      showsVerticalScrollIndicator={false}
-      initialNumToRender={2}
-      maxToRenderPerBatch={10}
-      removeClippedSubviews={true}
-      renderItem={({item, index}) => (
-        <TimelineMonthlyViewListItem project={item as ISimpleProject} />
-      )}
-      keyExtractor={(item, index) =>
-        `${(item as ISimpleProject).projectId}#${index}`
-      }
-      extraData={projects}
-      windowSize={10}
-    />
+    <RootTimelineMonthlyViewList>
+      <FlashList
+        data={projects}
+        showsVerticalScrollIndicator={false}
+        removeClippedSubviews={true}
+        renderItem={({item, index}) => (
+          <TimelineMonthlyViewListItem project={item as ISimpleProject} />
+        )}
+        keyExtractor={(item, index) =>
+          `${(item as ISimpleProject).projectId}#${index}`
+        }
+        estimatedItemSize={204}
+      />
+    </RootTimelineMonthlyViewList>
   );
 };
 
-export default TimelineMonthlyViewList;
+export default React.memo(TimelineMonthlyViewList);
 
 const styles = StyleSheet.create({});

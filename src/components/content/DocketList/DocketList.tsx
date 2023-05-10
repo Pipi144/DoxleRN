@@ -14,6 +14,7 @@ import {
   StyledDocketNumberList,
   StyledEmptyListPlaceHolder,
   StyledEmptyListPlaceHolderText,
+  StyledLoadingMoreContainer,
 } from './StyledComponentDocketList';
 import DocketListSkeleton from './DocketListSkeleton';
 import DocketNumberRow from './DocketNumberRow';
@@ -28,6 +29,7 @@ import {
 } from '../../../Providers/DoxleThemeProvider';
 import DocketDataList from './DocketDataList';
 import ErrorScreen from '../GeneraComponents/ErrorScreen/ErrorScreen';
+import ListLoadingMoreBottom from '../../../Utilities/AnimationScreens/ListLoadingMoreBottom/ListLoadingMoreBottom';
 
 type Props = {};
 
@@ -58,7 +60,6 @@ const DocketList = (props: Props) => {
     useDOXLETheme() as IDOXLEThemeProviderContext;
   //*************END OF THEME PROVIDER ************ */
 
-  console.log('DOCKET LIST:', docketList.length);
   return (
     <RootDocketList>
       {isLoadingDocketList && <DocketListSkeleton />}
@@ -70,6 +71,10 @@ const DocketList = (props: Props) => {
             renderItem={({item, index}) => <DocketNumberRow docket={item} />}
             keyExtractor={(item, index) => (item as IDocket).docketPk}
             widthInPixel={`${docketNumberListWidth}px`}
+            initialNumToRender={20}
+            maxToRenderPerBatch={14}
+            showsVerticalScrollIndicator={false}
+            removeClippedSubviews={true}
             ListHeaderComponent={() => (
               <StyledDocketListHeaderContainer
                 widthInPixel={`${docketNumberListWidth}px`}
@@ -84,7 +89,6 @@ const DocketList = (props: Props) => {
               </StyledDocketListHeaderContainer>
             )}
             stickyHeaderIndices={[0]}
-            bounces={false}
           />
 
           <DocketDataList docketNumberListWidth={docketNumberListWidth} />
@@ -104,6 +108,12 @@ const DocketList = (props: Props) => {
           errorMessage="Failed to get docket list..."
           retryFunction={refetchDocketListQuery}
         />
+      )}
+
+      {isFetchingNextDocketList && (
+        <StyledLoadingMoreContainer insetBottom={deviceSize.insetBottom}>
+          <ListLoadingMoreBottom size={60} />
+        </StyledLoadingMoreContainer>
       )}
     </RootDocketList>
   );

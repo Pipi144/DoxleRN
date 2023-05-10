@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useRef} from 'react';
 import {RootDocketDataList} from '../Inbox/StyledComponentInbox';
 import {SyncedFlatlist} from '../GeneraComponents/SyncScrollViews/SyncedFlatList';
 import {
@@ -16,6 +16,7 @@ import {
   StyledDocketListHeaderContainer,
   StyledDocketListHeaderText,
 } from './StyledComponentDocketList';
+import Animated from 'react-native-reanimated';
 
 type Props = {
   docketNumberListWidth: number;
@@ -23,8 +24,12 @@ type Props = {
 
 const DocketDataList = ({docketNumberListWidth}: Props) => {
   //************ DOCKET PROVIDER ************* */
-  const {docketTableHeaderList, docketList} =
-    useDocket() as IDocketContextValue;
+  const {
+    docketTableHeaderList,
+    docketList,
+    hasNextPageDocketList,
+    fetchNextPageDocketList,
+  } = useDocket() as IDocketContextValue;
 
   //************END OF DOCKET PROVIDER ******** */
 
@@ -32,6 +37,8 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
   const {THEME_COLOR, DOXLE_FONT} =
     useDOXLETheme() as IDOXLEThemeProviderContext;
   //*************END OF THEME PROVIDER ************ */
+
+  const dataListRef = useRef<Animated.FlatList<any>>(null);
   return (
     <RootDocketDataList
       horizontal={true}
@@ -47,6 +54,10 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
             docketNumberListWidth={docketNumberListWidth}
           />
         )}
+        initialNumToRender={20}
+        maxToRenderPerBatch={14}
+        removeClippedSubviews={true}
+        showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => (
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <StyledDocketListHeaderContainer
@@ -63,7 +74,7 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
                     ? '200px'
                     : header.docketKeyProp === 'startDate' ||
                       header.docketKeyProp === 'endDate'
-                    ? '150px'
+                    ? '200px'
                     : '120px'
                 }
                 horizontalAlign={
@@ -86,7 +97,10 @@ const DocketDataList = ({docketNumberListWidth}: Props) => {
           </View>
         )}
         stickyHeaderIndices={[0]}
-        bounces={false}
+        onEndReached={() => {
+          if (hasNextPageDocketList) fetchNextPageDocketList();
+        }}
+        onEndReachedThreshold={0.1}
       />
     </RootDocketDataList>
   );

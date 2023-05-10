@@ -8,7 +8,7 @@ import Animated from 'react-native-reanimated';
 import {SyncedFlatlist} from '../GeneraComponents/SyncScrollViews/SyncedFlatList';
 
 export const RootInboxTopSection = styled.View`
-  margin-top: 4px;
+  margin-top: 30px;
   margin-bottom: 14px;
   display: flex;
   flex-direction: column;

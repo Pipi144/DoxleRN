@@ -4,6 +4,7 @@ import {
   IDOXLEThemeColor,
   IDoxleFont,
 } from '../../../Providers/DoxleThemeProvider';
+import Animated from 'react-native-reanimated';
 
 export const RootDocketList = styled.View`
   height: 100%;
@@ -156,4 +157,15 @@ export const StyledEmptyListPlaceHolderText = styled.Text<{
   font-size: 14px;
   line-height: 16px;
   color: ${p => p.themeColor.primaryFontColor};
+`;
+
+export const StyledLoadingMoreContainer = styled(Animated.View)<{
+  insetBottom: number;
+}>`
+  width: 100%;
+  height: 100px;
+  padding-bottom: ${p => p.insetBottom}px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
 `;

@@ -17,7 +17,7 @@ import {
   getAllNumOfDaysInYear,
   getAllWeekDaysOfDate,
 } from '../Utilities/FunctionUtilities';
-import {TimelineDocket} from '../Models/DocketTimelineModel';
+
 import {INotificationContext, useNotification} from './NotificationProvider';
 import {authContextInterface, useAuth} from './AuthProvider';
 import Notification, {
@@ -37,6 +37,7 @@ import {
   getAllDaysInCurrentMonth,
 } from '../components/content/DocketTimeline/DocketTimelineCommonFunctions';
 import {ICompanyProviderContextValue, useCompany} from './CompanyProvider';
+import {IDocket} from '../Models/docket';
 
 type Props = {};
 
@@ -110,12 +111,12 @@ export interface IDocketTimelineContext {
   isLoadingDocket: boolean;
   isErrorFetchingDocket: boolean;
   isSuccessFetchingDocket: boolean;
-  dockets: TimelineDocket[];
+  dockets: IDocket[];
   currentWeekDays: IDateInfo[];
   filterDocketWithProject: (
     project: ISimpleProject,
-    actions: TimelineDocket[],
-  ) => TimelineDocket[];
+    actions: IDocket[],
+  ) => IDocket[];
   //   currentQuarterStats: {
   //     startDate: string;
   //     endDate: string;
@@ -137,14 +138,11 @@ export interface IDocketTimelineContext {
   currentDateRangeLengthParam: number;
   searchInput: string;
   setsearchInput: React.Dispatch<React.SetStateAction<string>>;
-  currentEdittedTimeline: TimelineDocket | undefined;
+  currentEdittedTimeline: IDocket | undefined;
   setcurrentEdittedTimeline: React.Dispatch<
-    React.SetStateAction<TimelineDocket | undefined>
+    React.SetStateAction<IDocket | undefined>
   >;
-  filterDocketWithDate: (
-    date: Date,
-    actions: TimelineDocket[],
-  ) => TimelineDocket[];
+  filterDocketWithDate: (date: Date, actions: IDocket[]) => IDocket[];
   mutateTimelineDataQueryFunction: (
     data: ITimelineDocketUpdateQueryProps,
   ) => void;
@@ -178,7 +176,7 @@ const DocketTimelineProvider = (children: any) => {
   }>({year: today.getFullYear(), month: today.getMonth()});
   const [searchInput, setsearchInput] = useState<string>('');
   const [currentEdittedTimeline, setcurrentEdittedTimeline] = useState<
-    TimelineDocket | undefined
+    IDocket | undefined
   >(undefined);
   const [newTimelineData, setnewTimelineData] = useState<
     IAddNewTimelineData | undefined
@@ -282,21 +280,18 @@ const DocketTimelineProvider = (children: any) => {
     TimelineQueryAPI.useDeleteTimelineDocket(showNotification);
   //########################################################
   const filterDocketWithProject = useCallback(
-    (project: ISimpleProject, actions: TimelineDocket[]) => {
-      return actions.filter(
-        action => action.project && action.project === project.projectId,
+    (project: ISimpleProject, dockets: IDocket[]) => {
+      return dockets.filter(
+        docket => docket.project && docket.project === project.projectId,
       );
     },
     [],
   );
-  const filterDocketWithDate = useCallback(
-    (date: Date, actions: TimelineDocket[]) => {
-      return actions.filter(action =>
-        checkEqualDateWithoutTime(date, new Date(action.startDate)),
-      );
-    },
-    [],
-  );
+  const filterDocketWithDate = useCallback((date: Date, actions: IDocket[]) => {
+    return actions.filter(action =>
+      checkEqualDateWithoutTime(date, new Date(action.startDate || '')),
+    );
+  }, []);
   const docketTimelineContextValue: IDocketTimelineContext = {
     addTimelineQueryFunction: addTimelineMutation.mutate,
     isAddingTimeline: addTimelineMutation.isLoading,
@@ -313,7 +308,7 @@ const DocketTimelineProvider = (children: any) => {
     isErrorFetchingDocket: docketTimelineQuery.isError,
     isSuccessFetchingDocket: docketTimelineQuery.isSuccess,
     dockets: docketTimelineQuery.isSuccess
-      ? (docketTimelineQuery.data.data as TimelineDocket[])
+      ? (docketTimelineQuery.data.data as IDocket[])
       : [],
     calendarCells,
     currentDate,

@@ -83,7 +83,7 @@ const RootApp = (props: Props) => {
               </>
             )}
             <NavigationStack.Navigator
-              initialRouteName="Inbox"
+              initialRouteName="Files"
               screenOptions={{
                 headerShown: false,
               }}>

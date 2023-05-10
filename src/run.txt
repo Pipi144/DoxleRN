@@ -1,0 +1,4 @@
+arch -x86_64 pod install              
+watchman watch-del-all   
+npx react-native start -- --reset-cache
+

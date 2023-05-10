@@ -338,7 +338,7 @@ const DocketProvider = (children: any) => {
     selectedProjectMenu,
     setselectedProjectMenu,
   };
-  console.log('RERENDER DKP');
+
   return <DocketContext.Provider value={docketContextValue} {...children} />;
 };
 const useDocket = () => useContext(DocketContext);

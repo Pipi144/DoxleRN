@@ -173,7 +173,7 @@ export const StyledProjectMenuList = styled.FlatList`
   flex: 1;
   margin-right: 8px;
 `;
-export const StyledProjectMenuItem = styled(Animated.View)`
+export const StyledProjectMenuItem = styled.Pressable`
   min-width: 96px;
   height: 25px;
   justify-content: center;
